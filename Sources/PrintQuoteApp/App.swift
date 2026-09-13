@@ -44,7 +44,7 @@ struct RootView: View {
             VStack(alignment:.leading, spacing: 20) {
                 VStack(alignment:.leading) { Text("PRINTQUOTE 3D").font(.headline); Text("Upload. Configure. Price. Quote.").font(.caption).foregroundStyle(.secondary) }.padding(.horizontal).padding(.top)
                 List(Section.allCases, selection: $selection) { item in Label(item.rawValue, systemImage:item.icon).tag(item) }
-                Text("LOCAL WORKSPACE  ·  V1").font(.caption2).foregroundStyle(.secondary).padding()
+                Text("LOCAL WORKSPACE  ·  V2").font(.caption2).foregroundStyle(.secondary).padding()
             }.navigationSplitViewColumnWidth(min:210, ideal:230)
         } detail: {
             // Keep a destination's ideal content size from expanding the split view
@@ -60,8 +60,8 @@ struct RootView: View {
                 case .presets: PresetsView(state:state)
                 case .settings: SettingsView(state:state)
                 case .customers: List { ForEach(Array(Set(state.library.quotes.map(\.customer))).filter{ !$0.isEmpty }.sorted(), id:\.self) { Text($0) } }.navigationTitle("Customers")
-                case .materials: List(state.library.filaments) { f in VStack(alignment:.leading) { Text(f.materialFamily).font(.headline); Text("Product-specific guidance and compatibility will be added with verified sources.").foregroundStyle(.secondary) } }.navigationTitle("Material Database")
-                case .sources: List { Text("All bundled profiles are illustrative local data. Prices and hardware specifications are editable."); Text("SimplyPrint support is recorded separately and currently unknown. No material or job compatibility is inferred.") }.navigationTitle("Pricing Sources")
+                case .materials: MaterialCatalogView(state:state)
+                case .sources: SourcesView(state:state)
                 default: ContentUnavailableView((selection ?? .jobs).rawValue, systemImage:(selection ?? .jobs).icon, description:Text("Planned for a later milestone. Start with an estimate to build your quote library."))
                 }
             }.frame(width: geometry.size.width, height: geometry.size.height)

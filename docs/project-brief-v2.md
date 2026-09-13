@@ -282,7 +282,6 @@ struct PrinterProfile: Identifiable, Codable {
     var typicalPowerWatts: Double?
     var maximumPowerWatts: Double?
 
-    var simplyPrintCompatibility: CompatibilityStatus?
     var sources: [SourceReference]
 
     var notes: String?
@@ -323,42 +322,6 @@ The database must support:
 - source references
 
 Do not treat all automatic filament switching systems as equivalent.
-
----
-
-# 9. Printer Compatibility Seed Source
-
-Use the public SimplyPrint compatibility catalog as a **seed/reference source for printer brand/model/variant and SimplyPrint support status**:
-
-https://simplyprint.io/compatibility
-
-Important:
-- SimplyPrint compatibility means compatibility with SimplyPrint.
-- It does NOT automatically mean material capability or PrintQuote job compatibility.
-- Keep these concepts separate.
-
-Every printer should have separate compatibility dimensions:
-
-```text
-Software / Integration Compatibility
-Material Compatibility
-Multi-Material Compatibility
-Job / Geometry Compatibility
-Hardware Capability
-```
-
-Do not assume an entire manufacturer is supported because one model is.
-
-Store:
-- source name
-- source URL
-- retrieval date
-- support status
-- notes
-
-Do not build a brittle scraper in the first milestone.
-Start with manually curated seed JSON.
-A later ingestion/update tool can be added.
 
 ---
 
@@ -1738,7 +1701,6 @@ Codex should NOT:
 - hardcode filament price assumptions
 - assume PLA = one price
 - assume all printers from one brand are equivalent
-- assume SimplyPrint compatibility equals material compatibility
 - use maximum wattage as average power
 - confuse margin and markup
 - hide multi-material purge
@@ -2051,7 +2013,6 @@ For technical capability:
 1. manufacturer documentation
 2. current manufacturer profile
 3. OrcaSlicer profile
-4. SimplyPrint compatibility information
 5. trusted community source
 6. user override
 

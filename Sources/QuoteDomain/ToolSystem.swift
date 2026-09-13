@@ -71,7 +71,7 @@ public struct PrinterToolSystem: Codable, Equatable, Sendable {
 func nonnegative(_ values: [Decimal]) throws {
     guard values.allSatisfy({ !$0.isNaN && $0 >= 0 }) else { throw PricingError.invalid("Tool costs and quantities must be finite nonnegative numbers.") }
 }
-public enum MaterialRole: String, Codable, CaseIterable, Sendable { case model, support, interface }
+public enum MaterialRole: String, Codable, CaseIterable, Sendable { case model, support, interface, waste }
 public struct ToolMaterialAssignment: Identifiable, Codable, Equatable, Sendable {
     public var id = UUID()
     public var toolIndex = 1

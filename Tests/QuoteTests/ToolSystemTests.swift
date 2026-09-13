@@ -61,3 +61,19 @@ final class ToolSystemTests: XCTestCase {
         XCTAssertEqual(try PricingEngine.calculate(PricingInput()).total,Decimal(string:"55.52"))
     }
 }
+
+final class PortableToolFixtureTests: XCTestCase {
+    struct Fixtures: Decodable {
+        struct Case: Decodable { var name:String; var input:PricingInput; var expectedTotal:String; var expectedTotalGrams:Decimal }
+        var cases:[Case]
+    }
+    func testPortableToolFixtures() throws {
+        let url=try XCTUnwrap(Bundle.module.url(forResource:"tool_calculation_fixtures_v2",withExtension:"json",subdirectory:"Fixtures"))
+        let fixtures=try JSONDecoder().decode(Fixtures.self,from:Data(contentsOf:url))
+        for fixture in fixtures.cases {
+            let result=try PricingEngine.calculate(fixture.input)
+            XCTAssertEqual(result.total,Decimal(string:fixture.expectedTotal),fixture.name)
+            XCTAssertEqual(result.totalGrams,fixture.expectedTotalGrams,fixture.name)
+        }
+    }
+}

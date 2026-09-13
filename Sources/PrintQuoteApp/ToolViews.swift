@@ -57,7 +57,7 @@ struct ToolAssignmentsEditor: View {
     var body: some View {
         SwiftUI.Section("Tool material assignments") {
             Text("\(job.system.architecture.rawValue) · \(job.system.availableToolheadCount) physical toolheads · \(job.system.feederSlotCount) feeder slots")
-            Text("These rows replace the manual material totals. Print time excludes the change time calculated here. Enter initial activation plus subsequent changes for each material; include tower/startup waste as extra grams in a support row.").font(.caption).foregroundStyle(.secondary)
+            Text("These rows replace the manual material totals. Print time excludes the change time calculated here. Enter initial activation plus subsequent changes for each material; include tower/startup waste in a waste row.").font(.caption).foregroundStyle(.secondary)
             ForEach($job.assignments) { $assignment in
                 DisclosureGroup(assignment.materialName + " → Tool \(assignment.toolIndex)") {
                     Menu("Choose filament") { ForEach(filaments) { f in Button(f.name) { assignment.materialID = f.id; assignment.materialName = f.name; assignment.materialFamily = f.materialFamily; assignment.colorName = f.colorName; assignment.pricePerKG = f.pricePerKG } } }
@@ -77,6 +77,39 @@ struct ToolAssignmentsEditor: View {
                 }
             }
             Button("Add material assignment") { job.assignments.append(ToolMaterialAssignment()) }
+        }
+    }
+}
+
+struct OptionalDecimalField: View {
+    let title: String
+    @Binding var value: Decimal?
+    var body: some View { TextField(title,text:Binding(get:{value.map {$0.formatted()} ?? ""},set:{value=Decimal(string:$0)})) }
+}
+struct PrinterHardwareEditor: View {
+    @Binding var hardware: PrinterHardwareDetails
+    var body: some View {
+        DisclosureGroup("Hardware, power and operating modes") {
+            OptionalDecimalField(title:"Rated maximum watts (unknown if blank)",value:$hardware.ratedMaximumPowerWatts)
+            OptionalDecimalField(title:"Idle watts",value:$hardware.idlePowerWatts)
+            Picker("Average power source quality",selection:$hardware.typicalPowerQuality) { ForEach(PowerDataQuality.allCases.filter {$0 != .manufacturerRated},id:\.self) { Text($0.rawValue).tag($0) } }
+            Text("Rated maximum power never replaces the average watts used for electricity pricing.").font(.caption).foregroundStyle(.secondary)
+            OptionalDecimalField(title:"Maximum bed °C",value:$hardware.maximumBedTemperatureC)
+            OptionalDecimalField(title:"Maximum chamber °C",value:$hardware.maximumChamberTemperatureC)
+            Toggle("Active chamber heating",isOn:$hardware.activeChamberHeating)
+            TextField("Accessories / upgrades (comma separated)",text:Binding(get:{hardware.installedAccessories.joined(separator:", ")},set:{hardware.installedAccessories=$0.split(separator:",").map {$0.trimmingCharacters(in:.whitespaces)}}))
+            Text("Accessory notes do not automatically certify material capability; configure the actual tool system below.").font(.caption).foregroundStyle(.secondary)
+            ForEach($hardware.buildVolumeByOperatingMode) { $mode in
+                Picker("Operating mode",selection:$mode.mode) { ForEach(PrinterOperatingMode.allCases,id:\.self) { Text($0.rawValue).tag($0) } }
+                Picker("Bed shape",selection:$mode.shape) { ForEach(BuildPlateShape.allCases,id:\.self) { Text($0.rawValue).tag($0) } }
+                TextField("Usable width (mm)",value:$mode.widthMM,format:.number)
+                TextField("Usable depth (mm)",value:$mode.depthMM,format:.number)
+                TextField("Usable height (mm)",value:$mode.heightMM,format:.number)
+                if mode.shape == .circular { TextField("Diameter (mm)",text:Binding(get:{mode.diameterMM.map {String($0)} ?? ""},set:{mode.diameterMM=Double($0)})) }
+                TextField("Geometry / clearance notes",text:$mode.notes)
+                Button("Remove mode",role:.destructive) {hardware.buildVolumeByOperatingMode.removeAll {$0.id==mode.id}}
+            }
+            Button("Add operating mode build volume") {hardware.buildVolumeByOperatingMode.append(OperatingModeBuildVolume())}
         }
     }
 }

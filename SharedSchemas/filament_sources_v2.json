@@ -1,0 +1,585 @@
+{
+  "schemaVersion": 2,
+  "sources": [
+    {
+      "id": "7eb56a03-3d34-5a1e-a2b4-d21da19315b0",
+      "name": "Filament \u00b7 Open Filament Database \u2014 PRIMARY DATABASE",
+      "priority": 1,
+      "urls": [
+        "https://github.com/OpenFilamentCollective/open-filament-database",
+        "https://api.openfilamentdatabase.org/",
+        "https://openfilamentdatabase.org/docs",
+        "https://openfilamentdatabase.org/"
+      ],
+      "notes": "Project: https://github.com/OpenFilamentCollective/open-filament-database\nAPI: https://api.openfilamentdatabase.org/\nDocs: https://openfilamentdatabase.org/docs\nEditor: https://openfilamentdatabase.org/\nLicense: MIT\n\nWhy PrintQuote should use it:\n- Open and commercially reusable under MIT.\n- Static API rebuilt daily.\n- Brand \u2192 Material \u2192 Filament \u2192 Variant \u2192 Size hierarchy.\n- Includes brands, material types, colors/hex values, spool sizes, stores, purchase links, density, print temperatures and slicer-related metadata.\n- Bulk downloads are available as JSON, NDJSON, CSV and SQLite.\n- JSON Schema endpoints are provided.\n- OrcaSlicer-oriented exports/bundles are also published.\n\nUseful API paths:\n- /api/v1/brands/index.json\n- /api/v1/brands/{brand}/index.json\n- /api/v1/brands/{brand}/materials/{material}/index.json\n- /api/v1/brands/{brand}/materials/{material}/filaments/{filament}/index.json\n- /api/v1/brands/{brand}/materials/{material}/filaments/{filament}/variants/{variant}.json\n- /api/v1/stores/index.json\n- /api/v1/schemas/index.json\n- /json/all.json\n- /json/all.ndjson\n- /csv/filaments.csv\n- /csv/variants.csv\n- /csv/sizes.csv\n- /csv/purchase_links.csv\n- /sqlite/filaments.db\n\nCodex recommendation: ingest this first into PrintQuote's normalized database, retain the source IDs/paths, and overlay official manufacturer TDS data when available.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "f9cf845d-e469-576b-98cf-ae70b8c636ce",
+      "name": "Filament \u00b7 OpenPrintTag Material Database",
+      "priority": 2,
+      "urls": [
+        "https://github.com/OpenPrintTag/openprinttag-database"
+      ],
+      "notes": "Repository: https://github.com/OpenPrintTag/openprinttag-database\n\nUseful for:\n- brands\n- materials\n- packaging specifications\n- GTIN/barcodes\n- spool/container dimensions\n- interoperable NFC/spool metadata\n\nThis is especially useful for PrintQuote inventory, spool scanning, AMS/ACE/IFS physical-fit rules, empty-spool weights, and barcode/NFC support.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "6475dbff-909e-5c88-8617-a2c4a69f6325",
+      "name": "Filament \u00b7 Flashforge",
+      "priority": 2,
+      "urls": [
+        "https://www.flashforge.com/a/docs/filament/filament-guide",
+        "https://wiki.flashforge.com/resource/filament_tips/flashforge_filament_guide.pdf"
+      ],
+      "notes": "Filament Guide:\nhttps://www.flashforge.com/a/docs/filament/filament-guide\n\nPDF guide:\nhttps://wiki.flashforge.com/resource/filament_tips/flashforge_filament_guide.pdf\n\nGood fields:\n- material family\n- tensile/flexural values\n- print temperatures\n- material-selection guidance\n- printer/material compatibility\n- carbon-filled and engineering-material notes\n\nUse official Flashforge store/product pages separately for current price, color and spool SKU information.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "fe1489f6-1dfc-5a2c-b4e5-605c4fce7aaa",
+      "name": "Filament \u00b7 Anycubic",
+      "priority": 2,
+      "urls": [
+        "https://store.anycubic.com/collections/3d-printing-filament",
+        "https://store.anycubic.com/products/petg-cf-filament"
+      ],
+      "notes": "Store/material product catalog:\nhttps://store.anycubic.com/collections/3d-printing-filament\n\nExample high-quality technical product page:\nhttps://store.anycubic.com/products/petg-cf-filament\n\nAnycubic product pages are particularly valuable because many expose:\n- TDS\n- MSDS\n- REACH files\n- density\n- nozzle and bed temperatures\n- flow rate / maximum volumetric speed\n- recommended nozzle size/material\n- drying temperature/time\n- ACE compatibility\n- physical/mechanical properties\n\nCodex should extract technical data from manufacturer product/TDS pages, not only store descriptions.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "81206d06-2781-5787-af8e-a0b0d9c0e2ee",
+      "name": "Filament \u00b7 Kingroon",
+      "priority": 2,
+      "urls": [
+        "https://kingroon.com/collections/filament",
+        "https://kingroon.com/products/kingroon-pla-basic",
+        "https://kingroon.com/products/10kg-petg-filament-1-75mm-3d-print-materials"
+      ],
+      "notes": "Main filament catalog/product pages:\nhttps://kingroon.com/collections/filament\nhttps://kingroon.com/products/kingroon-pla-basic\nhttps://kingroon.com/products/10kg-petg-filament-1-75mm-3d-print-materials\n\nUseful fields often exposed directly in page HTML:\n- density\n- nozzle/bed temperature\n- speed\n- filament length\n- drying guidance\n- tensile strength\n- flexural properties\n- impact strength\n- heat distortion\n- spool weight\n- current retail price\n\nImportant: several Kingroon product pages appear to reuse blocks of material text, so validate suspicious data against material-specific pages/TDS before accepting it.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "448689de-31ba-5cf6-8847-a3be8f94260c",
+      "name": "Filament \u00b7 Prusament / Prusa Research",
+      "priority": 2,
+      "urls": [
+        "https://help.prusa3d.com/filament-material-guide",
+        "https://help.prusa3d.com/article/hueforge-filament-transparency-values-and-hexcodes_762314",
+        "https://prusament.com/"
+      ],
+      "notes": "Prusa Filament Material Guide:\nhttps://help.prusa3d.com/filament-material-guide\n\nHueForge TD / color database:\nhttps://help.prusa3d.com/article/hueforge-filament-transparency-values-and-hexcodes_762314\n\nPrusament site:\nhttps://prusament.com/\n\nUseful fields:\n- material types\n- nozzle and bed temperatures\n- enclosure recommendation\n- drybox requirement\n- hardened-nozzle requirement\n- build-surface compatibility\n- heat deflection\n- impact/tensile strength\n- price information in material comparison\n- HueForge transmission distance\n- measured color hex codes\n\nThis is one of the best official material-comparison datasets.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "ccaabcc4-57e0-5811-a05d-56a00f336457",
+      "name": "Filament \u00b7 Polymaker / Fiberon",
+      "priority": 2,
+      "urls": [
+        "https://polymaker.com/",
+        "https://polymaker.com/download/",
+        "https://wiki.polymaker.com/polymaker-products/more-about-our-products/documents/technical-data-sheets",
+        "https://fiberon.polymaker.com/material-comparison/",
+        "https://polymaker.com/material/petg/"
+      ],
+      "notes": "Main site:\nhttps://polymaker.com/\n\nDownloads:\nhttps://polymaker.com/download/\n\nTDS index/wiki:\nhttps://wiki.polymaker.com/polymaker-products/more-about-our-products/documents/technical-data-sheets\n\nMaterial comparison:\nhttps://fiberon.polymaker.com/material-comparison/\n\nExample material category:\nhttps://polymaker.com/material/petg/\n\nUseful fields:\n- downloadable TDS/SDS/PIS\n- mechanical properties\n- thermal properties\n- material comparisons\n- application tags\n- print settings/presets\n- engineering-composite data\n- downloadable slicer presets\n\nPolymaker's material comparison is especially useful for normalized engineering-property comparisons.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "4a14d753-9a7c-5ecf-958c-78440b5f8b8a",
+      "name": "Filament \u00b7 Bambu Lab",
+      "priority": 2,
+      "urls": [
+        "https://bambulab.com/filament-guide",
+        "https://cdn1.bambulab.com/filament/Bambu-Filament-Guide-EN-1.pdf",
+        "https://us.store.bambulab.com/collections/bambu-lab-3d-printer-filament",
+        "https://us.store.bambulab.com/products/asa-filament"
+      ],
+      "notes": "Interactive Filament Guide:\nhttps://bambulab.com/filament-guide\n\nFilament Guide PDF:\nhttps://cdn1.bambulab.com/filament/Bambu-Filament-Guide-EN-1.pdf\n\nOfficial store:\nhttps://us.store.bambulab.com/collections/bambu-lab-3d-printer-filament\n\nExample product page:\nhttps://us.store.bambulab.com/products/asa-filament\n\nUseful fields:\n- nozzle compatibility\n- build-plate compatibility\n- AMS compatibility\n- drying requirement\n- nozzle/bed/chamber temperature\n- spool dimensions\n- mechanical properties\n- retail price\n- TDS/MSDS/RoHS links\n- material comparison\n\nBambu is particularly valuable for automatic-material-system compatibility rules.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "25ae6742-20cc-579a-a92d-ee7cdaf86c5f",
+      "name": "Filament \u00b7 Fillamentum",
+      "priority": 2,
+      "urls": [
+        "https://fillamentum.com/pages/data-sheets-and-3d-printing-guides/",
+        "https://fillamentum.com/learn/data-sheets-and-3d-printing-guides/"
+      ],
+      "notes": "Official Data Sheets & Printing Guides:\nhttps://fillamentum.com/pages/data-sheets-and-3d-printing-guides/\n\nAlternate guide path:\nhttps://fillamentum.com/learn/data-sheets-and-3d-printing-guides/\n\nThis page centralizes TDS, SDS, safety recommendations and 3D-printing guides for materials including:\n- ABS Extrafill\n- ASA Extrafill\n- CPE\n- Flexfill PEBA/TPE/TPU\n- HIPS\n- Nylon AF80/CF15/FX256\n- PC/ABS\n- PETG\n- PLA\n- PP\n- Timberfill\n- specialty materials\n\nExcellent direct manufacturer source.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "b63f84dd-f319-55fb-9733-557c807bc5cf",
+      "name": "Filament \u00b7 colorFabb",
+      "priority": 2,
+      "urls": [
+        "https://colorfabb.com/filaments",
+        "https://colorfabb.com/print-support",
+        "https://colorfabb.com/filaments/materials/pla-filaments",
+        "https://colorfabb.com/xt-cf20",
+        "https://support.colorfabb.com/hc/en-150/articles/14729413019921-XT-CF20-Printer-Settings"
+      ],
+      "notes": "Full filament catalog:\nhttps://colorfabb.com/filaments\n\nPrint Support / comparison data:\nhttps://colorfabb.com/print-support\n\nPLA catalog:\nhttps://colorfabb.com/filaments/materials/pla-filaments\n\nExample XT-CF20 technical page:\nhttps://colorfabb.com/xt-cf20\n\nExample support/profile page:\nhttps://support.colorfabb.com/hc/en-150/articles/14729413019921-XT-CF20-Printer-Settings\n\nUseful fields:\n- extensive product list\n- material type\n- spool weight\n- diameter\n- print settings\n- drying settings\n- mechanical-property comparison\n- TDS/SDS links\n- AMS compatibility references\n- slicer profiles\n- density/Tg on product pages\n\nThe Print Support page is especially attractive as a semi-structured cross-product technical table.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "6383804c-f5ad-53c7-be9e-cef8d09d7481",
+      "name": "Filament \u00b7 Proto-pasta / Protoplant",
+      "priority": 2,
+      "urls": [
+        "https://proto-pasta.com/",
+        "https://proto-pasta.com/pages/carbon-fiber-pla",
+        "https://proto-pasta.com/products/light-grey-carbon-fiber-composite-htpla"
+      ],
+      "notes": "Main site:\nhttps://proto-pasta.com/\n\nCarbon Fiber PLA technical page:\nhttps://proto-pasta.com/pages/carbon-fiber-pla\n\nExample product:\nhttps://proto-pasta.com/products/light-grey-carbon-fiber-composite-htpla\n\nUseful fields:\n- print temperature\n- bed temperature\n- density\n- abrasive-material warning\n- specialty additives\n- spool size and price\n- TDS/SDS links\n- heat-treatment behavior\n- color/product variants\n\nProto-pasta is valuable for specialty filaments (HTPLA, CF, metal-filled, reflective, thermochromic, etc.).\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "ac5c24d0-571b-5bfd-9528-3b927638b3fc",
+      "name": "Filament \u00b7 3DXTech",
+      "priority": 2,
+      "urls": [
+        "https://www.3dxtech.com/",
+        "https://www.3dxtech.com/products/carbonx-nylon-6-cf-1",
+        "https://www.3dxtech.com/products/carbonx-pc-cf-1"
+      ],
+      "notes": "Main site:\nhttps://www.3dxtech.com/\n\nExample CarbonX PA6-CF:\nhttps://www.3dxtech.com/products/carbonx-nylon-6-cf-1\n\nExample CarbonX PC-CF:\nhttps://www.3dxtech.com/products/carbonx-pc-cf-1\n\nUseful fields exposed consistently across product pages:\n- extruder temperature\n- bed temperature\n- heated-chamber requirement\n- nozzle diameter/material\n- layer-height guidance\n- drying temperature/time\n- TDS/SDS links\n- slicer print-settings downloads\n- reel dimensions / automated-material-system fit\n\nThis is one of the best engineering-filament sources and should receive high priority.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "02f8628b-4a6d-5870-8eab-b0b8fdc4431e",
+      "name": "Filament \u00b7 BASF Ultrafuse / Forward AM",
+      "priority": 2,
+      "urls": [
+        "https://move.forward-am.com/",
+        "https://move.forward-am.com/hubfs/AES%20Documentation/Engineering%20Filaments/PA/TDS/Ultrafuse_PA_TDS_EN_v2.2.pdf",
+        "https://move.forward-am.com/hubfs/AES%20Documentation/Engineering%20Filaments/ASA/TDS/Ultrafuse_ASA_TDS_EN_v2.2.pdf"
+      ],
+      "notes": "Current Forward AM / Ultrafuse technical documents are commonly hosted under:\nhttps://move.forward-am.com/\n\nExample Ultrafuse PA TDS:\nhttps://move.forward-am.com/hubfs/AES%20Documentation/Engineering%20Filaments/PA/TDS/Ultrafuse_PA_TDS_EN_v2.2.pdf\n\nExample Ultrafuse ASA TDS:\nhttps://move.forward-am.com/hubfs/AES%20Documentation/Engineering%20Filaments/ASA/TDS/Ultrafuse_ASA_TDS_EN_v2.2.pdf\n\nUseful fields:\n- diameter/tolerance\n- spool weight\n- spool dimensions\n- nozzle/bed/chamber requirements\n- drying requirements\n- material density\n- support compatibility\n- mechanical/thermal values\n\nThese PDFs are highly structured and useful for engineering-grade data ingestion.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "15d9641b-590f-56b0-8e8e-50c6e4ff242e",
+      "name": "Filament \u00b7 Siraya Tech",
+      "priority": 2,
+      "urls": [
+        "https://siraya.tech/collections/filament",
+        "https://siraya.tech/pages/tds",
+        "https://siraya.tech/products/siraya-tech-flex-tpu-95a-filament"
+      ],
+      "notes": "Filament catalog:\nhttps://siraya.tech/collections/filament\n\nCentral TDS page:\nhttps://siraya.tech/pages/tds\n\nExample TPU product:\nhttps://siraya.tech/products/siraya-tech-flex-tpu-95a-filament\n\nUseful fields:\n- centralized filament TDS list\n- material family and product line\n- Shore hardness\n- TDS/MSDS/manual links\n- price\n- performance/application descriptions\n- engineering composites including PPA-CF, PET-CF/GF, ABS-CF/GF, ASA-GF and TPU-GF\n\nThe centralized TDS page makes this easy to ingest.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "3f3a117b-79f7-5ce6-8b72-f12da9760c45",
+      "name": "Filament \u00b7 CookieCAD",
+      "priority": 2,
+      "urls": [
+        "https://filament.cookiecad.com/filaments",
+        "https://filament.cookiecad.com/filaments?material=pla"
+      ],
+      "notes": "Filament database/store:\nhttps://filament.cookiecad.com/filaments\n\nPLA-filtered catalog:\nhttps://filament.cookiecad.com/filaments?material=pla\n\nUseful fields:\n- material filters (PLA/PETG/TPU/ABS)\n- product name\n- color/style\n- spool weight\n- diameter\n- current price\n- many specialty color variants\n- links to material data sheets\n\nVery useful for color-rich catalog/pricing data.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "0cb3e6f5-38e0-5501-b130-e63e4e5dda03",
+      "name": "Filament \u00b7 Hatchbox",
+      "priority": 2,
+      "urls": [
+        "https://www.hatchbox3d.com/collections/all-filaments",
+        "https://www.hatchbox3d.com/collections/pla-1-75mm",
+        "https://www.hatchbox3d.com/products/3d-pla-1kg1-75-grn"
+      ],
+      "notes": "All filament catalog:\nhttps://www.hatchbox3d.com/collections/all-filaments\n\nPLA catalog:\nhttps://www.hatchbox3d.com/collections/pla-1-75mm\n\nExample product page:\nhttps://www.hatchbox3d.com/products/3d-pla-1kg1-75-grn\n\nUseful fields:\n- material category\n- diameter\n- spool weight\n- colors\n- price\n- print-temperature range\n- dimensional tolerance\n- product SKU/UPC embedded in store page data\n\nTechnical data is less centralized than Overture/Polymaker/Fillamentum, so use product pages and cross-check with open databases.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "a30ee948-024e-56ce-9966-12fa839ae66a",
+      "name": "Filament \u00b7 eSUN",
+      "priority": 2,
+      "urls": [
+        "https://www.esun3d.com/",
+        "https://www.esun3d.com/uploads/eSUN_ePA-Filament_TDS_V4.0.pdf"
+      ],
+      "notes": "Main technical/resource hub:\nhttps://www.esun3d.com/\n\nThe site exposes Resources & Downloads including:\n- Filament Guide\n- Printing Parameters\n- Wiki\n- downloadable TDS documents\n\nExample ePA TDS:\nhttps://www.esun3d.com/uploads/eSUN_ePA-Filament_TDS_V4.0.pdf\n\nUseful fields:\n- density\n- tensile/flexural properties\n- elongation\n- impact strength\n- HDT\n- recommended print settings\n- broad product family\n\nCodex should crawl the official resources/download structure rather than only individual shop pages.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "f222849e-3d54-5649-8751-f7f0e9032615",
+      "name": "Filament \u00b7 Overture",
+      "priority": 2,
+      "urls": [
+        "https://wiki.overture3d.com/en/Filament/TDS%26SDS",
+        "https://wiki.overture3d.com/en/Filament/TDS",
+        "https://overture3d.com/"
+      ],
+      "notes": "Official TDS/SDS database:\nhttps://wiki.overture3d.com/en/Filament/TDS%26SDS\n\nTDS interpretation guide:\nhttps://wiki.overture3d.com/en/Filament/TDS\n\nOfficial site:\nhttps://overture3d.com/\n\nThe TDS/SDS index covers standard products such as:\n- PLA\n- Matte PLA\n- PLA Professional\n- Silk PLA\n- Easy PLA\n- Super PLA+\n- PETG\n- TPU\n- High Speed TPU\n- ABS\n- ASA\n- Easy Nylon\n- PC Professional\n\nThis should be a top-priority official ingestion source.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "fbb954e2-82f6-5a82-98b6-3536c67b408e",
+      "name": "Filament \u00b7 Duramic",
+      "priority": 2,
+      "urls": [
+        "https://duramic3d.com/collections/pla-plus/filament",
+        "https://duramic3d.com/"
+      ],
+      "notes": "PLA+ catalog:\nhttps://duramic3d.com/collections/pla-plus/filament\n\nMain site:\nhttps://duramic3d.com/\n\nUseful fields:\n- product material and color\n- spool size\n- current price\n- nozzle temperature guidance\n- dimensional tolerance\n- retail product variants\n\nOfficial engineering-property/TDS availability is not as centralized as Overture or Fillamentum, so use product pages plus Open Filament Database / SpoolScout for normalization and verification.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "c38192f9-7b6d-5411-9336-2f4e2a448724",
+      "name": "Filament \u00b7 ELEGOO",
+      "priority": 2,
+      "urls": [
+        "https://www.elegoo.com/pages/elegoo-filaments",
+        "https://us.elegoo.com/pages/elegoo-filaments",
+        "https://www.elegoo.com/collections/petg-filaments",
+        "https://us.elegoo.com/products/rapid-petg-filament-1-75mm-colored-1kg"
+      ],
+      "notes": "Master filament page:\nhttps://www.elegoo.com/pages/elegoo-filaments\n\nUS filament page:\nhttps://us.elegoo.com/pages/elegoo-filaments\n\nPETG collection:\nhttps://www.elegoo.com/collections/petg-filaments\n\nExample Rapid PETG:\nhttps://us.elegoo.com/products/rapid-petg-filament-1-75mm-colored-1kg\n\nUseful fields:\n- product lines\n- colors\n- price\n- spool/net weight\n- empty spool weight on some pages\n- drying instructions\n- maximum print speed\n- dimensional tolerance\n- broad material categories including PLA/PLA+/PETG and reinforced variants\n\nEmpty-spool weight is particularly valuable for inventory weighing.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "e483ea22-5c81-5710-800e-5fc3980d7704",
+      "name": "Filament \u00b7 Creality",
+      "priority": 2,
+      "urls": [
+        "https://store.creality.com/collections/materials",
+        "https://www.creality.com/filament",
+        "https://www.creality.com/filament/use-case/functional-parts"
+      ],
+      "notes": "Materials catalog:\nhttps://store.creality.com/collections/materials\n\nOfficial use-case/material guides:\nhttps://www.creality.com/filament\n\nExample functional-material guide:\nhttps://www.creality.com/filament/use-case/functional-parts\n\nUseful fields:\n- current catalog and price\n- product family\n- material class\n- colors/variants\n- use cases\n- functional-material recommendations\n\nUse product-specific technical pages/TDS where available for exact settings.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "a2eb954f-34fe-5b19-a421-ae659beebfdc",
+      "name": "Filament \u00b7 SUNLU",
+      "priority": 2,
+      "urls": [
+        "https://store.sunlu.com/collections/engineering-filaments",
+        "https://www.sunlu.com/wiki/44",
+        "https://www.sunlu.com/",
+        "https://www.sunlu.com/public/upload/file/20260325/c0ebbebd-4693-4b58-864b-6dd3d61d992f.pdf?filename=TDS%28English%29"
+      ],
+      "notes": "Engineering filament comparison:\nhttps://store.sunlu.com/collections/engineering-filaments\n\nFilament drying guide/wiki:\nhttps://www.sunlu.com/wiki/44\n\nMain site:\nhttps://www.sunlu.com/\n\nExample PA6-CF TDS discovered through official SUNLU hosting:\nhttps://www.sunlu.com/public/upload/file/20260325/c0ebbebd-4693-4b58-864b-6dd3d61d992f.pdf?filename=TDS%28English%29\n\nUseful fields:\n- engineering-material comparison\n- tensile/flexural/impact/HDT\n- print parameters\n- compatible printers\n- annealing\n- drying conditions\n- TDS PDFs\n\nSUNLU's engineering comparison table is highly useful for PrintQuote.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "af69edd7-6a08-57c3-82b0-cde447d3902c",
+      "name": "Filament \u00b7 Inland (Micro Center)",
+      "priority": 2,
+      "urls": [
+        "https://www.microcenter.com/",
+        "https://www.microcenter.com/product/611532/inland-175mm-pla-plus-%28pla%29-3d-printer-filament-1-kg-%2822-lbs%29-spool-black-dimensional-accuracy-005-mm"
+      ],
+      "notes": "Primary retailer/manufacturer catalog is Micro Center:\nhttps://www.microcenter.com/\n\nExample Inland PLA+:\nhttps://www.microcenter.com/product/611532/inland-175mm-pla-plus-%28pla%29-3d-printer-filament-1-kg-%2822-lbs%29-spool-black-dimensional-accuracy-005-mm\n\nUseful fields:\n- current retail price\n- SKU / manufacturer part number\n- material\n- spool weight\n- diameter/tolerance\n- nozzle temperature\n- bed temperature on many products\n\nBecause Inland is effectively sold through Micro Center, treat Micro Center as the official pricing/catalog source for Inland.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "1925a896-c9dd-5e67-8113-1c5e2feb7bc2",
+      "name": "Filament \u00b7 Eryone",
+      "priority": 2,
+      "urls": [
+        "https://eryone3d.com/collections/filament",
+        "https://eryone3d.com/collections/pla",
+        "https://eryone3d.com/collections/tpu",
+        "https://eryone3d.com/products/pla-filament"
+      ],
+      "notes": "Main filament catalog:\nhttps://eryone3d.com/collections/filament\n\nPLA catalog:\nhttps://eryone3d.com/collections/pla\n\nTPU catalog:\nhttps://eryone3d.com/collections/tpu\n\nExample PLA:\nhttps://eryone3d.com/products/pla-filament\n\nUseful fields:\n- 50+ filament products\n- PLA/PETG/ABS/ASA/TPU/PA/PP families\n- colors\n- current prices\n- nozzle/bed temperature\n- printing speed\n- diameter/tolerance\n- some TDS links\n\nAlso well covered by SpoolScout for normalized TDS data.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "596091ab-faef-5cf2-bc99-c84fc73ada9e",
+      "name": "Filament \u00b7 SpoolScout",
+      "priority": 2,
+      "urls": [
+        "https://www.spoolscout.com/data-sheets"
+      ],
+      "notes": "Data-sheet index:\nhttps://www.spoolscout.com/data-sheets\n\nWhat it provides:\n- normalized technical data sourced from manufacturer pages/TDS\n- many of the target brands\n- material type/product indexes\n- Amazon-derived pricing\n- daily updates according to its FAQ\n\nUse as a secondary verification/normalization source, not the canonical source, because its FAQ states some fields may involve educated guesses.\n\nTarget brands currently represented include 3DXTech, ColorFabb, Creality, Elegoo, Eryone, eSUN, Kingroon, Overture, Polymaker and SUNLU.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "7adb4425-4e92-5778-98f5-a2a41cc07a00",
+      "name": "Filament \u00b7 FilamentCat",
+      "priority": 2,
+      "urls": [
+        "https://filamentcat.com/en"
+      ],
+      "notes": "https://filamentcat.com/en\n\nCross-brand technical catalog with print temperatures, mechanical properties and TDS references. Useful as a secondary discovery/verification source.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "ed5ad3f3-aa97-5f36-b576-07ec6df8d0a8",
+      "name": "Filament \u00b7 Filament Cheat Sheet Database",
+      "priority": 2,
+      "urls": [
+        "https://filamentcheatsheet.com/database/"
+      ],
+      "notes": "https://filamentcheatsheet.com/database/\n\nLarge cross-brand database with 2,000+ filament entries and 140+ brands. Useful as discovery/fallback data, but official manufacturer/Open Filament Database records should take precedence.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "695be584-49d8-5237-81c1-cdad8f8f6d0d",
+      "name": "Filament \u00b7 FilamentColors.xyz",
+      "priority": 2,
+      "urls": [
+        "https://filamentcolors.xyz/"
+      ],
+      "notes": "https://filamentcolors.xyz/\n\nExcellent color database:\n- thousands of indexed filaments\n- hundreds of manufacturers\n- physical swatches measured with colorimeter/spectrophotometer\n- LAB\n- generated hex\n- color matching\n- manufacturer/material filtering\n\nPrintQuote use case: color matching and more realistic color metadata. Treat its data/licensing terms separately before bulk ingestion.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "e9c01084-a5a6-5e37-8f5b-308c14d5e334",
+      "name": "Filament \u00b7 HueForge / FilaScope TD data",
+      "priority": 2,
+      "urls": [
+        "https://shop.thehueforge.com/pages/about-hueforge",
+        "https://penleychan.github.io/hueforge-td/",
+        "https://filascope.com/hueforge/td-database"
+      ],
+      "notes": "HueForge information:\nhttps://shop.thehueforge.com/pages/about-hueforge\n\nCommunity TD list:\nhttps://penleychan.github.io/hueforge-td/\n\nFilaScope TD database:\nhttps://filascope.com/hueforge/td-database\n\nUseful for:\n- Transmission Distance (TD)\n- optical/color-layer calculations\n- HueForge-oriented color data\n\nDo not treat community TD values as definitive because TD varies by batch/spool.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "58b211be-6293-5870-8612-a0329ede59d7",
+      "name": "Filament \u00b7 Amazon pricing",
+      "priority": 2,
+      "urls": [],
+      "notes": "Amazon was one of the requested sources, but Codex should NOT build a brittle HTML scraper for Amazon product pages.\n\nRecommended handling:\n- Amazon Product Advertising API or approved affiliate/product feed if eligible\n- store ASIN, seller, quantity, net filament weight, price, coupon state, shipping/Prime status and retrieved timestamp\n- normalize to price/kg\n- identify multipacks correctly\n- keep Amazon pricing as a retail price source, never as technical-property authority\n\nManufacturer technical specifications should override marketplace listing claims.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "6db0bc20-81e1-5374-b80e-158b73e8b137",
+      "name": "Printer \u00b7 OrcaSlicer",
+      "priority": 2,
+      "urls": [
+        "https://github.com/OrcaSlicer/OrcaSlicer",
+        "https://github.com/OrcaSlicer/OrcaSlicer/wiki/how_to_create_profiles"
+      ],
+      "notes": "Repository:\n\n`https://github.com/OrcaSlicer/OrcaSlicer`\n\nProfile documentation:\n\n`https://github.com/OrcaSlicer/OrcaSlicer/wiki/how_to_create_profiles`\n\nPrimary data path:\n\n```text\nresources/profiles/\n```\n\nOrcaSlicer separates data into:\n\n- `machine_model`\n- `machine`\n- `filament`\n- `process`\n- vendor meta files\n\nTypical structure:\n\n```text\nresources/profiles/\n\u251c\u2500\u2500 Anycubic.json\n\u251c\u2500\u2500 Anycubic/\n\u2502   \u251c\u2500\u2500 machine/\n\u2502   \u251c\u2500\u2500 filament/\n\u2502   \u251c\u2500\u2500 process/\n\u2502   \u2514\u2500\u2500 model/\n\u251c\u2500\u2500 BBL.json\n\u251c\u2500\u2500 BBL/\n...\n```\n\nUseful printer fields include, depending on profile:\n\n- vendor\n- model\n- family\n- machine technology\n- printer variant\n- nozzle diameter\n- nozzle type\n- printable area\n- printable height\n- bed model\n- bed texture\n- default materials\n- default filament profiles\n- default print profile\n- printer structure\n- G-code flavor\n- firmware-related behavior\n- machine start/end logic\n- time-cost related settings\n- compatible process profiles\n- compatible filament profiles\n\n### Why PrintQuote should use it\n\nOrcaSlicer is one of the best open machine-profile collections for modern consumer/prosumer FDM printers.\n\nIts machine-model / machine-variant separation maps well to PrintQuote:\n\n```text\nPrinterModel\n    \u2193\nPrinterVariant\n    \u2193\nPrinterConfiguration\n```\n\nDo not import OrcaSlicer UI code.\n\nCreate:\n\n```text\nOrcaProfileImporter\n```\n\nwhich maps Orca JSON into PrintQuote's portable schema.\n\n### License note\n\nOrcaSlicer is AGPL-3.0.\n\nKeep:\n- source path\n- upstream repository\n- upstream commit SHA\n- attribution\n\nDo not casually copy large portions of Orca application code into PrintQuote.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "a7794cc8-b37d-5df0-9ba5-7d5ce47fb19d",
+      "name": "Printer \u00b7 UltiMaker Cura Machine Definitions",
+      "priority": 2,
+      "urls": [
+        "https://github.com/Ultimaker/Cura"
+      ],
+      "notes": "Repository:\n\n`https://github.com/Ultimaker/Cura`\n\nImportant paths:\n\n```text\nresources/definitions/\nresources/extruders/\nresources/variants/\nresources/quality/\nresources/quality_changes/\nresources/materials/\nresources/meshes/\n```\n\nCura machine profiles define values such as:\n\n- machine width\n- machine depth\n- machine height\n- build-plate shape\n- origin location\n- machine head geometry\n- extruder count\n- individual extruder definitions\n- nozzle offsets\n- nozzle sizes\n- heated-bed capability\n- G-code start/end sequences\n- preferred material\n- quality profile relationships\n- material exclusions\n- printer manufacturer\n- file formats\n\nCura explicitly represents individual extruder definitions, making it valuable for dual- and multi-extrusion printers.\n\nExample conceptual mapping:\n\n```text\nCura Machine Definition\n    +\nCura Extruder Definitions\n    \u2193\nPrintQuote PrinterToolSystem\n```\n\n### Good PrintQuote uses\n\n- build volume\n- machine geometry\n- extrusion count\n- nozzle offsets\n- multi-extruder configuration\n- supported nozzle variants\n- compatible material/profile relationships\n\n### License\n\nUltiMaker Cura is LGPL-3.0.\n\nTreat license/attribution separately from AGPL sources.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "c0cf24a6-22a5-5060-9127-662f792ab6cf",
+      "name": "Printer \u00b7 PrusaSlicer Vendor Bundles",
+      "priority": 2,
+      "urls": [
+        "https://github.com/prusa3d/PrusaSlicer",
+        "https://github.com/prusa3d/PrusaSlicer-settings-prusa-fff",
+        "https://github.com/prusa3d/PrusaSlicer-settings-prusa-sla",
+        "https://github.com/prusa3d/PrusaSlicer-settings-non-prusa-fff",
+        "https://github.com/prusa3d/PrusaSlicer-settings-non-prusa-sla"
+      ],
+      "notes": "Main repository:\n\n`https://github.com/prusa3d/PrusaSlicer`\n\nSettings repositories include:\n\n```text\nhttps://github.com/prusa3d/PrusaSlicer-settings-prusa-fff\nhttps://github.com/prusa3d/PrusaSlicer-settings-prusa-sla\nhttps://github.com/prusa3d/PrusaSlicer-settings-non-prusa-fff\nhttps://github.com/prusa3d/PrusaSlicer-settings-non-prusa-sla\n```\n\nVendor bundles contain:\n\n- printer profiles\n- filament profiles\n- print profiles\n- printer variants\n- nozzle variants\n- compatibility conditions\n- bed models\n- textures\n- thumbnails\n- vendor metadata\n\nUseful printer fields can include:\n\n- printer model\n- printer variant\n- nozzle diameter\n- extruder count\n- retract settings\n- compatible printer conditions\n- start/end G-code\n- bed shape\n- print volume\n- firmware/G-code flavor related settings\n- material compatibility through preset conditions\n\n### Why it matters\n\nPrusaSlicer has especially useful handling for:\n\n- printer variants\n- multiple extruders\n- dual-extruder modes\n- alternate nozzle sizes\n- specialized printer configurations\n\nThat makes it useful for validating PrintQuote's distinction between:\n\n```text\nphysicalToolheadCount\nfilamentInputCount\nmaxSimultaneousMaterials\nmaxAutomaticSelectableMaterials\n```\n\n### License caution\n\nPrusaSlicer itself is AGPL-3.0.\n\nSome newer settings repositories have had license-clarity questions raised publicly.\n\nCodex should record provenance and avoid assuming every settings repository has identical redistribution terms without checking the actual repository.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "9646a0b5-58ac-55ad-924f-f257d92bc0b5",
+      "name": "Printer \u00b7 Klipper Configuration Repository",
+      "priority": 2,
+      "urls": [
+        "https://github.com/Klipper3d/klipper"
+      ],
+      "notes": "Repository:\n\n`https://github.com/Klipper3d/klipper`\n\nUseful path:\n\n```text\nconfig/\n```\n\nKlipper includes many example/reference printer configuration files.\n\nUseful information can include:\n\n- printer model\n- MCU type\n- kinematics\n- build axis limits\n- max velocity\n- max acceleration\n- extruder configuration\n- heater limits\n- thermistor type\n- bed heater\n- probe type\n- stepper configuration\n- pins\n- macros / board configuration\n\n### Important limitation\n\nKlipper configs describe firmware setup, not necessarily commercial product specifications.\n\nDo not treat:\n- `max_velocity`\n- heater limits\n- max temperatures\n\nas manufacturer warranty/spec limits without verification.\n\n### Best use\n\nKlipper should be a secondary technical-validation source, especially for:\n\n- open/custom printers\n- Voron\n- RatRig\n- Klipper-based OEM machines\n- user-modified printers\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "f359dc81-5e71-5829-85ba-df4f503c43b2",
+      "name": "Printer \u00b7 Aniwaa",
+      "priority": 2,
+      "urls": [
+        "https://www.aniwaa.com/catalog/"
+      ],
+      "notes": "Catalog:\n\n`https://www.aniwaa.com/catalog/`\n\nAniwaa maintains a large commercial additive-manufacturing catalog covering:\n\n- desktop FDM\n- industrial extrusion\n- resin\n- powder\n- metal\n- scanners\n- related systems\n\nAniwaa says its product database collects detailed technical specifications directly from manufacturers and normalizes the data.\n\nPotential use:\n\n- model discovery\n- industrial printer discovery\n- historical/discontinued machines\n- technology type\n- build volume\n- price category\n- manufacturer\n\n### Recommendation\n\nUse for discovery and validation.\n\nDo not bulk ingest without confirming terms/API/licensing.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "5d110069-a7b4-5ad9-982f-15fc987315a8",
+      "name": "Printer \u00b7 3DPrinting.com Printer Database",
+      "priority": 2,
+      "urls": [
+        "https://3dprinting.com/products/"
+      ],
+      "notes": "Database:\n\n`https://3dprinting.com/products/`\n\nUseful for:\n\n- historical printer discovery\n- industrial machines\n- resin/metal printers\n- technology classification\n- discontinued models\n\nRecommended as a secondary discovery source, not canonical structured data.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "a508e4ea-1177-5bf4-96cc-17c2a030effb",
+      "name": "Printer \u00b7 3DPros",
+      "priority": 2,
+      "urls": [
+        "https://3dpros.com/"
+      ],
+      "notes": "Database:\n\n`https://3dpros.com/`\n\nUseful dimensions include:\n\n- price\n- build volume\n- release date\n- brand\n- specifications\n- accessories\n- recommendations\n\nBest used for cross-checking consumer printers.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "05f2b86d-0fe3-549c-802f-a564661e5ffa",
+      "name": "Printer \u00b7 SpoolMath Printer Database",
+      "priority": 2,
+      "urls": [
+        "https://spoolmath.com/printer/"
+      ],
+      "notes": "Database:\n\n`https://spoolmath.com/printer/`\n\nThis is particularly interesting to PrintQuote because it includes:\n\n- build volume\n- architecture\n- enclosure\n- price\n- estimated average wattage\n- electricity-cost estimates\n\nThis can help build initial:\n\n```text\ntypicalPowerWatts\n```\n\nvalues when manufacturer documentation only publishes maximum/rated power.\n\n### Important\n\nAverage wattage should be stored separately from rated/max wattage.\n\nExample schema:\n\n```swift\nvar ratedMaximumPowerWatts: Double?\nvar typicalPrintingPowerWatts: Double?\nvar typicalIdlePowerWatts: Double?\n```\n\nSecondary wattage databases should never overwrite manufacturer rated power.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "b9a75b59-6520-5d40-9ff6-5ab44f6c3e86",
+      "name": "Printer \u00b7 Bambu Lab",
+      "priority": 2,
+      "urls": [
+        "https://bambulab.com",
+        "https://store.bambulab.com"
+      ],
+      "notes": "Official sources:\n\n`https://bambulab.com`\n`https://store.bambulab.com`\n\nMany printer pages include downloadable technical specifications / TDS.\n\nUseful fields:\n\n- build volume\n- chassis/shell type\n- enclosure\n- hotend type\n- extruder gear material\n- nozzle material\n- nozzle diameters\n- max hotend temperature\n- bed temperature\n- toolhead speed\n- acceleration\n- max flow\n- supported filament\n- carbon/glass-fiber capability\n- cameras\n- sensors\n- connectivity\n- machine dimensions\n- machine weight\n- rated power\n\n### Multi-material data\n\nAlso model:\n\n- AMS\n- AMS Lite\n- AMS 2 Pro\n- AMS HT\n- slot count\n- expansion limits\n- drying capability\n- material compatibility\n\nImportant:\n\n```text\nBambu P1S + AMS\nphysical toolheads = 1\nfilament inputs = 4\n```\n\nNever represent AMS slots as toolheads.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "01889ed6-4a31-5365-a608-f6b53d57adbc",
+      "name": "Printer \u00b7 Prusa Research",
+      "priority": 2,
+      "urls": [
+        "https://www.prusa3d.com",
+        "https://help.prusa3d.com"
+      ],
+      "notes": "Official sources:\n\n`https://www.prusa3d.com`\n`https://help.prusa3d.com`\n\nExcellent structured technical parameter pages.\n\nUseful fields:\n\n- build volume\n- filament diameter\n- layer-height range\n- machine dimensions\n- weight\n- electronics\n- extruder design\n- nozzle type\n- max nozzle temperature\n- max bed temperature\n- connectivity\n- tool count\n\nPrusa is especially important because the XL provides real multi-tool configurations.\n\nPrintQuote should support:\n\n```text\nXL single-tool\nXL dual-tool\nXL five-tool\n```\n\nwhile allowing custom systems up to 12 toolheads.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "73a84673-ca38-5833-a410-9eab0e7725a1",
+      "name": "Printer \u00b7 Anycubic",
+      "priority": 2,
+      "urls": [
+        "https://store.anycubic.com"
+      ],
+      "notes": "Official:\n\n`https://store.anycubic.com`\n\nAnycubic product pages often expose unusually useful structured specs:\n\n- printing volume\n- construction\n- speed\n- acceleration\n- nozzle max temperature\n- nozzle sizes\n- bed max temperature\n- firmware\n- extrusion type\n- leveling\n- pressure advance\n- flow calibration\n- sensors\n- camera\n- dimensions\n- weight\n- active drying\n- multicolor capability\n\n### ACE / ACE 2 Pro\n\nTrack separately:\n\n- ACE model/generation\n- slots per unit\n- expansion count\n- maximum colors\n- drying temperature\n- material compatibility\n- change time if available\n\nExample current Kobra S1 ACE 2 Pro configuration:\n\n```text\nphysical toolheads = 1\nbase filament inputs = 4\nexpandable colors = 16\n```\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "cc681f01-9583-5666-88f2-f5a13811e842",
+      "name": "Printer \u00b7 Flashforge",
+      "priority": 2,
+      "urls": [
+        "https://www.flashforge.com"
+      ],
+      "notes": "Official:\n\n`https://www.flashforge.com`\n\nProduct/specification pages expose:\n\n- extruder quantity\n- build volume\n- bed temperature\n- nozzle diameter options\n- supported filament\n- print speed\n- acceleration\n- max nozzle temperature\n- connectivity\n- filament sensors\n- outage recovery\n\n### IFS\n\nFor printers such as AD5X:\n\n```text\nphysical toolheads = 1\nIFS filament channels = separate field\n```\n\nDo not represent IFS inputs as toolheads.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "b1f4a94d-77a3-5f6e-8036-aa175df64309",
+      "name": "Printer \u00b7 Creality",
+      "priority": 2,
+      "urls": [
+        "https://www.creality.com",
+        "https://store.creality.com"
+      ],
+      "notes": "Official:\n\n`https://www.creality.com`\n`https://store.creality.com`\n\nCreality support/product pages can provide:\n\n- build volume\n- machine dimensions\n- machine weight\n- max nozzle temperature\n- bed temperature\n- active chamber temperature\n- rated power\n- nozzle diameter\n- printer architecture\n- supported filament\n- speed\n- acceleration\n- connectivity\n- internal storage\n- camera\n- firmware download/support\n- CFS compatibility\n\n### CFS\n\nCreality's CFS should be modeled separately from physical tools.\n\nExample K2 Plus:\n\n```text\nphysical toolheads = 1\none CFS = 4 filament slots\nup to 4 CFS units\nmax automatic selectable materials = 16\n```\n\nOfficial K2 Plus data also includes a 350\u00b0C nozzle, 120\u00b0C bed, 60\u00b0C active chamber and 1200 W rated power.\n\nThese are exactly the fields PrintQuote needs for engineering-material capability and electricity modeling.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "2ae22538-98dc-53c2-8de6-4679ac285838",
+      "name": "Printer \u00b7 ELEGOO",
+      "priority": 2,
+      "urls": [
+        "https://www.elegoo.com"
+      ],
+      "notes": "Official:\n\n`https://www.elegoo.com`\n\nGood product pages include:\n\n- build volume\n- print speed\n- acceleration\n- nozzle temperature\n- bed temperature\n- nozzle material\n- enclosure\n- material support\n- machine dimensions\n- weight\n- rated power\n- connectivity\n- camera\n- operating system\n- supported slicers\n\nCurrent Centauri-class pages are especially detailed.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "929e954f-f471-5a9f-9e4d-487474776908",
+      "name": "Printer \u00b7 QIDI Tech",
+      "priority": 2,
+      "urls": [
+        "https://qidi3d.com"
+      ],
+      "notes": "Official:\n\n`https://qidi3d.com`\nregional QIDI stores\n\nQIDI product pages are particularly important for engineering-material printers.\n\nUseful:\n\n- build size\n- active chamber heating\n- chamber temperature\n- nozzle temperature\n- material support\n- printer enclosure\n- auto calibration\n- multi-color / QIDI Box compatibility\n- price\n\nHigh priority for:\n- PA\n- PC\n- PPS-class use\n- CF/GF materials\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "7556b0f7-2443-5e2d-9077-d1089dd0b616",
+      "name": "Printer \u00b7 Raise3D",
+      "priority": 2,
+      "urls": [
+        "https://www.raise3d.com",
+        "https://support.raise3d.com"
+      ],
+      "notes": "Official:\n\n`https://www.raise3d.com`\n`https://support.raise3d.com`\n\nOne of the best professional-printer specification sources.\n\nUseful structured fields:\n\n- single-extruder build volume\n- dual-extruder build volume\n- machine size\n- weight\n- print technology\n- print-head system\n- filament diameter\n- nozzle options\n- max nozzle temperature\n- max bed temperature\n- automatic filament switching\n- HEPA/carbon filtration\n- electrical data\n\nImportant lesson:\n\nPrintQuote must support build volume that changes by active tool configuration.\n\nExample:\n\n```text\nsingle-extruder build volume != dual-extruder build volume\n```\n\nTherefore schema should support:\n\n```swift\nvar buildVolumeByOperatingMode: [OperatingModeBuildVolume]\n```\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "5df44ae9-94ce-5861-aeca-31f7c61d2a48",
+      "name": "Printer \u00b7 Snapmaker",
+      "priority": 2,
+      "urls": [
+        "https://www.snapmaker.com",
+        "https://shop.snapmaker.com"
+      ],
+      "notes": "Official:\n\n`https://www.snapmaker.com`\n`https://shop.snapmaker.com`\n\nExcellent for multi-head / IDEX / modular systems.\n\nJ1s data includes:\n\n- IDEX architecture\n- default mode\n- backup mode\n- copy mode\n- mirror mode\n- different build volumes by mode\n- max nozzle temperature\n- bed temperature\n- nozzle options\n- material capability\n\nArtisan adds modular 3-in-1 functionality.\n\nPrintQuote should therefore support:\n\n```text\nprinter technology mode\ntool architecture\nbuild volume by mode\n```\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "c0fa0939-09f2-55c4-855b-358f7bbfa2e0",
+      "name": "Printer \u00b7 LulzBot",
+      "priority": 2,
+      "urls": [
+        "https://lulzbot.com",
+        "https://buy.lulzbot.com"
+      ],
+      "notes": "Official:\n\n`https://lulzbot.com`\n`https://buy.lulzbot.com`\n\nTAZ Pro pages include detailed:\n\n- toolhead model\n- dual extrusion\n- build volume\n- nozzle material\n- nozzle diameter\n- hotend temp\n- bed temp\n- filament diameter\n- movement system\n- travel speed\n- calibration\n\nGood source for older/open professional machines.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "adb4b943-5662-506b-96f8-5c6f26cc720a",
+      "name": "Printer \u00b7 UltiMaker",
+      "priority": 2,
+      "urls": [
+        "https://ultimaker.com"
+      ],
+      "notes": "Official:\n\n`https://ultimaker.com`\nUltiMaker support/manual PDFs\n\nManuals are highly useful.\n\nExample fields:\n\n- build volume\n- nozzle / print-core temperature\n- bed temperature\n- dimensional accuracy\n- flow rate\n- print-core type\n- material ecosystem\n- dual-extrusion architecture\n\nPrint cores mean nozzle capability may depend on installed tool component.\n\nModel that as a configurable toolhead component.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "6978d7c6-17cb-5a15-9a32-8b00fdd47589",
+      "name": "Printer \u00b7 Voron Design",
+      "priority": 2,
+      "urls": [
+        "https://vorondesign.com",
+        "https://github.com/VoronDesign"
+      ],
+      "notes": "Official/community:\n\n`https://vorondesign.com`\n`https://github.com/VoronDesign`\n\nVoron is not a normal fixed-spec commercial printer.\n\nPrintQuote should treat it as:\n\n```text\nconfigurable/open printer family\n```\n\nA Voron 2.4 may be built in multiple sizes and heavily modified.\n\nDo NOT create one fixed universal spec.\n\nInstead:\n\n```text\nVoron 2.4\nreference configuration\nuser-defined build size\nuser-defined hotend\nuser-defined nozzle\nuser-defined heater\nuser-defined chamber behavior\n```\n\nThis same model works for RatRig and custom machines.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "56deb2df-ee13-5750-b4b8-f8aef3a7db17",
+      "name": "Printer \u00b7 RatRig",
+      "priority": 2,
+      "urls": [
+        "https://ratrig.com"
+      ],
+      "notes": "Official:\n\n`https://ratrig.com`\n\nTreat similarly to Voron:\n\n- reference size\n- configurable kit size\n- user-selected hotend\n- user-selected electronics\n- user mods\n\nDo not hard-code material capability from the frame model alone.\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    },
+    {
+      "id": "eb141981-6f22-5438-9897-ef2242ef9a24",
+      "name": "Printer \u00b7 FLSUN",
+      "priority": 2,
+      "urls": [
+        "https://flsun3d.com"
+      ],
+      "notes": "Official:\n\n`https://flsun3d.com`\n\nUseful for delta-specific machines.\n\nFields should include:\n\n- delta architecture\n- cylindrical / circular build area\n- build diameter\n- build height\n- speed\n- acceleration\n- nozzle\n- bed\n- enclosure\n- chamber capability\n\nPrintQuote's geometry model should not assume all beds are rectangular.\n\nSuggested build volume model:\n\n```swift\nenum BuildPlateShape {\n    case rectangular\n    case circular\n    case customPolygon\n}\n```\n\n---",
+      "status": "Reference directory; see offline catalog status for implemented imports"
+    }
+  ]
+}

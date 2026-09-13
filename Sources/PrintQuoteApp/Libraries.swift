@@ -4,6 +4,7 @@ import QuoteDomain
 struct PrinterLibrary: View {
     @Bindable var state: AppState
     @State private var selection: UUID?
+    @State private var showingCatalog = false
     var body: some View {
         HSplitView {
             List(state.library.printers,selection:$selection) { p in VStack(alignment:.leading) { Text(p.name).font(.headline); Text(p.multiMaterialSystem).font(.caption).foregroundStyle(.secondary) }.padding(5).tag(p.id) }.frame(minWidth:220,idealWidth:280,maxWidth:340)
@@ -18,13 +19,13 @@ struct PrinterLibrary: View {
                     DecimalField(title:"Machine rate / hour",value:$state.library.printers[index].machineRate)
                     DecimalField(title:"Maintenance / hour",value:$state.library.printers[index].maintenanceRate)
                     TextField("Multi-material system",text:$state.library.printers[index].multiMaterialSystem)
-                    Text("SimplyPrint: " + state.library.printers[index].simplyPrintCompatibility)
                     Text(state.library.printers[index].source.notes).font(.caption).foregroundStyle(.secondary)
+                    PrinterHardwareEditor(hardware: Binding(get: {state.library.printers[index].hardware ?? PrinterHardwareDetails()},set:{state.library.printers[index].hardware=$0}))
                     ToolSystemEditor(system: Binding(get: { state.library.printers[index].toolSystem ?? PrinterToolSystem() }, set: { state.library.printers[index].toolSystem = $0 }))
-                    Button("Save printer") { state.persist() }.buttonStyle(.borderedProminent)
+                    Button("Save printer") { state.library.printers[index].externalProfile?.userOverride = true; state.persist() }.buttonStyle(.borderedProminent)
                 }.formStyle(.grouped)
             } else { ContentUnavailableView("Select a printer",systemImage:"printer",description:Text("Add your equipment and set its operating costs.")) }
-        }.navigationTitle("Printer Library").toolbar { Button("Add printer",systemImage:"plus") { let p = PrinterProfile(); state.library.printers.append(p); selection = p.id } }
+        }.navigationTitle("Printer Library").sheet(isPresented:$showingCatalog) { OrcaCatalogView(state:state) }.toolbar { Button("Orca profiles") { showingCatalog = true }; Button("Add printer",systemImage:"plus") { let p = PrinterProfile(); state.library.printers.append(p); selection = p.id } }
     }
 }
 struct FilamentLibrary: View {
@@ -43,7 +44,7 @@ struct FilamentLibrary: View {
                     TextField("Spool weight (g)",value:$state.library.filaments[index].netWeightGrams,format:.number)
                     DecimalField(title:"Price per kg",value:$state.library.filaments[index].pricePerKG)
                     Text(state.library.filaments[index].source.notes).font(.caption).foregroundStyle(.secondary)
-                    Button("Save filament") { state.persist() }.buttonStyle(.borderedProminent)
+                    Button("Save filament") { state.library.filaments[index].externalProfile?.userOverride = true; state.library.filaments[index].catalogSnapshot?.userOverride = true; state.persist() }.buttonStyle(.borderedProminent)
                 }.formStyle(.grouped)
             } else { ContentUnavailableView("Select a filament",systemImage:"circle.hexagongrid",description:Text("Maintain product-specific prices for your estimates.")) }
         }.navigationTitle("Filament Library").toolbar { Button("Add filament",systemImage:"plus") { let f = FilamentProduct(); state.library.filaments.append(f); selection = f.id } }

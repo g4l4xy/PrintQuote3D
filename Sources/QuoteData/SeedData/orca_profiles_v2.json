@@ -1,0 +1,508 @@
+{
+  "diagnostics" : [
+
+  ],
+  "profiles" : [
+    {
+      "fieldSourcePaths" : {
+        "compatible_printers" : "resources/profiles/Anycubic/filament/Anycubic Generic PLA-CF.json",
+        "cool_plate_temp" : "resources/profiles/Anycubic/filament/fdm_filament_pla.json",
+        "fan_max_speed" : "resources/profiles/Anycubic/filament/fdm_filament_pla.json",
+        "fan_min_speed" : "resources/profiles/Anycubic/filament/fdm_filament_pla.json",
+        "filament_density" : "resources/profiles/Anycubic/filament/fdm_filament_pla.json",
+        "filament_flow_ratio" : "resources/profiles/Anycubic/filament/Anycubic Generic PLA-CF.json",
+        "filament_max_volumetric_speed" : "resources/profiles/Anycubic/filament/Anycubic Generic PLA-CF.json",
+        "filament_type" : "resources/profiles/Anycubic/filament/Anycubic Generic PLA-CF.json",
+        "hot_plate_temp" : "resources/profiles/Anycubic/filament/fdm_filament_pla.json",
+        "name" : "resources/profiles/Anycubic/filament/Anycubic Generic PLA-CF.json",
+        "nozzle_temperature" : "resources/profiles/Anycubic/filament/fdm_filament_pla.json",
+        "nozzle_temperature_initial_layer" : "resources/profiles/Anycubic/filament/fdm_filament_pla.json",
+        "nozzle_temperature_range_high" : "resources/profiles/Anycubic/filament/fdm_filament_pla.json",
+        "nozzle_temperature_range_low" : "resources/profiles/Anycubic/filament/fdm_filament_pla.json",
+        "type" : "resources/profiles/Anycubic/filament/Anycubic Generic PLA-CF.json"
+      },
+      "id" : "1F094373-07D5-53B2-9782-5A384D362FEA",
+      "kind" : "filament",
+      "materialFamily" : "PLA-CF",
+      "name" : "Anycubic Generic PLA-CF",
+      "nozzleDiametersMM" : [
+
+      ],
+      "reviewReasons" : [
+        "Technical profile only; purchase prices, power draw and shop rates require user entry."
+      ],
+      "source" : {
+        "commitSHA" : "8500fcdccaa10b5099ac20d252af3a7c560046f1",
+        "importedAt" : 811033089.69325,
+        "inheritedPaths" : [
+          "resources/profiles/Anycubic/filament/fdm_filament_common.json",
+          "resources/profiles/Anycubic/filament/fdm_filament_pla.json"
+        ],
+        "needsReview" : true,
+        "repositoryURL" : "https://github.com/OrcaSlicer/OrcaSlicer",
+        "sourceName" : "OrcaSlicer",
+        "sourcePath" : "resources/profiles/Anycubic/filament/Anycubic Generic PLA-CF.json",
+        "userOverride" : false
+      },
+      "technicalValues" : {
+        "compatible_printers" : [
+          "Anycubic i3 Mega S 0.4 nozzle",
+          "Anycubic Chiron 0.4 nozzle",
+          "Anycubic Vyper 0.4 nozzle",
+          "Anycubic Kobra 0.4 nozzle",
+          "Anycubic Kobra Max 0.4 nozzle",
+          "Anycubic Kobra Plus 0.4 nozzle",
+          "Anycubic 4Max Pro 0.4 nozzle",
+          "Anycubic 4Max Pro 2 0.4 nozzle",
+          "Anycubic Kobra 2 0.4 nozzle"
+        ],
+        "cool_plate_temp" : [
+          "35"
+        ],
+        "fan_max_speed" : [
+          "100"
+        ],
+        "fan_min_speed" : [
+          "100"
+        ],
+        "filament_density" : [
+          "1.24"
+        ],
+        "filament_flow_ratio" : [
+          "0.95"
+        ],
+        "filament_max_volumetric_speed" : [
+          "12"
+        ],
+        "hot_plate_temp" : [
+          "45"
+        ],
+        "nozzle_temperature" : [
+          "220"
+        ],
+        "nozzle_temperature_initial_layer" : [
+          "220"
+        ],
+        "nozzle_temperature_range_high" : [
+          "230"
+        ],
+        "nozzle_temperature_range_low" : [
+          "190"
+        ]
+      },
+      "vendor" : "Anycubic"
+    },
+    {
+      "buildXMM" : 250,
+      "buildYMM" : 250,
+      "buildZMM" : 250,
+      "fieldSourcePaths" : {
+        "default_filament_profile" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "default_print_profile" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "extruder_offset" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "gcode_flavor" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "name" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "nozzle_diameter" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "nozzle_type" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "printable_area" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "printable_height" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "printer_model" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "printer_variant" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "type" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json"
+      },
+      "id" : "22DCC49A-9435-56DC-99B1-B27804EFB8A8",
+      "kind" : "machine",
+      "model" : "Anycubic Kobra S1",
+      "name" : "Anycubic Kobra S1 0.4 nozzle",
+      "nozzleDiametersMM" : [
+        0.4
+      ],
+      "reviewReasons" : [
+        "Build X/Y are bounding extents; exclusions and nonrectangular bed geometry require review.",
+        "Physical toolhead count is unknown. Extruder/nozzle arrays and feeder slots are not interpreted as physical toolheads.",
+        "Technical profile only; purchase prices, power draw and shop rates require user entry."
+      ],
+      "source" : {
+        "commitSHA" : "8500fcdccaa10b5099ac20d252af3a7c560046f1",
+        "importedAt" : 811033089.69325,
+        "inheritedPaths" : [
+          "resources/profiles/Anycubic/machine/fdm_machine_common.json"
+        ],
+        "needsReview" : true,
+        "repositoryURL" : "https://github.com/OrcaSlicer/OrcaSlicer",
+        "sourceName" : "OrcaSlicer",
+        "sourcePath" : "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+        "userOverride" : false
+      },
+      "technicalValues" : {
+        "default_filament_profile" : [
+          "Anycubic PLA @Anycubic Kobra S1 0.4 nozzle"
+        ],
+        "default_print_profile" : [
+          "0.20mm Standard @Anycubic Kobra S1 0.4 nozzle"
+        ],
+        "extruder_offset" : [
+          "0x0"
+        ],
+        "gcode_flavor" : [
+          "klipper"
+        ],
+        "nozzle_type" : [
+          "brass"
+        ],
+        "printable_area" : [
+          "0x0",
+          "250x0",
+          "250x250",
+          "0x250"
+        ],
+        "printer_variant" : [
+          "0.4"
+        ]
+      },
+      "vendor" : "Anycubic"
+    },
+    {
+      "fieldSourcePaths" : {
+        "compatible_printers" : "resources/profiles/BBL/filament/Bambu PLA Aero @BBL A1.json",
+        "cool_plate_temp" : "resources/profiles/BBL/filament/fdm_filament_pla.json",
+        "fan_max_speed" : "resources/profiles/BBL/filament/Bambu PLA Aero @BBL A1.json",
+        "fan_min_speed" : "resources/profiles/BBL/filament/Bambu PLA Aero @BBL A1.json",
+        "filament_density" : "resources/profiles/BBL/filament/Bambu PLA Aero @base.json",
+        "filament_flow_ratio" : "resources/profiles/BBL/filament/Bambu PLA Aero @base.json",
+        "filament_max_volumetric_speed" : "resources/profiles/BBL/filament/Bambu PLA Aero @base.json",
+        "filament_shrink" : "resources/profiles/BBL/filament/fdm_filament_common.json",
+        "filament_type" : "resources/profiles/BBL/filament/Bambu PLA Aero @base.json",
+        "hot_plate_temp" : "resources/profiles/BBL/filament/Bambu PLA Aero @BBL A1.json",
+        "name" : "resources/profiles/BBL/filament/Bambu PLA Aero @BBL A1.json",
+        "nozzle_temperature" : "resources/profiles/BBL/filament/fdm_filament_pla.json",
+        "nozzle_temperature_initial_layer" : "resources/profiles/BBL/filament/fdm_filament_pla.json",
+        "nozzle_temperature_range_high" : "resources/profiles/BBL/filament/Bambu PLA Aero @base.json",
+        "nozzle_temperature_range_low" : "resources/profiles/BBL/filament/Bambu PLA Aero @base.json",
+        "textured_plate_temp" : "resources/profiles/BBL/filament/Bambu PLA Aero @BBL A1.json",
+        "type" : "resources/profiles/BBL/filament/Bambu PLA Aero @BBL A1.json"
+      },
+      "id" : "CC30E1EE-5B78-5899-8B9E-A56C38D2C973",
+      "kind" : "filament",
+      "materialFamily" : "PLA-AERO",
+      "name" : "Bambu PLA Aero @BBL A1",
+      "nozzleDiametersMM" : [
+
+      ],
+      "reviewReasons" : [
+        "Technical profile only; purchase prices, power draw and shop rates require user entry."
+      ],
+      "source" : {
+        "commitSHA" : "8500fcdccaa10b5099ac20d252af3a7c560046f1",
+        "importedAt" : 811033089.69325,
+        "inheritedPaths" : [
+          "resources/profiles/BBL/filament/fdm_filament_common.json",
+          "resources/profiles/BBL/filament/fdm_filament_pla.json",
+          "resources/profiles/BBL/filament/Bambu PLA Aero @base.json"
+        ],
+        "needsReview" : true,
+        "repositoryURL" : "https://github.com/OrcaSlicer/OrcaSlicer",
+        "sourceName" : "OrcaSlicer",
+        "sourcePath" : "resources/profiles/BBL/filament/Bambu PLA Aero @BBL A1.json",
+        "userOverride" : false
+      },
+      "technicalValues" : {
+        "compatible_printers" : [
+          "Bambu Lab A1 0.4 nozzle",
+          "Bambu Lab A1 0.6 nozzle",
+          "Bambu Lab A1 0.8 nozzle"
+        ],
+        "cool_plate_temp" : [
+          "35"
+        ],
+        "fan_max_speed" : [
+          "80"
+        ],
+        "fan_min_speed" : [
+          "60"
+        ],
+        "filament_density" : [
+          "1.21"
+        ],
+        "filament_flow_ratio" : [
+          "0.6"
+        ],
+        "filament_max_volumetric_speed" : [
+          "6"
+        ],
+        "filament_shrink" : [
+          "100%"
+        ],
+        "hot_plate_temp" : [
+          "65"
+        ],
+        "nozzle_temperature" : [
+          "220"
+        ],
+        "nozzle_temperature_initial_layer" : [
+          "220"
+        ],
+        "nozzle_temperature_range_high" : [
+          "260"
+        ],
+        "nozzle_temperature_range_low" : [
+          "210"
+        ],
+        "textured_plate_temp" : [
+          "65"
+        ]
+      },
+      "vendor" : "BBL"
+    },
+    {
+      "buildXMM" : 256,
+      "buildYMM" : 256,
+      "buildZMM" : 250,
+      "fieldSourcePaths" : {
+        "bed_exclude_area" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+        "default_filament_profile" : "resources/profiles/BBL/machine/fdm_bbl_3dp_001_common.json",
+        "default_print_profile" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+        "extruder_offset" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+        "gcode_flavor" : "resources/profiles/BBL/machine/fdm_machine_common.json",
+        "name" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+        "nozzle_diameter" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+        "nozzle_type" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+        "physical_extruder_map" : "resources/profiles/BBL/machine/fdm_bbl_3dp_001_common.json",
+        "printable_area" : "resources/profiles/BBL/machine/fdm_bbl_3dp_001_common.json",
+        "printable_height" : "resources/profiles/BBL/machine/fdm_machine_common.json",
+        "printer_model" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+        "printer_variant" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+        "type" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json"
+      },
+      "id" : "DEC00ADA-6F82-5A29-BED3-FA077A162501",
+      "kind" : "machine",
+      "model" : "Bambu Lab P1S",
+      "name" : "Bambu Lab P1S 0.4 nozzle",
+      "nozzleDiametersMM" : [
+        0.4
+      ],
+      "reviewReasons" : [
+        "Build X/Y are bounding extents; exclusions and nonrectangular bed geometry require review.",
+        "Physical toolhead count is unknown. Extruder/nozzle arrays and feeder slots are not interpreted as physical toolheads.",
+        "Technical profile only; purchase prices, power draw and shop rates require user entry."
+      ],
+      "source" : {
+        "commitSHA" : "8500fcdccaa10b5099ac20d252af3a7c560046f1",
+        "importedAt" : 811033089.69325,
+        "inheritedPaths" : [
+          "resources/profiles/BBL/machine/fdm_machine_common.json",
+          "resources/profiles/BBL/machine/fdm_bbl_3dp_001_common.json"
+        ],
+        "needsReview" : true,
+        "repositoryURL" : "https://github.com/OrcaSlicer/OrcaSlicer",
+        "sourceName" : "OrcaSlicer",
+        "sourcePath" : "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+        "userOverride" : false
+      },
+      "technicalValues" : {
+        "bed_exclude_area" : [
+          "0x0",
+          "18x0",
+          "18x28",
+          "0x28"
+        ],
+        "default_filament_profile" : [
+          "Bambu PLA Basic @BBL X1C"
+        ],
+        "default_print_profile" : [
+          "0.20mm Standard @BBL X1C"
+        ],
+        "extruder_offset" : [
+          "0x2"
+        ],
+        "gcode_flavor" : [
+          "marlin"
+        ],
+        "nozzle_type" : [
+          "stainless_steel",
+          "stainless_steel"
+        ],
+        "physical_extruder_map" : [
+          "0"
+        ],
+        "printable_area" : [
+          "0x0",
+          "256x0",
+          "256x256",
+          "0x256"
+        ],
+        "printer_variant" : [
+          "0.4"
+        ]
+      },
+      "vendor" : "BBL"
+    },
+    {
+      "fieldSourcePaths" : {
+        "chamber_temperature" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json",
+        "compatible_printers" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One 0.6.json",
+        "cool_plate_temp" : "resources/profiles/Prusa/filament/fdm_filament_pla.json",
+        "fan_max_speed" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json",
+        "fan_min_speed" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json",
+        "filament_density" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json",
+        "filament_flow_ratio" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json",
+        "filament_max_volumetric_speed" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json",
+        "filament_type" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json",
+        "hot_plate_temp" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json",
+        "name" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One 0.6.json",
+        "nozzle_temperature" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One 0.6.json",
+        "nozzle_temperature_initial_layer" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json",
+        "nozzle_temperature_range_high" : "resources/profiles/Prusa/filament/fdm_filament_pla.json",
+        "nozzle_temperature_range_low" : "resources/profiles/Prusa/filament/fdm_filament_pla.json",
+        "type" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One 0.6.json"
+      },
+      "id" : "79118BBB-786B-5842-A2CB-8A08A0E4E643",
+      "kind" : "filament",
+      "materialFamily" : "PLA",
+      "name" : "Prusa Generic PLA @CORE One 0.6",
+      "nozzleDiametersMM" : [
+
+      ],
+      "reviewReasons" : [
+        "Technical profile only; purchase prices, power draw and shop rates require user entry."
+      ],
+      "source" : {
+        "commitSHA" : "8500fcdccaa10b5099ac20d252af3a7c560046f1",
+        "importedAt" : 811033089.69325,
+        "inheritedPaths" : [
+          "resources/profiles/Prusa/filament/fdm_filament_common.json",
+          "resources/profiles/Prusa/filament/fdm_filament_pla.json",
+          "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One.json"
+        ],
+        "needsReview" : true,
+        "repositoryURL" : "https://github.com/OrcaSlicer/OrcaSlicer",
+        "sourceName" : "OrcaSlicer",
+        "sourcePath" : "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One 0.6.json",
+        "userOverride" : false
+      },
+      "technicalValues" : {
+        "chamber_temperature" : [
+          "20"
+        ],
+        "compatible_printers" : [
+          "Prusa CORE One 0.6 nozzle"
+        ],
+        "cool_plate_temp" : [
+          "35"
+        ],
+        "fan_max_speed" : [
+          "100"
+        ],
+        "fan_min_speed" : [
+          "85"
+        ],
+        "filament_density" : [
+          "1.24"
+        ],
+        "filament_flow_ratio" : [
+          "1"
+        ],
+        "filament_max_volumetric_speed" : [
+          "15"
+        ],
+        "hot_plate_temp" : [
+          "60"
+        ],
+        "nozzle_temperature" : [
+          "210"
+        ],
+        "nozzle_temperature_initial_layer" : [
+          "230"
+        ],
+        "nozzle_temperature_range_high" : [
+          "230"
+        ],
+        "nozzle_temperature_range_low" : [
+          "190"
+        ]
+      },
+      "vendor" : "Prusa"
+    },
+    {
+      "buildXMM" : 360,
+      "buildYMM" : 360,
+      "buildZMM" : 360,
+      "fieldSourcePaths" : {
+        "bed_exclude_area" : "resources/profiles/Prusa/machine/fdm_machine_common_xl.json",
+        "default_filament_profile" : "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json",
+        "default_print_profile" : "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json",
+        "extruder_offset" : "resources/profiles/Prusa/machine/fdm_machine_common.json",
+        "gcode_flavor" : "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json",
+        "name" : "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json",
+        "nozzle_diameter" : "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json",
+        "nozzle_type" : "resources/profiles/Prusa/machine/fdm_machine_common_xl.json",
+        "printable_area" : "resources/profiles/Prusa/machine/fdm_machine_common_xl.json",
+        "printable_height" : "resources/profiles/Prusa/machine/fdm_machine_common_xl.json",
+        "printer_model" : "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json",
+        "printer_variant" : "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json",
+        "type" : "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json"
+      },
+      "id" : "313094CB-0AE3-53E1-B3BC-6E6F3F3A4BDB",
+      "kind" : "machine",
+      "model" : "Prusa XL 5T",
+      "name" : "Prusa XL 5T 0.4 nozzle",
+      "nozzleDiametersMM" : [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "reviewReasons" : [
+        "Build X/Y are bounding extents; exclusions and nonrectangular bed geometry require review.",
+        "Physical toolhead count is unknown. Extruder/nozzle arrays and feeder slots are not interpreted as physical toolheads.",
+        "Technical profile only; purchase prices, power draw and shop rates require user entry."
+      ],
+      "source" : {
+        "commitSHA" : "8500fcdccaa10b5099ac20d252af3a7c560046f1",
+        "importedAt" : 811033089.69325,
+        "inheritedPaths" : [
+          "resources/profiles/Prusa/machine/fdm_machine_common.json",
+          "resources/profiles/Prusa/machine/fdm_machine_common_xl.json",
+          "resources/profiles/Prusa/machine/fdm_machine_common_xl_5t.json"
+        ],
+        "needsReview" : true,
+        "repositoryURL" : "https://github.com/OrcaSlicer/OrcaSlicer",
+        "sourceName" : "OrcaSlicer",
+        "sourcePath" : "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json",
+        "userOverride" : false
+      },
+      "technicalValues" : {
+        "bed_exclude_area" : [
+          "0x0"
+        ],
+        "default_filament_profile" : [
+          "Prusa Generic PLA @XL 5T"
+        ],
+        "default_print_profile" : [
+          "0.20mm Speed @Prusa XL 5T 0.4"
+        ],
+        "extruder_offset" : [
+          "0x0"
+        ],
+        "gcode_flavor" : [
+          "marlin2"
+        ],
+        "nozzle_type" : [
+          "hardened_steel"
+        ],
+        "printable_area" : [
+          "0x0",
+          "360x0",
+          "360x360",
+          "0x360"
+        ],
+        "printer_variant" : [
+          "0.4"
+        ]
+      },
+      "vendor" : "Prusa"
+    }
+  ],
+  "schemaVersion" : 2
+}

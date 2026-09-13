@@ -1,0 +1,8 @@
+[
+  "resources/profiles/BBL/machine/Bambu Lab P1S 0.4 nozzle.json",
+  "resources/profiles/Prusa/machine/Prusa XL 5T 0.4 nozzle.json",
+  "resources/profiles/Anycubic/machine/Anycubic Kobra S1 0.4 nozzle.json",
+  "resources/profiles/BBL/filament/Bambu PLA Aero @BBL A1.json",
+  "resources/profiles/Prusa/filament/Prusa Generic PLA @CORE One 0.6.json",
+  "resources/profiles/Anycubic/filament/Anycubic Generic PLA-CF.json"
+]

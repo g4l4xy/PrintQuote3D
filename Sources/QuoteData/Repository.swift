@@ -21,8 +21,9 @@ import QuoteDomain
     }
     public func load() throws -> LibrarySnapshot? {
         guard let record = try container.mainContext.fetch(FetchDescriptor<LibraryRecord>()).first else { return nil }
-        let snapshot = try JSONDecoder().decode(LibrarySnapshot.self, from: record.payload)
-        guard snapshot.schemaVersion == 1 else { throw PricingError.invalid("Unsupported saved data version.") }
+        var snapshot = try JSONDecoder().decode(LibrarySnapshot.self, from: record.payload)
+        guard (1...2).contains(snapshot.schemaVersion) else { throw PricingError.invalid("Unsupported saved data version.") }
+        snapshot.schemaVersion = 2
         return snapshot
     }
     public func save(_ library: LibrarySnapshot) throws {
@@ -34,6 +35,12 @@ import QuoteDomain
     }
 }
 public enum SeedLoader {
+    public static func resource<T: Decodable>(_ name: String, as type: T.Type) throws -> T {
+        let embedded = Bundle.main.resourceURL.flatMap { Bundle(url: $0.appendingPathComponent("PrintQuote3D_QuoteData.bundle")) }
+        let resources = embedded ?? Bundle.module
+        guard let url = resources.url(forResource: name, withExtension: "json") else { throw PricingError.invalid("Missing bundled catalog: \(name)") }
+        return try JSONDecoder().decode(T.self, from: Data(contentsOf:url))
+    }
     public static func load() throws -> LibrarySnapshot {
         let embedded = Bundle.main.resourceURL.flatMap { Bundle(url: $0.appendingPathComponent("PrintQuote3D_QuoteData.bundle")) }
         let resources = embedded ?? Bundle.module

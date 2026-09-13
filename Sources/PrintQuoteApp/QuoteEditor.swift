@@ -49,7 +49,7 @@ struct QuoteEditor: View {
                     }
                     SwiftUI.Section("Manufacturing mode") {
                         Toggle("Assign materials to physical tools", isOn: Binding(get: { quote.input.toolJob != nil }, set: { enabled in
-                            if enabled { var job = ToolJob(); job.system = quote.printer?.toolSystem ?? PrinterToolSystem(); var a = ToolMaterialAssignment(); a.grams = quote.input.modelGrams; a.pricePerKG = quote.input.pricePerKG; job.assignments = [a]; quote.input.toolJob = job } else { quote.input.toolJob = nil }
+                            if enabled { enableToolAssignments() } else { quote.input.toolJob = nil }
                         }))
                     }
                     if quote.input.toolJob != nil {
@@ -138,6 +138,23 @@ struct QuoteEditor: View {
         .onChange(of:quote.filament) { _,_ in saved = false }
         .onChange(of:quote.preset) { _,_ in saved = false }
     }
+    func enableToolAssignments() {
+        var job = ToolJob(); job.system = quote.printer?.toolSystem ?? PrinterToolSystem()
+        let inputs: [(MaterialRole, Decimal, Decimal)] = [
+            (.model, quote.input.modelGrams, quote.input.pricePerKG),
+            (.support, quote.input.supportGrams, quote.input.supportPricePerKG),
+            (.interface, quote.input.interfaceGrams, quote.input.interfacePricePerKG),
+            (.waste, quote.input.purgeGrams + quote.input.towerGrams + quote.input.startupGrams, quote.input.pricePerKG)
+        ]
+        for (role, grams, price) in inputs where grams > 0 {
+            var assignment = ToolMaterialAssignment(); assignment.role = role; assignment.grams = grams; assignment.pricePerKG = price
+            assignment.materialID = quote.filament?.id; assignment.materialName = quote.filament?.name ?? "Manual material"
+            assignment.materialFamily = quote.filament?.materialFamily ?? "Unknown"; assignment.colorName = quote.filament?.colorName ?? ""
+            job.assignments.append(assignment)
+        }
+        if job.assignments.isEmpty { job.assignments.append(ToolMaterialAssignment()) }
+        quote.input.toolJob = job
+    }
     func row(_ name:String,_ value:Decimal) -> some View { HStack { Text(name); Spacer(); Text(money(value,currency:quote.currency)).monospacedDigit() } }
-    func save() { do { quote.result = try result.get(); saved = state.save(quote) } catch { state.error = error.localizedDescription } }
+    func save() { do { quote.schemaVersion = 2; quote.result = try result.get(); saved = state.save(quote) } catch { state.error = error.localizedDescription } }
 }

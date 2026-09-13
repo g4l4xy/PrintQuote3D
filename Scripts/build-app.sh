@@ -16,11 +16,14 @@ cat > "$APP_DIR/Contents/Info.plist" <<'PLIST'
 <key>CFBundleIdentifier</key><string>local.printquote.desktop</string>
 <key>CFBundleName</key><string>PrintQuote 3D</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.1.0</string>
-<key>CFBundleVersion</key><string>1</string>
+<key>CFBundleShortVersionString</key><string>0.2.0</string>
+<key>CFBundleVersion</key><string>2</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSHighResolutionCapable</key><true/>
 </dict></plist>
 PLIST
+cp "$PROJECT_DIR/LICENSE" "$APP_DIR/Contents/Resources/LICENSE"
+cp "$PROJECT_DIR/ATTRIBUTION.md" "$APP_DIR/Contents/Resources/ATTRIBUTION.md"
+cp -R "$PROJECT_DIR/ThirdParty" "$APP_DIR/Contents/Resources/"
 codesign --force --deep --sign - "$APP_DIR"
 printf '%s\n' "$APP_DIR"

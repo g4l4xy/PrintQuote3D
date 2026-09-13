@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "PrintQuote PricingInput v1",
+  "title": "PrintQuote PricingInput v2 (v1-compatible optional tool job)",
   "type": "object",
   "properties": {
     "modelGrams": {
@@ -135,6 +135,16 @@
       "enum": [
         "margin",
         "markup"
+      ]
+    },
+    "toolJob": {
+      "anyOf": [
+        {
+          "$ref": "tool_job.schema.json"
+        },
+        {
+          "type": "null"
+        }
       ]
     }
   },

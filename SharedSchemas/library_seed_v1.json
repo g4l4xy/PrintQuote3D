@@ -12,7 +12,6 @@
       "machineRate": 1,
       "maintenanceRate": 0.25,
       "multiMaterialSystem": "none",
-      "simplyPrintCompatibility": "unknown",
       "source": {
         "name": "PrintQuote illustrative seed",
         "sourceType": "internal",
@@ -30,7 +29,6 @@
       "machineRate": 1.25,
       "maintenanceRate": 0.25,
       "multiMaterialSystem": "singleNozzleAutomatic",
-      "simplyPrintCompatibility": "unknown",
       "source": {
         "name": "PrintQuote illustrative seed",
         "sourceType": "internal",
@@ -48,7 +46,6 @@
       "machineRate": 3.5,
       "maintenanceRate": 0.25,
       "multiMaterialSystem": "toolchanger",
-      "simplyPrintCompatibility": "unknown",
       "source": {
         "name": "PrintQuote illustrative seed",
         "sourceType": "internal",

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "catalogs": [
+    {
+      "name": "Open Filament Database",
+      "path": "../Sources/QuoteData/SeedData/open_filaments_v2.json",
+      "sha256": "95ad795599461d1e10222833fc1e362b781a14e9459c41f7119be3dd4f14fcea",
+      "license": "MIT"
+    },
+    {
+      "name": "OrcaSlicer",
+      "path": "orca_profiles_v2.json",
+      "license": "AGPL-3.0"
+    },
+    {
+      "name": "Source directory",
+      "path": "filament_sources_v2.json"
+    }
+  ]
+}

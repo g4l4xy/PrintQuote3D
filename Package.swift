@@ -1,8 +1,10 @@
 // swift-tools-version: 6.0
 import PackageDescription
-let package = Package(name: "PrintQuote3D", platforms: [.macOS(.v14)], products: [.executable(name: "PrintQuote3D", targets: ["PrintQuoteApp"])], targets: [
+let package = Package(name: "PrintQuote3D", platforms: [.macOS(.v14)], products: [.executable(name: "PrintQuote3D", targets: ["PrintQuoteApp"]), .executable(name: "OrcaProfileImporter", targets: ["OrcaProfileImporter"])], targets: [
     .target(name: "QuoteDomain"),
+    .target(name: "OrcaProfiles", dependencies: ["QuoteDomain"]),
+    .executableTarget(name: "OrcaProfileImporter", dependencies: ["OrcaProfiles"], path: "tools/OrcaProfileImporter"),
     .target(name: "QuoteData", dependencies: ["QuoteDomain"], resources: [.process("SeedData")]),
     .executableTarget(name: "PrintQuoteApp", dependencies: ["QuoteDomain", "QuoteData"]),
-    .testTarget(name: "QuoteTests", dependencies: ["QuoteDomain", "QuoteData"], resources: [.copy("Fixtures")])
+    .testTarget(name: "QuoteTests", dependencies: ["QuoteDomain", "QuoteData", "OrcaProfiles"], resources: [.copy("Fixtures")])
 ])

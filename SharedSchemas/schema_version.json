@@ -1,1 +1,11 @@
-{"schemaVersion":1,"decimalEncoding":"JSON number; decode using base-10 decimal arithmetic","dateEncoding":"seconds since 2001-01-01T00:00:00Z","idEncoding":"UUID string"}
+{
+  "schemaVersion": 2,
+  "compatibleReadVersions": [
+    1,
+    2
+  ],
+  "decimalEncoding": "JSON number; base-10 decimal arithmetic",
+  "dateEncoding": "Swift domain dates: seconds since 2001-01-01T00:00:00Z; OFD catalog metadata: ISO 8601",
+  "idEncoding": "UUID string",
+  "migration": "Absent v2 optional fields decode as nil; legacy aggregate calculations remain unchanged."
+}
