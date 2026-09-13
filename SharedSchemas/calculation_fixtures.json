@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "currency": "USD",
+  "cases": [
+    {
+      "name": "brief-standard",
+      "input": {
+        "modelGrams": 200,
+        "supportGrams": 50,
+        "interfaceGrams": 0,
+        "purgeGrams": 30,
+        "towerGrams": 0,
+        "startupGrams": 0,
+        "pricePerKG": 20,
+        "supportPricePerKG": 20,
+        "interfacePricePerKG": 20,
+        "printHours": 10,
+        "averageWatts": 150,
+        "electricityRate": 0.14,
+        "machineRate": 1,
+        "maintenanceRate": 0.25,
+        "laborMinutes": 30,
+        "laborRate": 30,
+        "dryerWatts": 0,
+        "dryingHours": 0,
+        "dryingSharedJobs": 1,
+        "wearCost": 0,
+        "packaging": 0,
+        "outsideServices": 0,
+        "otherCosts": 0,
+        "failureProbability": 0,
+        "overheadRate": 0,
+        "profitRate": 0.4,
+        "materialMultiplier": 1,
+        "minimumCharge": 0,
+        "rushMultiplier": 1,
+        "discountRate": 0,
+        "taxRate": 0,
+        "shipping": 0,
+        "pricingMode": "margin"
+      },
+      "expectedProductionCost": "33.31",
+      "expectedTotal": "55.52"
+    }
+  ]
+}

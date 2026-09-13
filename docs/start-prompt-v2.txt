@@ -1,0 +1,42 @@
+You are taking over development of **PrintQuote 3D**.
+
+The attached/project file `PrintQuote3D_Codex_Brief.md` is the source of truth for the initial architecture and product requirements.
+
+Important environment information:
+- I am developing on a Mac.
+- I already have Xcode installed.
+- Build the first version in Swift + SwiftUI.
+- Target macOS 14+.
+- The app must later have a Kotlin + Compose Desktop version for Windows.
+- Do NOT try to make SwiftUI itself run on Windows.
+- Keep the domain logic, formulas, JSON seed data, schemas, and calculation fixtures portable so the Kotlin version can reproduce the same behavior later.
+
+Start with the **First Codex Task** in the brief.
+
+Before adding advanced features:
+1. Make the project compile.
+2. Make the basic navigation work.
+3. Implement and test the pricing engine.
+4. Add local seed data.
+5. Confirm persistence works.
+6. Keep the UI and domain logic separated.
+
+Do not implement live scraping, networking-based price updates, STL/3MF parsing, or PDF export in the first pass.
+
+Work incrementally, build after each meaningful stage, and fix compiler errors before continuing.
+
+ADDITIONAL REQUIRED CHANGES:
+
+- Create a PUBLIC GitHub repository named `PrintQuote3D` and push all project source, schemas, tests, docs, and seed data there.
+- I am on a Mac and already have Xcode installed.
+- Use GitHub CLI (`gh`) to create/push the repository if available.
+- Use `https://github.com/OrcaSlicer/OrcaSlicer` as a major printer/filament profile source.
+- OrcaSlicer profile/vendor data lives under `resources/profiles/`; build an isolated `OrcaProfileImporter`.
+- Preserve OrcaSlicer attribution, source path, and upstream commit/tag.
+- OrcaSlicer is AGPL-3.0; do not casually copy its application source into PrintQuote. Keep the importer/data boundary explicit and document licensing/attribution.
+- Printer configurations MUST support 1 through 12 physical toolheads.
+- Physical toolheads, filament inputs, feeder slots, colors, and automatic material-switching channels are separate concepts.
+- Do not infer toolhead count from AMS/ACE/IFS/MMU slot count.
+- Add per-toolhead nozzle diameter, nozzle material, max temperature, material capability, abrasive compatibility, flexible compatibility, and optional tool-change/purge cost data.
+- Multi-tool, IDEX, fixed multi-nozzle, and single-nozzle switching systems must be costed differently.
+- Commit and push each coherent milestone.

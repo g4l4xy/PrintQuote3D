@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "printers": [
+    {
+      "id": "DD619C93-954A-5835-986A-D3E6AABFFEDB",
+      "manufacturer": "Demo",
+      "model": "Single-nozzle desktop",
+      "buildVolumeXMM": 220,
+      "buildVolumeYMM": 220,
+      "buildVolumeZMM": 250,
+      "typicalPowerWatts": 150,
+      "machineRate": 1,
+      "maintenanceRate": 0.25,
+      "multiMaterialSystem": "none",
+      "simplyPrintCompatibility": "unknown",
+      "source": {
+        "name": "PrintQuote illustrative seed",
+        "sourceType": "internal",
+        "notes": "Demonstration profile, not verified manufacturer specifications or current pricing. Edit before quoting real jobs."
+      }
+    },
+    {
+      "id": "1BE63FBA-3CC0-5455-8682-600F5A01726B",
+      "manufacturer": "Demo",
+      "model": "Four-input desktop",
+      "buildVolumeXMM": 220,
+      "buildVolumeYMM": 220,
+      "buildVolumeZMM": 250,
+      "typicalPowerWatts": 150,
+      "machineRate": 1.25,
+      "maintenanceRate": 0.25,
+      "multiMaterialSystem": "singleNozzleAutomatic",
+      "simplyPrintCompatibility": "unknown",
+      "source": {
+        "name": "PrintQuote illustrative seed",
+        "sourceType": "internal",
+        "notes": "Demonstration profile, not verified manufacturer specifications or current pricing. Edit before quoting real jobs."
+      }
+    },
+    {
+      "id": "DB245C89-81FA-5031-8684-2BD714E8922B",
+      "manufacturer": "Demo",
+      "model": "Multi-tool workshop",
+      "buildVolumeXMM": 220,
+      "buildVolumeYMM": 220,
+      "buildVolumeZMM": 250,
+      "typicalPowerWatts": 150,
+      "machineRate": 3.5,
+      "maintenanceRate": 0.25,
+      "multiMaterialSystem": "toolchanger",
+      "simplyPrintCompatibility": "unknown",
+      "source": {
+        "name": "PrintQuote illustrative seed",
+        "sourceType": "internal",
+        "notes": "Demonstration profile, not verified manufacturer specifications or current pricing. Edit before quoting real jobs."
+      }
+    }
+  ],
+  "filaments": [
+    {
+      "id": "997FCB5A-67C2-5E59-AC17-EED7869290AB",
+      "manufacturer": "Demo",
+      "productName": "PLA",
+      "materialFamily": "PLA",
+      "colorName": "Natural",
+      "diameterMM": 1.75,
+      "netWeightGrams": 1000,
+      "pricePerKG": 20,
+      "source": {
+        "name": "PrintQuote illustrative seed",
+        "sourceType": "internal",
+        "notes": "Demonstration profile, not verified manufacturer specifications or current pricing. Edit before quoting real jobs."
+      }
+    },
+    {
+      "id": "D8641204-DB4A-548A-B08F-E7145D175620",
+      "manufacturer": "Demo",
+      "productName": "PETG",
+      "materialFamily": "PETG",
+      "colorName": "Natural",
+      "diameterMM": 1.75,
+      "netWeightGrams": 1000,
+      "pricePerKG": 24,
+      "source": {
+        "name": "PrintQuote illustrative seed",
+        "sourceType": "internal",
+        "notes": "Demonstration profile, not verified manufacturer specifications or current pricing. Edit before quoting real jobs."
+      }
+    },
+    {
+      "id": "45077B81-159B-5599-B8F4-DD226F88E073",
+      "manufacturer": "Demo",
+      "productName": "ASA",
+      "materialFamily": "ASA",
+      "colorName": "Natural",
+      "diameterMM": 1.75,
+      "netWeightGrams": 1000,
+      "pricePerKG": 30,
+      "source": {
+        "name": "PrintQuote illustrative seed",
+        "sourceType": "internal",
+        "notes": "Demonstration profile, not verified manufacturer specifications or current pricing. Edit before quoting real jobs."
+      }
+    }
+  ],
+  "presets": [
+    {
+      "id": "713E6176-8A0E-56C8-8FEA-FEDCFBF5736F",
+      "name": "Friends / Student",
+      "mode": "markup",
+      "rate": 0,
+      "materialMultiplier": 1.25,
+      "machineRate": 0.5,
+      "laborRate": 15,
+      "minimumCharge": 5,
+      "rushMultiplier": 1
+    },
+    {
+      "id": "AA96A7A5-3CDC-5802-8D04-080CF7B691F4",
+      "name": "Hobby Business",
+      "mode": "margin",
+      "rate": 0.4,
+      "materialMultiplier": 1,
+      "machineRate": 1.25,
+      "laborRate": 25,
+      "minimumCharge": 10,
+      "rushMultiplier": 1
+    },
+    {
+      "id": "D22A1B65-4159-54B8-8F85-C44CF818DC90",
+      "name": "Professional Prototype",
+      "mode": "margin",
+      "rate": 0.55,
+      "materialMultiplier": 1,
+      "machineRate": 3.5,
+      "laborRate": 45,
+      "minimumCharge": 25,
+      "rushMultiplier": 1
+    },
+    {
+      "id": "8EF02821-D16D-57E3-99F4-971CF4E10C57",
+      "name": "Engineering",
+      "mode": "margin",
+      "rate": 0.6,
+      "materialMultiplier": 1,
+      "machineRate": 6,
+      "laborRate": 65,
+      "minimumCharge": 0,
+      "rushMultiplier": 1.5
+    }
+  ],
+  "quotes": [],
+  "settings": {
+    "businessName": "My Print Studio",
+    "currency": "USD",
+    "electricityRate": 0.14,
+    "taxRate": 0,
+    "expirationDays": 30
+  }
+}

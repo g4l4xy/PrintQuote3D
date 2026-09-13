@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PrintQuote PricingInput v1",
+  "type": "object",
+  "properties": {
+    "modelGrams": {
+      "type": "number",
+      "minimum": 0
+    },
+    "supportGrams": {
+      "type": "number",
+      "minimum": 0
+    },
+    "interfaceGrams": {
+      "type": "number",
+      "minimum": 0
+    },
+    "purgeGrams": {
+      "type": "number",
+      "minimum": 0
+    },
+    "towerGrams": {
+      "type": "number",
+      "minimum": 0
+    },
+    "startupGrams": {
+      "type": "number",
+      "minimum": 0
+    },
+    "pricePerKG": {
+      "type": "number",
+      "minimum": 0
+    },
+    "supportPricePerKG": {
+      "type": "number",
+      "minimum": 0
+    },
+    "interfacePricePerKG": {
+      "type": "number",
+      "minimum": 0
+    },
+    "printHours": {
+      "type": "number",
+      "minimum": 0
+    },
+    "averageWatts": {
+      "type": "number",
+      "minimum": 0
+    },
+    "electricityRate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "machineRate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "maintenanceRate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "laborMinutes": {
+      "type": "number",
+      "minimum": 0
+    },
+    "laborRate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "dryerWatts": {
+      "type": "number",
+      "minimum": 0
+    },
+    "dryingHours": {
+      "type": "number",
+      "minimum": 0
+    },
+    "dryingSharedJobs": {
+      "type": "number",
+      "minimum": 0
+    },
+    "wearCost": {
+      "type": "number",
+      "minimum": 0
+    },
+    "packaging": {
+      "type": "number",
+      "minimum": 0
+    },
+    "outsideServices": {
+      "type": "number",
+      "minimum": 0
+    },
+    "otherCosts": {
+      "type": "number",
+      "minimum": 0
+    },
+    "failureProbability": {
+      "type": "number",
+      "minimum": 0
+    },
+    "overheadRate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "profitRate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "materialMultiplier": {
+      "type": "number",
+      "minimum": 0
+    },
+    "minimumCharge": {
+      "type": "number",
+      "minimum": 0
+    },
+    "rushMultiplier": {
+      "type": "number",
+      "minimum": 0
+    },
+    "discountRate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "taxRate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "shipping": {
+      "type": "number",
+      "minimum": 0
+    },
+    "pricingMode": {
+      "enum": [
+        "margin",
+        "markup"
+      ]
+    }
+  },
+  "required": [
+    "modelGrams",
+    "supportGrams",
+    "interfaceGrams",
+    "purgeGrams",
+    "towerGrams",
+    "startupGrams",
+    "pricePerKG",
+    "supportPricePerKG",
+    "interfacePricePerKG",
+    "printHours",
+    "averageWatts",
+    "electricityRate",
+    "machineRate",
+    "maintenanceRate",
+    "laborMinutes",
+    "laborRate",
+    "dryerWatts",
+    "dryingHours",
+    "dryingSharedJobs",
+    "wearCost",
+    "packaging",
+    "outsideServices",
+    "otherCosts",
+    "failureProbability",
+    "overheadRate",
+    "profitRate",
+    "materialMultiplier",
+    "minimumCharge",
+    "rushMultiplier",
+    "discountRate",
+    "taxRate",
+    "shipping",
+    "pricingMode"
+  ],
+  "additionalProperties": false
+}
