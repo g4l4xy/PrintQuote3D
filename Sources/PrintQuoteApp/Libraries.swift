@@ -20,6 +20,7 @@ struct PrinterLibrary: View {
                     TextField("Multi-material system",text:$state.library.printers[index].multiMaterialSystem)
                     Text("SimplyPrint: " + state.library.printers[index].simplyPrintCompatibility)
                     Text(state.library.printers[index].source.notes).font(.caption).foregroundStyle(.secondary)
+                    ToolSystemEditor(system: Binding(get: { state.library.printers[index].toolSystem ?? PrinterToolSystem() }, set: { state.library.printers[index].toolSystem = $0 }))
                     Button("Save printer") { state.persist() }.buttonStyle(.borderedProminent)
                 }.formStyle(.grouped)
             } else { ContentUnavailableView("Select a printer",systemImage:"printer",description:Text("Add your equipment and set its operating costs.")) }

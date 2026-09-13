@@ -40,13 +40,21 @@ struct QuoteEditor: View {
                     }
                     SwiftUI.Section("Equipment & material") {
                         Menu(quote.printer?.name ?? "Select printer") {
-                            ForEach(state.library.printers) { p in Button(p.name) { quote.printer = p; quote.input.averageWatts = p.typicalPowerWatts; quote.input.machineRate = p.machineRate; quote.input.maintenanceRate = p.maintenanceRate } }
+                            ForEach(state.library.printers) { p in Button(p.name) { quote.printer = p; if quote.input.toolJob != nil { quote.input.toolJob?.system = p.toolSystem ?? PrinterToolSystem() }; quote.input.averageWatts = p.typicalPowerWatts; quote.input.machineRate = p.machineRate; quote.input.maintenanceRate = p.maintenanceRate } }
                         }
                         Menu(quote.filament?.name ?? "Select filament") {
                             ForEach(state.library.filaments) { f in Button(f.name) { quote.filament = f; quote.input.pricePerKG = f.pricePerKG; quote.input.supportPricePerKG = f.pricePerKG; quote.input.interfacePricePerKG = f.pricePerKG } }
                         }
                         Menu(quote.preset?.name ?? "Apply pricing preset") { ForEach(state.library.presets) { p in Button(p.name) { quote.preset = p; quote.input.pricingMode = p.mode; quote.input.profitRate = p.rate; quote.input.machineRate = p.machineRate; quote.input.laborRate = p.laborRate; quote.input.minimumCharge = p.minimumCharge; quote.input.materialMultiplier = p.materialMultiplier; quote.input.rushMultiplier = p.rushMultiplier } } }
                     }
+                    SwiftUI.Section("Manufacturing mode") {
+                        Toggle("Assign materials to physical tools", isOn: Binding(get: { quote.input.toolJob != nil }, set: { enabled in
+                            if enabled { var job = ToolJob(); job.system = quote.printer?.toolSystem ?? PrinterToolSystem(); var a = ToolMaterialAssignment(); a.grams = quote.input.modelGrams; a.pricePerKG = quote.input.pricePerKG; job.assignments = [a]; quote.input.toolJob = job } else { quote.input.toolJob = nil }
+                        }))
+                    }
+                    if quote.input.toolJob != nil {
+                        ToolAssignmentsEditor(job: Binding(get: {quote.input.toolJob ?? ToolJob()}, set: {quote.input.toolJob = $0}), filaments: state.library.filaments)
+                    } else {
                     SwiftUI.Section("Material consumption") {
                         DecimalField(title:"Model (g)",value:$quote.input.modelGrams)
                         DecimalField(title:"Supports (g)",value:$quote.input.supportGrams)
@@ -57,6 +65,7 @@ struct QuoteEditor: View {
                         DecimalField(title:"Model / waste price per kg",value:$quote.input.pricePerKG)
                         DecimalField(title:"Support price per kg",value:$quote.input.supportPricePerKG)
                         DecimalField(title:"Interface price per kg",value:$quote.input.interfacePricePerKG)
+                    }
                     }
                     SwiftUI.Section("Machine, electricity & labor") {
                         DecimalField(title:"Print time (hours)",value:$quote.input.printHours)
@@ -106,7 +115,11 @@ struct QuoteEditor: View {
                             Divider()
                             Text("Consumed: \(r.totalGrams.formatted()) g")
                             Text("Material efficiency: \((r.materialEfficiency * 100).formatted(.number.precision(.fractionLength(1))))%")
-                            if quote.input.purgeGrams > quote.input.modelGrams { Label("Purge exceeds final-part weight",systemImage:"exclamationmark.triangle").foregroundStyle(.orange) }
+                            if let job = quote.input.toolJob, let toolCost = try? ToolCostEngine.calculate(job, printHours: quote.input.printHours) {
+                                Text("Added change time: \((toolCost.changeHours * 60).formatted(.number.precision(.fractionLength(2)))) min")
+                                ForEach(Array(Set(toolCost.warnings)).sorted(), id: \.self) { Text($0).font(.caption).foregroundStyle(.orange) }
+                            }
+                            if quote.input.toolJob == nil && quote.input.purgeGrams > quote.input.modelGrams { Label("Purge exceeds final-part weight",systemImage:"exclamationmark.triangle").foregroundStyle(.orange) }
                             Text("Manual estimate · verify against slicer output. Print hours should include material changes. Labor should include setup, drying handling and finishing.").font(.caption).foregroundStyle(.secondary)
                         case .failure(let error): Label(error.localizedDescription,systemImage:"exclamationmark.triangle").foregroundStyle(.orange)
                         }

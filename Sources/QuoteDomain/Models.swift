@@ -19,6 +19,8 @@ public struct PrinterProfile: Identifiable, Codable, Sendable, Equatable {
     public var typicalPowerWatts: Decimal = 150
     public var machineRate: Decimal = 1
     public var maintenanceRate: Decimal = Decimal(string: "0.25")!
+    public var toolSystem: PrinterToolSystem? = nil
+    public var externalProfile: ExternalProfileSource? = nil
     public var multiMaterialSystem = "none"
     public var simplyPrintCompatibility = "unknown"
     public var source = SourceReference()
@@ -29,6 +31,7 @@ public struct FilamentProduct: Identifiable, Codable, Sendable, Equatable {
     public var id: UUID = UUID()
     public var manufacturer = "Generic"
     public var productName = "New filament"
+    public var externalProfile: ExternalProfileSource? = nil
     public var materialFamily = "PLA"
     public var colorName = "Natural"
     public var diameterMM: Double = 1.75
@@ -59,6 +62,7 @@ public struct BusinessSettings: Codable, Sendable {
     public init() {}
 }
 public struct PricingInput: Codable, Sendable, Equatable {
+    public var toolJob: ToolJob? = nil
     public var modelGrams: Decimal = 200
     public var supportGrams: Decimal = 50
     public var interfaceGrams: Decimal = 0

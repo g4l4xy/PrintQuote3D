@@ -19,6 +19,7 @@ import QuoteData
     @discardableResult func persist() -> Bool {
         do {
             guard let repository, ready else { throw PricingError.invalid("Storage is unavailable. Restart after resolving the storage error.") }
+            for printer in library.printers { try printer.toolSystem?.validate() }
             try repository.save(library); return true
         } catch { self.error = error.localizedDescription; return false }
     }
