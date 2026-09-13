@@ -1,0 +1,81 @@
+name: PrintQuote3D
+options:
+  minimumXcodeGenVersion: 2.46.0
+  deploymentTarget:
+    iOS: "17.0"
+    macOS: "14.0"
+packages:
+  PrintQuoteCore:
+    path: .
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "0.3.0"
+    CURRENT_PROJECT_VERSION: "3"
+    CODE_SIGN_STYLE: Automatic
+    GENERATE_INFOPLIST_FILE: YES
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+targets:
+  PrintQuote3D:
+    type: application
+    supportedDestinations: [iOS, macOS]
+    sources:
+      - Sources/PrintQuoteApp
+      - path: LICENSE
+        buildPhase: resources
+      - path: ATTRIBUTION.md
+        buildPhase: resources
+      - path: ThirdParty
+        type: folder
+        buildPhase: resources
+    dependencies:
+      - package: PrintQuoteCore
+        product: QuoteDomain
+      - package: PrintQuoteCore
+        product: QuoteData
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.printquote.desktop
+        PRODUCT_NAME: PrintQuote3D
+        INFOPLIST_KEY_CFBundleDisplayName: PrintQuote 3D
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.business
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTS_MACCATALYST: NO
+        ENABLE_APP_SANDBOX: NO
+  QuoteTests:
+    type: bundle.unit-test
+    supportedDestinations: [iOS, macOS]
+    sources:
+      - path: Tests/QuoteTests
+        excludes: [Fixtures]
+      - path: Tests/QuoteTests/Fixtures
+        type: folder
+        buildPhase: resources
+    dependencies:
+      - package: PrintQuoteCore
+        product: QuoteDomain
+      - package: PrintQuoteCore
+        product: QuoteData
+      - package: PrintQuoteCore
+        product: OrcaProfiles
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.printquote.tests
+        TEST_HOST: ""
+schemes:
+  PrintQuote3D:
+    build:
+      targets:
+        PrintQuote3D: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - QuoteTests

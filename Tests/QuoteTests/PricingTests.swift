@@ -61,7 +61,7 @@ final class PortableFixtureTests: XCTestCase {
         let cases: [Case]
     }
     func testPortableFixtures() throws {
-        let url = try XCTUnwrap(Bundle.module.url(forResource:"calculation_fixtures",withExtension:"json",subdirectory:"Fixtures"))
+        let url = try XCTUnwrap(TestResources.bundle.url(forResource:"calculation_fixtures",withExtension:"json",subdirectory:"Fixtures"))
         let fixtures = try JSONDecoder().decode(Fixtures.self,from:Data(contentsOf:url))
         XCTAssertEqual(fixtures.schemaVersion,1)
         for fixture in fixtures.cases {

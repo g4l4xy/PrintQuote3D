@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 2,
+  "profiles": [
+    {
+      "id": "5c1dd6b8-63c6-5c67-9927-0d307a310a04",
+      "kind": "machine",
+      "vendor": "Prusa",
+      "name": "Prusa XL 2-tool",
+      "model": "Prusa XL 2-tool",
+      "buildXMM": 360,
+      "buildYMM": 360,
+      "buildZMM": 360,
+      "nozzleDiametersMM": [
+        0.4
+      ],
+      "physicalToolheadCount": 2,
+      "technicalValues": {
+        "physical_tool_architecture": [
+          "toolChanger"
+        ]
+      },
+      "fieldSourcePaths": {
+        "buildXMM": "https://www.prusa3d.com/en/product/original-prusa-xl-2-toolhead-3d-printer-5/",
+        "buildYMM": "https://www.prusa3d.com/en/product/original-prusa-xl-2-toolhead-3d-printer-5/",
+        "buildZMM": "https://www.prusa3d.com/en/product/original-prusa-xl-2-toolhead-3d-printer-5/",
+        "physicalToolheadCount": "https://www.prusa3d.com/en/product/original-prusa-xl-2-toolhead-3d-printer-5/",
+        "physical_tool_architecture": "https://www.prusa3d.com/en/product/original-prusa-xl-2-toolhead-3d-printer-5/"
+      },
+      "source": {
+        "sourceName": "Prusa manufacturer specifications",
+        "repositoryURL": "https://www.prusa3d.com/en/product/original-prusa-xl-2-toolhead-3d-printer-5/",
+        "sourcePath": "https://www.prusa3d.com/en/product/original-prusa-xl-2-toolhead-3d-printer-5/",
+        "inheritedPaths": [],
+        "commitSHA": "",
+        "importedAt": 811034265.614856,
+        "needsReview": true,
+        "userOverride": false
+      },
+      "reviewReasons": [
+        "Manufacturer build geometry and physical tool configuration. Review installed nozzle, material capability, average power and shop costs before quoting."
+      ]
+    },
+    {
+      "id": "396cb738-f789-5e93-bc6d-369725fa14dd",
+      "kind": "machine",
+      "vendor": "Raise3D",
+      "name": "Raise3D Pro3 HS",
+      "model": "Raise3D Pro3 HS",
+      "buildXMM": 300,
+      "buildYMM": 300,
+      "buildZMM": 300,
+      "nozzleDiametersMM": [
+        0.4
+      ],
+      "physicalToolheadCount": 2,
+      "technicalValues": {
+        "physical_tool_architecture": [
+          "dualExtruder"
+        ],
+        "dual_build_volume_mm": [
+          "255",
+          "300",
+          "300"
+        ]
+      },
+      "fieldSourcePaths": {
+        "buildXMM": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "buildYMM": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "buildZMM": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "physicalToolheadCount": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "physical_tool_architecture": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "dual_build_volume_mm": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html"
+      },
+      "source": {
+        "sourceName": "Raise3D manufacturer specifications",
+        "repositoryURL": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "sourcePath": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "inheritedPaths": [],
+        "commitSHA": "",
+        "importedAt": 811034265.614984,
+        "needsReview": true,
+        "userOverride": false
+      },
+      "reviewReasons": [
+        "Manufacturer build geometry and physical tool configuration. Review installed nozzle, material capability, average power and shop costs before quoting."
+      ]
+    },
+    {
+      "id": "a17e75ab-a353-5cbe-9240-c48072f802ae",
+      "kind": "machine",
+      "vendor": "Raise3D",
+      "name": "Raise3D Pro3 Plus HS",
+      "model": "Raise3D Pro3 Plus HS",
+      "buildXMM": 300,
+      "buildYMM": 300,
+      "buildZMM": 605,
+      "nozzleDiametersMM": [
+        0.4
+      ],
+      "physicalToolheadCount": 2,
+      "technicalValues": {
+        "physical_tool_architecture": [
+          "dualExtruder"
+        ],
+        "dual_build_volume_mm": [
+          "255",
+          "300",
+          "605"
+        ]
+      },
+      "fieldSourcePaths": {
+        "buildXMM": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "buildYMM": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "buildZMM": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "physicalToolheadCount": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "physical_tool_architecture": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "dual_build_volume_mm": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html"
+      },
+      "source": {
+        "sourceName": "Raise3D manufacturer specifications",
+        "repositoryURL": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "sourcePath": "https://support.raise3d.com/Pro3-HS-Series/raise3d-pro3-hs-series-3d-printer-user-manual-35-1701.html",
+        "inheritedPaths": [],
+        "commitSHA": "",
+        "importedAt": 811034265.615001,
+        "needsReview": true,
+        "userOverride": false
+      },
+      "reviewReasons": [
+        "Manufacturer build geometry and physical tool configuration. Review installed nozzle, material capability, average power and shop costs before quoting."
+      ]
+    }
+  ],
+  "diagnostics": []
+}

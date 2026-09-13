@@ -10,11 +10,19 @@
     {
       "name": "OrcaSlicer",
       "path": "orca_profiles_v2.json",
-      "license": "AGPL-3.0"
+      "license": "AGPL-3.0",
+      "sha256": "77fce5e2213f7834f62021b779eef851e1d09de5ba2ea3687b17461caa068ec2"
     },
     {
       "name": "Source directory",
-      "path": "filament_sources_v2.json"
+      "path": "filament_sources_v2.json",
+      "sha256": "5ddaeb509bfe3ae1b1e625c2e496a2529003eed162762bfbd38c58fe1339039b"
+    },
+    {
+      "name": "Manufacturer printer supplement",
+      "path": "manufacturer_printers_v2.json",
+      "sha256": "b864e12d1422b162b12ee16957f7f5f3e11ae2cd8f57655dd46b4b5ee84ec12b",
+      "license": "Factual specifications with source URLs; no copied creative content"
     }
   ]
 }

@@ -1,0 +1,562 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		079FEB986518EC24CFA76ED6 /* Libraries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5648EB725B57EF1125CDF541 /* Libraries.swift */; };
+		0A4F477B923B507BF4AD327E /* QuoteEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7612989D29ADF1BE6B4AA8 /* QuoteEditor.swift */; };
+		0C7A5F6F2DC6DF01D382CEDC /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D332188C13C0F99BC5E72 /* App.swift */; };
+		134C16D856180A573F3AC03D /* PricingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0FA9043E14D81720549B1C /* PricingTests.swift */; };
+		1A2FB233B5A45C0FEDB56479 /* QuoteData in Frameworks */ = {isa = PBXBuildFile; productRef = 2790C608CC7B26DCBB68CB23 /* QuoteData */; };
+		6F97B29798CA6DDBA2A92513 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EEEC30C6FC304E7B1DC81D /* AppState.swift */; };
+		7A3802E81C5ED6AC7E4E2C01 /* QuoteData in Frameworks */ = {isa = PBXBuildFile; productRef = 11BE2BDB310F7189D8A14147 /* QuoteData */; };
+		7CFAF9005B85E6E0589D741E /* ToolSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FD220986AF73617AF58B4 /* ToolSystemTests.swift */; };
+		7D6DB5C3F98054B02FCD3251 /* ThirdParty in Resources */ = {isa = PBXBuildFile; fileRef = 60B0AF4897FE1351DB5D9629 /* ThirdParty */; };
+		91CDB2389427D3ACEA6CC310 /* TestResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B6558E2120607844D14BB3 /* TestResources.swift */; };
+		9666B315ED9FBF71178F286D /* ImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ED3134650FE59CBB86084C /* ImportTests.swift */; };
+		A39264BB6CC5E34C043CAF9D /* AdaptiveViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864906FD28B0C9A90AD153D /* AdaptiveViews.swift */; };
+		A94DA581A9B7461D58166D15 /* QuoteDomain in Frameworks */ = {isa = PBXBuildFile; productRef = C5F3E898A93929DDDDCB6ADB /* QuoteDomain */; };
+		AF98FFA630687C90711CA9CA /* OrcaProfiles in Frameworks */ = {isa = PBXBuildFile; productRef = 427D9F0AE840B8C0716C18F3 /* OrcaProfiles */; };
+		B7B14F24E9870C94759F1A4E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3F54CA356204E0D10223A7D2 /* LICENSE */; };
+		D54F1EC853B60E321A39D80B /* Fixtures in Resources */ = {isa = PBXBuildFile; fileRef = 7B205F91FD8201EEDA5F0253 /* Fixtures */; };
+		D62B2514CA66A8F0CFF3CC8E /* ToolViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178D2F3BE8A06A780575817 /* ToolViews.swift */; };
+		DB9588F9A1162DC89916ABF1 /* QuoteDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 797E2998309496A385ABE4DB /* QuoteDomain */; };
+		DC120C85515BF0609CC69B9A /* CatalogViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97D42CD3A2C31165B156A28 /* CatalogViews.swift */; };
+		DF2CB5240ABF332485397DCA /* PrinterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7B06F8063DEF23229FCCDF /* PrinterPicker.swift */; };
+		FC1FC07B805C32194C28BDB2 /* ATTRIBUTION.md in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7553D0AC61F74068599BF /* ATTRIBUTION.md */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		08EEEC30C6FC304E7B1DC81D /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		0AF7553D0AC61F74068599BF /* ATTRIBUTION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ATTRIBUTION.md; sourceTree = "<group>"; };
+		0D7B06F8063DEF23229FCCDF /* PrinterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterPicker.swift; sourceTree = "<group>"; };
+		18E5DF63534BB05908812454 /* QuoteTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		27ED3134650FE59CBB86084C /* ImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTests.swift; sourceTree = "<group>"; };
+		3F54CA356204E0D10223A7D2 /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		5178D2F3BE8A06A780575817 /* ToolViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolViews.swift; sourceTree = "<group>"; };
+		5648EB725B57EF1125CDF541 /* Libraries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Libraries.swift; sourceTree = "<group>"; };
+		60B0AF4897FE1351DB5D9629 /* ThirdParty */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ThirdParty; sourceTree = SOURCE_ROOT; };
+		760D332188C13C0F99BC5E72 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		7A7612989D29ADF1BE6B4AA8 /* QuoteEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteEditor.swift; sourceTree = "<group>"; };
+		7B205F91FD8201EEDA5F0253 /* Fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fixtures; path = Tests/QuoteTests/Fixtures; sourceTree = SOURCE_ROOT; };
+		825FD220986AF73617AF58B4 /* ToolSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolSystemTests.swift; sourceTree = "<group>"; };
+		B864906FD28B0C9A90AD153D /* AdaptiveViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveViews.swift; sourceTree = "<group>"; };
+		C97D42CD3A2C31165B156A28 /* CatalogViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViews.swift; sourceTree = "<group>"; };
+		CA0FA9043E14D81720549B1C /* PricingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricingTests.swift; sourceTree = "<group>"; };
+		E1B6558E2120607844D14BB3 /* TestResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestResources.swift; sourceTree = "<group>"; };
+		ED76E920C65ABD7085897ED4 /* PrintQuote3D */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PrintQuote3D; path = .; sourceTree = SOURCE_ROOT; };
+		F8B4E6DE1AD63BCEADD9C3FB /* PrintQuote3D.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PrintQuote3D.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0BEC25306BC0BF3F7BC2B517 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A94DA581A9B7461D58166D15 /* QuoteDomain in Frameworks */,
+				7A3802E81C5ED6AC7E4E2C01 /* QuoteData in Frameworks */,
+				AF98FFA630687C90711CA9CA /* OrcaProfiles in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1270C921BCBF66415DB484EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB9588F9A1162DC89916ABF1 /* QuoteDomain in Frameworks */,
+				1A2FB233B5A45C0FEDB56479 /* QuoteData in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		210BEF9E39FECCBBAA552226 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F8B4E6DE1AD63BCEADD9C3FB /* PrintQuote3D.app */,
+				18E5DF63534BB05908812454 /* QuoteTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		45768B19A47E7455D8D22FD2 = {
+			isa = PBXGroup;
+			children = (
+				0AF7553D0AC61F74068599BF /* ATTRIBUTION.md */,
+				7B205F91FD8201EEDA5F0253 /* Fixtures */,
+				3F54CA356204E0D10223A7D2 /* LICENSE */,
+				60B0AF4897FE1351DB5D9629 /* ThirdParty */,
+				C0A3C00CB7C83A3BBCCF7A6D /* Packages */,
+				A43D179730F9529287B4B4C6 /* PrintQuoteApp */,
+				6010E9F603AB7BF1E78553F8 /* QuoteTests */,
+				210BEF9E39FECCBBAA552226 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6010E9F603AB7BF1E78553F8 /* QuoteTests */ = {
+			isa = PBXGroup;
+			children = (
+				27ED3134650FE59CBB86084C /* ImportTests.swift */,
+				CA0FA9043E14D81720549B1C /* PricingTests.swift */,
+				E1B6558E2120607844D14BB3 /* TestResources.swift */,
+				825FD220986AF73617AF58B4 /* ToolSystemTests.swift */,
+			);
+			name = QuoteTests;
+			path = Tests/QuoteTests;
+			sourceTree = "<group>";
+		};
+		A43D179730F9529287B4B4C6 /* PrintQuoteApp */ = {
+			isa = PBXGroup;
+			children = (
+				B864906FD28B0C9A90AD153D /* AdaptiveViews.swift */,
+				760D332188C13C0F99BC5E72 /* App.swift */,
+				08EEEC30C6FC304E7B1DC81D /* AppState.swift */,
+				C97D42CD3A2C31165B156A28 /* CatalogViews.swift */,
+				5648EB725B57EF1125CDF541 /* Libraries.swift */,
+				0D7B06F8063DEF23229FCCDF /* PrinterPicker.swift */,
+				7A7612989D29ADF1BE6B4AA8 /* QuoteEditor.swift */,
+				5178D2F3BE8A06A780575817 /* ToolViews.swift */,
+			);
+			name = PrintQuoteApp;
+			path = Sources/PrintQuoteApp;
+			sourceTree = "<group>";
+		};
+		C0A3C00CB7C83A3BBCCF7A6D /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				ED76E920C65ABD7085897ED4 /* PrintQuote3D */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		03B2807C41862AF9B15DF5CF /* QuoteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 97BF6A70A92D4CBF62934924 /* Build configuration list for PBXNativeTarget "QuoteTests" */;
+			buildPhases = (
+				B7A3B05518D0F7D2B5DDA3E2 /* Sources */,
+				571564996247064616AB8DBF /* Resources */,
+				0BEC25306BC0BF3F7BC2B517 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QuoteTests;
+			packageProductDependencies = (
+				C5F3E898A93929DDDDCB6ADB /* QuoteDomain */,
+				11BE2BDB310F7189D8A14147 /* QuoteData */,
+				427D9F0AE840B8C0716C18F3 /* OrcaProfiles */,
+			);
+			productName = QuoteTests;
+			productReference = 18E5DF63534BB05908812454 /* QuoteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0E3CC4D80ABC0928F1C59863 /* PrintQuote3D */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC37663484B6FE6ADA52FFA5 /* Build configuration list for PBXNativeTarget "PrintQuote3D" */;
+			buildPhases = (
+				C0628C3F08D98B531DAE96D8 /* Sources */,
+				F7030F389006CD67A5FF8888 /* Resources */,
+				1270C921BCBF66415DB484EB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PrintQuote3D;
+			packageProductDependencies = (
+				797E2998309496A385ABE4DB /* QuoteDomain */,
+				2790C608CC7B26DCBB68CB23 /* QuoteData */,
+			);
+			productName = PrintQuote3D;
+			productReference = F8B4E6DE1AD63BCEADD9C3FB /* PrintQuote3D.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DA69A114FBB01440AD1D76CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					03B2807C41862AF9B15DF5CF = {
+						ProvisioningStyle = Automatic;
+					};
+					0E3CC4D80ABC0928F1C59863 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 842E29012FF4D8C3CEF6EEF8 /* Build configuration list for PBXProject "PrintQuote3D" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 45768B19A47E7455D8D22FD2;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BC4DEDA9981D94959CBFCB57 /* XCLocalSwiftPackageReference "." */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 210BEF9E39FECCBBAA552226 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E3CC4D80ABC0928F1C59863 /* PrintQuote3D */,
+				03B2807C41862AF9B15DF5CF /* QuoteTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		571564996247064616AB8DBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D54F1EC853B60E321A39D80B /* Fixtures in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7030F389006CD67A5FF8888 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC1FC07B805C32194C28BDB2 /* ATTRIBUTION.md in Resources */,
+				B7B14F24E9870C94759F1A4E /* LICENSE in Resources */,
+				7D6DB5C3F98054B02FCD3251 /* ThirdParty in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B7A3B05518D0F7D2B5DDA3E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9666B315ED9FBF71178F286D /* ImportTests.swift in Sources */,
+				134C16D856180A573F3AC03D /* PricingTests.swift in Sources */,
+				91CDB2389427D3ACEA6CC310 /* TestResources.swift in Sources */,
+				7CFAF9005B85E6E0589D741E /* ToolSystemTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0628C3F08D98B531DAE96D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A39264BB6CC5E34C043CAF9D /* AdaptiveViews.swift in Sources */,
+				0C7A5F6F2DC6DF01D382CEDC /* App.swift in Sources */,
+				6F97B29798CA6DDBA2A92513 /* AppState.swift in Sources */,
+				DC120C85515BF0609CC69B9A /* CatalogViews.swift in Sources */,
+				079FEB986518EC24CFA76ED6 /* Libraries.swift in Sources */,
+				DF2CB5240ABF332485397DCA /* PrinterPicker.swift in Sources */,
+				0A4F477B923B507BF4AD327E /* QuoteEditor.swift in Sources */,
+				D62B2514CA66A8F0CFF3CC8E /* ToolViews.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1ED5377A332D6CD33F3C927B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_APP_SANDBOX = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = "PrintQuote 3D";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = local.printquote.desktop;
+				PRODUCT_NAME = PrintQuote3D;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		465727D4262EF17CDC9F5E22 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = local.printquote.tests;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
+			};
+			name = Debug;
+		};
+		85112E020C41FB68EE86D52E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 3;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.3.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		88B45FC885BB76301F49D7A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 3;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.3.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		AED22F451F002D60705BE257 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = local.printquote.tests;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
+			};
+			name = Release;
+		};
+		EBB1CF6B4BB0F687D8230D3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_APP_SANDBOX = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = "PrintQuote 3D";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = local.printquote.desktop;
+				PRODUCT_NAME = PrintQuote3D;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		842E29012FF4D8C3CEF6EEF8 /* Build configuration list for PBXProject "PrintQuote3D" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85112E020C41FB68EE86D52E /* Debug */,
+				88B45FC885BB76301F49D7A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		97BF6A70A92D4CBF62934924 /* Build configuration list for PBXNativeTarget "QuoteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				465727D4262EF17CDC9F5E22 /* Debug */,
+				AED22F451F002D60705BE257 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EC37663484B6FE6ADA52FFA5 /* Build configuration list for PBXNativeTarget "PrintQuote3D" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1ED5377A332D6CD33F3C927B /* Debug */,
+				EBB1CF6B4BB0F687D8230D3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		BC4DEDA9981D94959CBFCB57 /* XCLocalSwiftPackageReference "." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = .;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		11BE2BDB310F7189D8A14147 /* QuoteData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = QuoteData;
+		};
+		2790C608CC7B26DCBB68CB23 /* QuoteData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = QuoteData;
+		};
+		427D9F0AE840B8C0716C18F3 /* OrcaProfiles */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OrcaProfiles;
+		};
+		797E2998309496A385ABE4DB /* QuoteDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = QuoteDomain;
+		};
+		C5F3E898A93929DDDDCB6ADB /* QuoteDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = QuoteDomain;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = DA69A114FBB01440AD1D76CD /* Project object */;
+}

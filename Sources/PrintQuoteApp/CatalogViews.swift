@@ -9,18 +9,23 @@ struct MaterialCatalogView: View {
         (state.filamentCatalog?.products ?? []).filter { query.isEmpty || ($0.brand + " " + $0.name + " " + $0.materialFamily).localizedCaseInsensitiveContains(query) }
     }
     var body: some View {
-        GeometryReader { geometry in
-            HStack(spacing:0) {
-                VStack {
-                    TextField("Search brand, material or product",text:$query).textFieldStyle(.roundedBorder).padding()
-                    Text("\(products.count) products · offline catalog").font(.caption).foregroundStyle(.secondary)
-                    List(products,selection:$selection) { p in VStack(alignment:.leading) { Text(p.name).font(.headline); Text(p.brand + " · " + p.materialFamily + " · \(p.variants.count) colors").font(.caption).foregroundStyle(.secondary) }.tag(p.id) }
-                }.frame(width:geometry.size.width * 0.4)
-                Divider()
-                if let p = state.filamentCatalog?.products.first(where:{$0.id == selection}) {
-                    CatalogFilamentDetail(state:state,product:p).id(p.id).frame(maxWidth:.infinity)
-                } else { ContentUnavailableView("Filament database",systemImage:"circle.hexagongrid",description:Text("Select a product to inspect colors, spool sizes, technical data and source provenance.")) }
+        AdaptiveLibrary(selection: $selection, backTitle: "All materials") {
+            VStack {
+                TextField("Search brand, material or product",text:$query).textFieldStyle(.roundedBorder).padding()
+                Text("\(products.count) products · offline catalog").font(.caption).foregroundStyle(.secondary)
+                List(products) { p in
+                    Button { selection = p.id } label: {
+                        VStack(alignment:.leading) {
+                            Text(p.name).font(.headline)
+                            Text(p.brand + " · " + p.materialFamily + " · \(p.variants.count) colors").font(.caption).foregroundStyle(.secondary)
+                        }.frame(maxWidth:.infinity,alignment:.leading).contentShape(Rectangle())
+                    }.buttonStyle(.plain)
+                }
             }
+        } detail: {
+            if let p = state.filamentCatalog?.products.first(where:{$0.id == selection}) {
+                CatalogFilamentDetail(state:state,product:p).id(p.id)
+            } else { ContentUnavailableView("Filament database",systemImage:"circle.hexagongrid",description:Text("Select a product to inspect colors, spool sizes, technical data and source provenance.")) }
         }.navigationTitle("Material Database")
     }
 }
@@ -92,12 +97,14 @@ struct OrcaCatalogView: View {
     @Bindable var state: AppState
     @Environment(\.dismiss) private var dismiss
     @State private var pricePerKG: Decimal = 0
+    @State private var query = ""
     var body: some View {
         VStack {
             HStack { Text("OrcaSlicer technical profiles").font(.title2.bold()); Spacer(); Button("Close") {dismiss()} }.padding()
+            TextField("Search technical profiles", text: $query).textFieldStyle(.roundedBorder).padding(.horizontal)
             Form {
                 DecimalField(title:"Price per kg for filament imports (user entered)",value:$pricePerKG)
-                ForEach(state.technicalCatalog?.profiles ?? []) { p in
+                ForEach((state.technicalCatalog?.profiles ?? []).filter { query.isEmpty || $0.name.localizedCaseInsensitiveContains(query) }) { p in
                     SwiftUI.Section(p.name) {
                         Text(p.kind + " · " + p.vendor)
                         if p.kind == "machine" { Text("Build: \(p.buildXMM?.formatted() ?? "?") × \(p.buildYMM?.formatted() ?? "?") × \(p.buildZMM?.formatted() ?? "?") mm") }
@@ -111,22 +118,12 @@ struct OrcaCatalogView: View {
                     }
                 }
             }.formStyle(.grouped)
-        }.frame(width:800,height:680)
+        }.desktopSheet(width:800,height:680)
     }
     func add(_ p:NormalizedTechnicalProfile) {
         var source=SourceReference(); source.name="OrcaSlicer"; source.url=p.source.repositoryURL + "/blob/" + p.source.commitSHA + "/" + p.source.sourcePath; source.sourceType="slicerProfile"; source.retrievedAt=p.source.importedAt; source.notes=p.reviewReasons.joined(separator:"\n")
         if p.kind == "machine" {
-            var printer=PrinterProfile(); printer.id=p.id; printer.manufacturer=p.vendor; printer.model=p.name; printer.buildVolumeXMM=p.buildXMM ?? 0; printer.buildVolumeYMM=p.buildYMM ?? 0; printer.buildVolumeZMM=p.buildZMM ?? 0
-            printer.typicalPowerWatts=0; printer.machineRate=0; printer.maintenanceRate=0; printer.source=source; printer.externalProfile=p.source
-            var system=PrinterToolSystem(); system.architecture = .custom; system.resize(to:p.physicalToolheadCount ?? 1)
-            if let nozzle=p.nozzleDiametersMM.first { system.toolheads[0].nozzleDiameterMM=Decimal(nozzle) }
-            printer.toolSystem=system
-            var hardware=PrinterHardwareDetails()
-            for (key,values) in p.technicalValues { hardware.fieldSources[key]=TechnicalField(value:values.joined(separator:", "),sourcePath:p.fieldSourcePaths[key] ?? p.source.sourcePath,sourcePriority:3,userOverride:false) }
-            for (key,value,upstreamKey) in [("buildXMM",p.buildXMM,"printable_area"),("buildYMM",p.buildYMM,"printable_area"),("buildZMM",p.buildZMM,"printable_height")] {
-                if let value { hardware.fieldSources[key]=TechnicalField(value:String(value),sourcePath:p.fieldSourcePaths[upstreamKey] ?? p.source.sourcePath,sourcePriority:3,userOverride:false) }
-            }
-            printer.hardware=hardware; state.library.printers.append(printer)
+            state.library.printers.append(p.makePrinterProfile())
         } else {
             var f=FilamentProduct(); f.id=p.id; f.manufacturer=p.vendor; f.productName=p.name; f.materialFamily=p.materialFamily ?? "Unknown"; f.pricePerKG=pricePerKG; f.source=source; f.externalProfile=p.source; state.library.filaments.append(f)
         }

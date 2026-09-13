@@ -6,6 +6,8 @@ struct QuoteEditor: View {
     @Environment(\.dismiss) private var dismiss
     @State private var quote: Quote
     @State private var saved = false
+    @State private var compactTab = 0
+    @State private var showingPrinterPicker = false
     private let existing: Bool
     init(state: AppState, initial: Quote?) {
         self.state = state; existing = initial != nil
@@ -24,12 +26,44 @@ struct QuoteEditor: View {
     var result: Result<PricingResult, Error> { Result { try PricingEngine.calculate(quote.input) } }
     var body: some View {
         VStack(spacing:0) {
-            HStack { VStack(alignment:.leading) { Text(existing ? "Edit quote" : "New estimate").font(.title.bold()); Text(quote.number).foregroundStyle(.secondary) }; Spacer(); if saved { Text("Saved locally").font(.caption).foregroundStyle(.secondary) }; if existing { Button("Close") { dismiss() } }; Button("Save quote") { save() }.buttonStyle(.borderedProminent).disabled((try? result.get()) == nil) }.padding(24)
-            // Use the available detail width, not the combined intrinsic widths of
-            // the grouped form and cost breakdown (which can expand the window).
+            VStack(alignment: .leading, spacing: 8) {
+                Text(existing ? "Edit quote" : "New estimate").font(.title2.bold())
+                HStack {
+                    Text(quote.number).font(.caption).foregroundStyle(.secondary)
+                    Spacer()
+                    if saved { Text("Saved").font(.caption).foregroundStyle(.secondary) }
+                    if existing { Button("Close") { dismiss() } }
+                    Button("Save quote") { save() }.buttonStyle(.borderedProminent).disabled((try? result.get()) == nil)
+                }
+            }.padding(16)
             GeometryReader { geometry in
-                let formWidth = (geometry.size.width - 1) * 0.58
-                HStack(spacing: 0) {
+                if geometry.size.width >= 760 {
+                    HStack(spacing: 0) {
+                        inputForm.frame(width: (geometry.size.width - 1) * 0.58)
+                        Divider()
+                        costBreakdown.frame(maxWidth: .infinity)
+                    }
+                } else {
+                    VStack(spacing: 0) {
+                        Picker("Estimate view", selection: $compactTab) {
+                            Text("Details").tag(0)
+                            Text("Price breakdown").tag(1)
+                        }.pickerStyle(.segmented).padding(.horizontal).padding(.bottom, 8)
+                        if compactTab == 0 { inputForm } else { costBreakdown }
+                    }
+                }
+            }
+        }.onChange(of:quote.input) { _,_ in saved = false }
+        .onChange(of:quote.projectName) { _,_ in saved = false }
+        .onChange(of:quote.customer) { _,_ in saved = false }
+        .onChange(of:quote.status) { _,_ in saved = false }
+        .onChange(of:quote.notes) { _,_ in saved = false }
+        .onChange(of:quote.expiresAt) { _,_ in saved = false }
+        .onChange(of:quote.printer) { _,_ in saved = false }
+        .onChange(of:quote.filament) { _,_ in saved = false }
+        .onChange(of:quote.preset) { _,_ in saved = false }
+    }
+    private var inputForm: some View {
                 Form {
                     SwiftUI.Section("Project") {
                         TextField("Project name",text:$quote.projectName)
@@ -39,8 +73,18 @@ struct QuoteEditor: View {
                         TextField("Notes",text:$quote.notes,axis:.vertical)
                     }
                     SwiftUI.Section("Equipment & material") {
-                        Menu(quote.printer?.name ?? "Select printer") {
-                            ForEach(state.library.printers) { p in Button(p.name) { quote.printer = p; if quote.input.toolJob != nil { quote.input.toolJob?.system = p.toolSystem ?? PrinterToolSystem() }; quote.input.averageWatts = p.typicalPowerWatts; quote.input.machineRate = p.machineRate; quote.input.maintenanceRate = p.maintenanceRate } }
+                        Button(quote.printer?.name ?? "Select printer") { showingPrinterPicker = true }
+                            .sheet(isPresented: $showingPrinterPicker) {
+                                PrinterPicker(printers: state.library.printers) { p in
+                                    quote.printer = p
+                                    if quote.input.toolJob != nil { quote.input.toolJob?.system = p.toolSystem ?? PrinterToolSystem() }
+                                    quote.input.averageWatts = p.typicalPowerWatts
+                                    quote.input.machineRate = p.machineRate
+                                    quote.input.maintenanceRate = p.maintenanceRate
+                                }
+                            }
+                        if quote.printer?.externalProfile?.userOverride == false {
+                            Text("Imported technical profile: enter average power, machine and maintenance rates below. Tool setup needs review.").font(.caption).foregroundStyle(.orange)
                         }
                         Menu(quote.filament?.name ?? "Select filament") {
                             ForEach(state.library.filaments) { f in Button(f.name) { quote.filament = f; quote.input.pricePerKG = f.pricePerKG; quote.input.supportPricePerKG = f.pricePerKG; quote.input.interfacePricePerKG = f.pricePerKG } }
@@ -97,8 +141,9 @@ struct QuoteEditor: View {
                         DecimalField(title:"Tax rate",value:$quote.input.taxRate)
                         DecimalField(title:"Shipping",value:$quote.input.shipping)
                     }
-                }.formStyle(.grouped).frame(width: formWidth)
-                Divider()
+                }.formStyle(.grouped)
+    }
+    private var costBreakdown: some View {
                 ScrollView {
                     VStack(alignment:.leading,spacing:16) {
                         Text("COST BREAKDOWN").font(.headline).foregroundStyle(.secondary)
@@ -124,19 +169,7 @@ struct QuoteEditor: View {
                         case .failure(let error): Label(error.localizedDescription,systemImage:"exclamationmark.triangle").foregroundStyle(.orange)
                         }
                     }.padding(24)
-                }.frame(width: max(0, geometry.size.width - formWidth - 1))
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height)
-            }
-        }.onChange(of:quote.input) { _,_ in saved = false }
-        .onChange(of:quote.projectName) { _,_ in saved = false }
-        .onChange(of:quote.customer) { _,_ in saved = false }
-        .onChange(of:quote.status) { _,_ in saved = false }
-        .onChange(of:quote.notes) { _,_ in saved = false }
-        .onChange(of:quote.expiresAt) { _,_ in saved = false }
-        .onChange(of:quote.printer) { _,_ in saved = false }
-        .onChange(of:quote.filament) { _,_ in saved = false }
-        .onChange(of:quote.preset) { _,_ in saved = false }
     }
     func enableToolAssignments() {
         var job = ToolJob(); job.system = quote.printer?.toolSystem ?? PrinterToolSystem()

@@ -12,7 +12,7 @@ import QuoteData
     private var repository: (any LibraryRepository)?
     init() {
         do {
-            let repo = try SwiftDataLibraryRepository()
+            let repo = try SwiftDataLibraryRepository(inMemory: ProcessInfo.processInfo.arguments.contains("--ui-testing"))
             repository = repo
             library = try repo.load() ?? SeedLoader.load()
             for index in library.printers.indices where library.printers[index].toolSystem == nil {
@@ -20,8 +20,11 @@ import QuoteData
                 library.printers[index].toolSystem = system
             }
             library.schemaVersion = 2
-            try repo.save(library)
             technicalCatalog = try SeedLoader.resource("orca_profiles_v2", as: TechnicalProfileCatalog.self)
+            if let technicalCatalog { library.includePrinters(from: technicalCatalog) }
+            let manufacturerCatalog = try SeedLoader.resource("manufacturer_printers_v2", as: TechnicalProfileCatalog.self)
+            library.includePrinters(from: manufacturerCatalog)
+            try repo.save(library)
             filamentCatalog = try SeedLoader.resource("open_filaments_v2", as: OpenFilamentCatalog.self)
             sourceCatalog = try SeedLoader.resource("filament_sources_v2", as: FilamentSourceCatalog.self)
             ready = true

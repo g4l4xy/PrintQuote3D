@@ -5,11 +5,24 @@ struct PrinterLibrary: View {
     @Bindable var state: AppState
     @State private var selection: UUID?
     @State private var showingCatalog = false
+    @State private var search = ""
+    private var filteredPrinters: [PrinterProfile] {
+        state.library.printers.filter { search.isEmpty || $0.name.localizedCaseInsensitiveContains(search) }
+            .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
     var body: some View {
-        HSplitView {
-            List(state.library.printers,selection:$selection) { p in VStack(alignment:.leading) { Text(p.name).font(.headline); Text(p.multiMaterialSystem).font(.caption).foregroundStyle(.secondary) }.padding(5).tag(p.id) }.frame(minWidth:220,idealWidth:280,maxWidth:340)
+        AdaptiveLibrary(selection: $selection, backTitle: "All printers") {
+            VStack(alignment: .leading) {
+                TextField("Search manufacturer, model or nozzle", text: $search).textFieldStyle(.roundedBorder).padding([.horizontal, .top])
+                Text("\(filteredPrinters.count) of \(state.library.printers.count) printer profiles").font(.caption).foregroundStyle(.secondary).padding(.horizontal)
+            List(filteredPrinters) { p in Button { selection = p.id } label: { VStack(alignment:.leading) { Text(p.name).font(.headline); Text(p.multiMaterialSystem).font(.caption).foregroundStyle(.secondary) }.padding(5).frame(maxWidth:.infinity,alignment:.leading).contentShape(Rectangle()) }.buttonStyle(.plain) }
+            }
+        } detail: {
             if let index = state.library.printers.firstIndex(where: {$0.id == selection}) {
                 Form {
+                    if let source = state.library.printers[index].externalProfile {
+                        Text(source.userOverride ? "Your configuration" : "Imported profile · review tool setup and enter operating costs").font(.caption).foregroundStyle(.secondary)
+                    }
                     TextField("Manufacturer",text:$state.library.printers[index].manufacturer)
                     TextField("Model",text:$state.library.printers[index].model)
                     TextField("Build X (mm)",value:$state.library.printers[index].buildVolumeXMM,format:.number)
@@ -32,8 +45,9 @@ struct FilamentLibrary: View {
     @Bindable var state: AppState
     @State private var selection: UUID?
     var body: some View {
-        HSplitView {
-            List(state.library.filaments,selection:$selection) { f in VStack(alignment:.leading) { Text(f.name).font(.headline); Text(f.materialFamily + " · " + money(f.pricePerKG) + "/kg").font(.caption).foregroundStyle(.secondary) }.padding(5).tag(f.id) }.frame(minWidth:220,idealWidth:280,maxWidth:340)
+        AdaptiveLibrary(selection: $selection, backTitle: "All filaments") {
+            List(state.library.filaments) { f in Button { selection = f.id } label: { VStack(alignment:.leading) { Text(f.name).font(.headline); Text(f.materialFamily + " · " + money(f.pricePerKG) + "/kg").font(.caption).foregroundStyle(.secondary) }.padding(5).frame(maxWidth:.infinity,alignment:.leading).contentShape(Rectangle()) }.buttonStyle(.plain) }
+        } detail: {
             if let index = state.library.filaments.firstIndex(where: {$0.id == selection}) {
                 Form {
                     TextField("Manufacturer",text:$state.library.filaments[index].manufacturer)

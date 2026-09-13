@@ -5,12 +5,15 @@ import QuoteDomain
     @State private var state = AppState()
     var body: some Scene {
         WindowGroup {
-            RootView(state: state).frame(minWidth: 1000, minHeight: 680)
+            RootView(state: state).desktopWindowMinimum()
                 .preferredColorScheme(.dark).tint(.blue)
                 .alert("Unable to complete action", isPresented: Binding(get: {state.error != nil}, set: {if !$0 {state.error = nil}})) {
                     Button("OK") { state.error = nil }
                 } message: { Text(state.error ?? "") }
-        }.defaultSize(width: 1100, height: 760)
+        }
+        #if os(macOS)
+        .defaultSize(width: 1100, height: 760)
+        #endif
     }
 }
 enum Section: String, CaseIterable, Identifiable {
@@ -39,11 +42,12 @@ struct RootView: View {
     @State private var selection: Section? = .dashboard
     @State private var editingQuote: Quote?
     @State private var draftID = UUID()
+    @State private var compactColumn: NavigationSplitViewColumn = .sidebar
     var body: some View {
-        NavigationSplitView {
+        NavigationSplitView(preferredCompactColumn: $compactColumn) {
             VStack(alignment:.leading, spacing: 20) {
                 VStack(alignment:.leading) { Text("PRINTQUOTE 3D").font(.headline); Text("Upload. Configure. Price. Quote.").font(.caption).foregroundStyle(.secondary) }.padding(.horizontal).padding(.top)
-                List(Section.allCases, selection: $selection) { item in Label(item.rawValue, systemImage:item.icon).tag(item) }
+                List(Section.allCases, selection: $selection) { item in NavigationLink(value: item) { Label(item.rawValue, systemImage:item.icon) } }.navigationTitle("PrintQuote 3D")
                 Text("LOCAL WORKSPACE  ·  V2").font(.caption2).foregroundStyle(.secondary).padding()
             }.navigationSplitViewColumnWidth(min:210, ideal:230)
         } detail: {
@@ -68,14 +72,15 @@ struct RootView: View {
                 .disabled(!state.ready)
             }
         }
-        .sheet(item:$editingQuote) { q in QuoteEditor(state:state, initial:q).frame(width:1050,height:760) }
+        .onChange(of: selection) { _, _ in compactColumn = .detail }
+        .sheet(item:$editingQuote) { q in QuoteEditor(state:state, initial:q).desktopSheet(width:1050,height:760) }
     }
     var dashboard: some View {
         ScrollView {
             VStack(alignment:.leading, spacing:24) {
                 Text("Your workshop, in focus.").font(.largeTitle.bold())
                 Text("Build a clear estimate from material, machine time and labor.").foregroundStyle(.secondary)
-                HStack(spacing:16) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))], spacing:16) {
                     metric("Saved quotes", "\(state.library.quotes.count)", "doc.text")
                     metric("Printer profiles", "\(state.library.printers.count)", "printer")
                     metric("Filament products", "\(state.library.filaments.count)", "circle.hexagongrid")
@@ -109,5 +114,13 @@ struct RootView: View {
 struct DecimalField: View {
     let title: String
     @Binding var value: Decimal
-    var body: some View { TextField(title,value:$value,format:.number).textFieldStyle(.roundedBorder) }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title).font(.caption).foregroundStyle(.secondary)
+            TextField(title,value:$value,format:.number).textFieldStyle(.roundedBorder)
+                #if os(iOS)
+                .keyboardType(.decimalPad)
+                #endif
+        }
+    }
 }

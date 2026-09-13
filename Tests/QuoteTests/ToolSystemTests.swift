@@ -68,7 +68,7 @@ final class PortableToolFixtureTests: XCTestCase {
         var cases:[Case]
     }
     func testPortableToolFixtures() throws {
-        let url=try XCTUnwrap(Bundle.module.url(forResource:"tool_calculation_fixtures_v2",withExtension:"json",subdirectory:"Fixtures"))
+        let url=try XCTUnwrap(TestResources.bundle.url(forResource:"tool_calculation_fixtures_v2",withExtension:"json",subdirectory:"Fixtures"))
         let fixtures=try JSONDecoder().decode(Fixtures.self,from:Data(contentsOf:url))
         for fixture in fixtures.cases {
             let result=try PricingEngine.calculate(fixture.input)

@@ -27,7 +27,10 @@ public final class OrcaProfileImporter {
         guard let parentName = dto.values["inherits"] as? String, !parentName.isEmpty else { return (dto.values,[],Dictionary(uniqueKeysWithValues:dto.values.keys.map {($0,path)})) }
         let candidates = names[parentName] ?? []
         let sameVendor = candidates.filter {records[$0]?.vendor == dto.vendor && records[$0]?.values["type"] as? String == dto.values["type"] as? String}
-        let matches = sameVendor.isEmpty ? candidates : sameVendor
+        let siblings = sameVendor.filter { ($0 as NSString).deletingLastPathComponent == (path as NSString).deletingLastPathComponent }
+        let vendorRoot = "resources/profiles/\(dto.vendor)/\(dto.values["type"] as? String ?? "machine")"
+        let rootMatches = sameVendor.filter { ($0 as NSString).deletingLastPathComponent == vendorRoot }
+        let matches = !siblings.isEmpty ? siblings : (!rootMatches.isEmpty ? rootMatches : (sameVendor.isEmpty ? candidates : sameVendor))
         guard matches.count == 1, let parent = matches.first else { throw PricingError.invalid("Missing or ambiguous parent \(parentName) for \(path)") }
         var visited = visiting; visited.insert(path)
         let resolved = try resolve(parent,visiting:visited)

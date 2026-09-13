@@ -5,7 +5,7 @@ The complete user-supplied guides are committed as `filament-data-sources.md` an
 Implemented offline sources:
 
 - Open Filament Database bulk JSON, normalized by `tools/OpenFilamentImporter/import_filaments.py`. The included 2026.09.12 snapshot contains 2,089 products, 14,577 color variants and 22,355 sizes, with purchase links where present. The source snapshot SHA-256, generated/retrieved timestamps, version and MIT license are stored in the bundle catalog. Each technical field retains the upstream table/ID/field path.
-- OrcaSlicer, through the isolated Swift importer, with three printer and three filament profiles and a pinned commit.
+- OrcaSlicer, through the isolated Swift importer, with all 1,001 instantiated machine profiles registered in the pinned vendor manifests, plus three filament profiles. Three additional manufacturer records cover Prusa XL two-tool and Raise3D Pro3 HS / Pro3 Plus HS.
 - User-supplied reference directory covering official manufacturer sources, Cura, PrusaSlicer, Klipper, secondary catalogs, packaging/color references and approved-feed retail pricing.
 
 To refresh OFD, download the documented bulk export to a local file and run `python3 tools/OpenFilamentImporter/import_filaments.py all.json Sources/QuoteData/SeedData/open_filaments_v2.json`. The importer never contacts sites or reads the user's database. It retains unknown fields as absent, distinguishes colors/sizes, preserves source IDs, and does not invent prices. The normalized bundle is portable JSON and is the single checked-in copy (see SharedSchemas/catalog-manifest.json).
