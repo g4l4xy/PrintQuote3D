@@ -4,6 +4,10 @@ Android app: open [`android/`](android/) directly in Android Studio. See the [An
 
 Native macOS 14+, iOS 17+ and iPadOS 17+ print estimating and quoting, built with SwiftUI, SwiftData and a portable Decimal pricing domain. Public source: https://github.com/g4l4xy/PrintQuote3D
 
+## Update and develop both apps
+
+Double-click **PrintQuote Workflow.command**, or run `./pq pull`, `./pq check`, and `./pq push`. Start coordinated features with `./pq feature <slug> "Title"`. See [the shared development workflow](docs/development-workflow.md) for commands, requirements and the Apple/Android feature checklist.
+
 ## Run and build
 
 Open **`PrintQuote3D.xcodeproj`** in Xcode and choose the **PrintQuote3D** scheme. Select **My Mac**, an iPhone simulator, an iPad simulator, or a connected device, then Run. For a physical iPhone/iPad, select your development team under Signing & Capabilities. The shared Swift package is local; all catalogs are included. The local `PrintQuote 3D.app` can also be launched from Finder. See [Xcode quick start](OPEN_IN_XCODE.md).

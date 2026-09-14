@@ -16,3 +16,6 @@ xcuserdata/
 *.key
 customer-data/
 local-data/
+.workflow/
+.idea/
+__pycache__/
