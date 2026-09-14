@@ -94,7 +94,7 @@ fun main()=application {
 @Composable fun LibraryRows(entries:List<JSONObject>,k:String,onDelete:((JSONObject)->Unit)?=null,onOpen:(JSONObject)->Unit){var query by remember{mutableStateOf("")};var remove by remember{mutableStateOf<JSONObject?>(null)}
  SearchField(query,{query=it},"Search ${if(k=="filaments")"materials"else k}");Text("${entries.size} records",color=Muted,fontSize=12.sp,modifier=Modifier.padding(vertical=10.dp))
  LazyColumn(Modifier.fillMaxSize()){items(entries.filter{title(it,k).contains(query,true)},key={it.text("id")}){o->Row(Modifier.fillMaxWidth().clickable{onOpen(o)}.padding(vertical=12.dp),verticalAlignment=Alignment.CenterVertically){Column(Modifier.weight(1f)){Text(title(o,k),fontWeight=FontWeight.Medium);Text(when(k){"printers"->"${o.text("buildVolumeXMM")} × ${o.text("buildVolumeYMM")} × ${o.text("buildVolumeZMM")} mm";"filaments"->"${o.text("materialFamily")} · ${money(o,"pricePerKG")}/kg";"quotes"->"${o.text("number")} · ${o.text("customer")} · ${o.text("status")}";else->o.text("mode")},color=Muted,fontSize=12.sp)};if(k=="quotes")o.optJSONObject("result")?.let{Text(money(it,"total",o.text("currency","USD")),color=Blue)};if(onDelete!=null)TextButton(onClick={remove=o}){Text("Delete",color=Muted)}};HorizontalDivider(color=Color(0xff363b3c))}}
- remove?.let{o->AlertDialog(onDismissRequest={remove=null},title={Text("Delete ${title(o,k)}?")},text={Text("Existing quote snapshots will be retained.")},confirmButton={TextButton(onClick={onDelete?.invoke(o);remove=null}){Text("Delete")}},dismissButton={TextButton(onClick={remove=null}){Text("Cancel")}})}
+ remove?.let{o->AlertDialog(onDismissRequest={remove=null},title={Text("Delete ${title(o,k)}?")},text={Text(if(k=="quotes")"This quote and its saved cost snapshot will be deleted."else "Existing quote snapshots will be retained.")},confirmButton={TextButton(onClick={onDelete?.invoke(o);remove=null}){Text("Delete")}},dismissButton={TextButton(onClick={remove=null}){Text("Cancel")}})}
 }
 
 @Composable fun SearchField(value:String,onChange:(String)->Unit,placeholder:String){
@@ -103,5 +103,5 @@ fun main()=application {
  OutlinedTextField(value,onChange,placeholder={Text(placeholder)},singleLine=true,modifier=Modifier.fillMaxWidth().focusRequester(requester))
 }
 
-fun workshopColors()=darkColorScheme(primary=Blue,onPrimary=Color.White,background=Graphite,surface=Graphite,onSurface=Color(0xffeeeeee),surfaceVariant=Panel)
+fun workshopColors()=darkColorScheme(primary=Blue,onPrimary=Color.White,background=Graphite,surface=Graphite,onSurface=Color(0xffeeeeee),surfaceVariant=Panel,surfaceContainerHigh=Panel)
 fun dismissOnEscape(e:KeyEvent,close:()->Unit):Boolean {if(e.type==KeyEventType.KeyDown && e.key==Key.Escape){close();return true};return false}

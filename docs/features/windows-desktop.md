@@ -19,7 +19,7 @@ Verified on 2026-09-14 in the user's Parallels Windows 11 VM (Windows ARM host r
 
 - JDK 21 LTS, Kotlin 2.4.20, Compose Multiplatform 1.12.0, Gradle 9.3.1.
 - `:sharedLogic:test :desktopApp:build :desktopApp:packageMsi :desktopApp:packageExe`: passed; 13 tests (10 shared Android parity tests and 3 SQLite/catalog adapter tests).
-- Both installers built, final version 0.3.4. MSI installed with exit 0; installed executable launched in the signed-in user's desktop session using the bundled runtime.
+- Both installers built, final version 0.3.5. MSI installed with exit 0; installed executable launched in the signed-in user's desktop session using the bundled runtime.
 - Installed app displays 1,007 printer profiles and 2,089 catalog products.
 - New estimate displays fixture production cost 33.31 and total 55.52. Ctrl+N, Ctrl+S and Ctrl+O exercised using VM keyboard events.
 - Saved quote persisted in SQLite. Actual MSI upgrades after separating the directories preserve the complete workspace, checked by comparing parsed database documents before and after the upgrade.

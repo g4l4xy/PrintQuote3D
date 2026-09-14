@@ -13,7 +13,7 @@ compose.desktop { application {
  nativeDistributions {
   targetFormats(TargetFormat.Msi, TargetFormat.Exe)
   packageName = "PrintQuote3D"
-  packageVersion = "0.3.4"
+  packageVersion = "0.3.5"
   description = "Offline 3D printing estimates and workshop libraries"
   vendor = "PrintQuote3D"
   modules("java.sql", "java.naming", "jdk.unsupported")
