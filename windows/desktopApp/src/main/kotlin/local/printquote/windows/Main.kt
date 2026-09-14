@@ -64,7 +64,7 @@ fun main()=application {
   Column(Modifier.weight(1f).fillMaxHeight()) {
    Row(Modifier.fillMaxWidth().height(48.dp).padding(horizontal=24.dp),verticalAlignment=Alignment.CenterVertically){Text("PrintQuote 3D",fontWeight=FontWeight.SemiBold);Spacer(Modifier.weight(1f));if(w.busy)Text("Working…",color=Muted);w.message?.let{Text(it,color=Blue)}}
    HorizontalDivider(color=Color(0xff363b3c))
-   if(w.library==null)Box(Modifier.fillMaxSize(),contentAlignment=Alignment.Center){Text(if(w.error==null)"Loading your workshop…" else "Workspace could not be loaded. Your existing data has been preserved.")}
+   if(w.library==null)Box(Modifier.fillMaxSize(),contentAlignment=Alignment.Center){Column(horizontalAlignment=Alignment.CenterHorizontally){Text(if(!w.loadFailed)"Loading your workshop…" else "Workspace could not be loaded. Your existing data has been preserved.");if(w.loadFailed)TextButton(onClick={w.openRecoveryFolder()}){Text("Open recovery folder")}}}
    else when(w.screen){
     "Dashboard"->Dashboard(w)
     "New Estimate"->w.draft?.let{QuoteEditor(w,it)}
@@ -72,7 +72,14 @@ fun main()=application {
     "Materials"->Materials(w)
     "Printers"->Library(w,"printers")
     "Presets"->Library(w,"presets")
-    "Settings"->Column(Modifier.padding(24.dp)){Text("Settings",fontSize=28.sp,fontWeight=FontWeight.Bold);Spacer(Modifier.height(20.dp));Action("Edit business defaults"){w.edit("settings",w.library!!.getJSONObject("settings"))};Text("Data stored in ${dataHome()}",color=Muted,modifier=Modifier.padding(top=24.dp))}
+    "Settings"->Column(Modifier.padding(24.dp)){Text("Settings",fontSize=28.sp,fontWeight=FontWeight.Bold);Spacer(Modifier.height(20.dp));Action("Edit business defaults"){w.edit("settings",w.library!!.getJSONObject("settings"))};Spacer(Modifier.height(12.dp));Action("Export backup"){
+     val owner=java.awt.Frame.getFrames().firstOrNull {it.isVisible && it.title=="PrintQuote 3D"}
+     val chooser=javax.swing.JFileChooser().apply {
+      dialogTitle="Export workspace backup"
+      selectedFile=java.io.File("PrintQuote3D-backup-${java.time.LocalDate.now()}.sqlite")
+     }
+     if(chooser.showSaveDialog(owner)==javax.swing.JFileChooser.APPROVE_OPTION)w.exportBackup(chooser.selectedFile.toPath())
+    };TextButton(onClick={w.openRecoveryFolder()}){Text("Open recovery folder")};Text("Backups contain your workshop and customer data. Store them privately.",color=Muted);Text("Data stored in ${dataHome()}",color=Muted,modifier=Modifier.padding(top=24.dp))}
     "Customers"->Column(Modifier.padding(24.dp)){Text("Customers",fontSize=28.sp);w.entries("quotes").map{it.text("customer")}.filter{it.isNotBlank()}.distinct().forEach{Text(it,Modifier.padding(12.dp))};Text("Customers are collected from your saved quotes.",color=Muted)}
     "Pricing Sources"->Sources(w)
     else->Column(Modifier.padding(24.dp)){Text(w.screen,fontSize=28.sp,fontWeight=FontWeight.Bold);Text("${w.screen} workspace",Modifier.padding(top=20.dp));Text("This section is reserved for the next release, matching the current Mac application.",color=Muted)}

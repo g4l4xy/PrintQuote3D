@@ -57,3 +57,11 @@ The Windows repository implementation is behind `WorkspaceStore`; SQLite is a pe
 Pinned build versions are in `gradle/libs.versions.toml`: Kotlin 2.4.20 with its matching Compose compiler plugin, Compose Multiplatform 1.12.0, and JDK 21. The Gradle wrapper is committed. See the official [compatibility guide](https://kotlinlang.org/docs/multiplatform/compose-compatibility-and-versioning.html) and [native distribution documentation](https://kotlinlang.org/docs/multiplatform/compose-native-distribution.html) for packaging requirements.
 
 Before publishing changes, run `./pq check` for Apple/Android and `./pq check --platform windows` with JDK 21 (or use the commands above on Windows). The GitHub Windows workflow owns MSI/EXE packaging. Installer binaries stay out of Git history.
+
+## Database recovery foundation
+
+Settings → **Export backup** creates a consistent SQLite snapshot. Choose a new filename; existing files are not overwritten. **Open recovery folder** reveals the database and automatic backups. This action also appears when workspace loading fails. Backups contain private workshop/customer data.
+
+Before replacing saved data, the app keeps a rolling history of three verified backups in `database/backups`. Migration backups are retained separately. Unsupported database versions and integrity failures stop opening; the app never silently resets the database. A backup failure stops the associated write or migration. Manual restore UI is pending; preserve the original database and its WAL files when seeking recovery help.
+
+See [reliability upgrade progress](../docs/features/reliability-qol.md) for scope and remaining work.

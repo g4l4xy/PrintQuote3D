@@ -8,6 +8,7 @@ import local.printquote.android.viewmodel.Draft
 import org.json.JSONObject
 
 class Workspace(private val scope:CoroutineScope) {
+ var loadFailed by mutableStateOf(false)
  var library by mutableStateOf<JSONObject?>(null)
  var searchRequest by mutableIntStateOf(0)
  var screen by mutableStateOf("Dashboard")
@@ -28,7 +29,18 @@ class Workspace(private val scope:CoroutineScope) {
   library=loaded
   index=withContext(Dispatchers.IO) {catalog.index()}
   sources=withContext(Dispatchers.IO) {JSONObject(resource("filament_sources_v2.json").bufferedReader().use {it.readText()}).array("sources")}
- }catch(e:Exception){error="Could not load workspace: ${e.message}"}finally{busy=false}}}
+ }catch(e:Exception){loadFailed=true;error="Could not load workspace: ${e.message}"}finally{busy=false}}}
+ fun exportBackup(path:java.nio.file.Path) {
+  if(busy)return
+  scope.launch {busy=true;try {
+   withContext(Dispatchers.IO) {(store as SqliteWorkspaceStore).exportBackup(path)}
+   message="Backup exported"
+  }catch(e:Exception){error="Backup export failed: ${e.message}"}finally{busy=false}}
+ }
+ fun openRecoveryFolder() {
+  try {val folder=dataHome().resolve("database");java.nio.file.Files.createDirectories(folder);java.awt.Desktop.getDesktop().open(folder.toFile())}
+  catch(e:Exception){error="Could not open recovery folder: ${e.message}"}
+ }
  fun entries(kind:String)=library?.array(kind).orEmpty()
  fun newQuote(){library?.let {draft=Draft(Defaults.quote(it));screen="New Estimate";message=null}}
  fun useMaterial(m:JSONObject){if(draft==null)newQuote();draft?.let{d->d.change{Defaults.selectMaterial(d.json,m)}};screen="New Estimate";editor=null;product=null}
