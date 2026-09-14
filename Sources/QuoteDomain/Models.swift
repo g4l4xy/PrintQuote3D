@@ -31,6 +31,8 @@ public struct FilamentProduct: Identifiable, Codable, Sendable, Equatable {
     public var id: UUID = UUID()
     public var manufacturer = "Generic"
     public var productName = "New filament"
+    // Optional so existing saved libraries continue to decode without migration.
+    public var stock: FilamentStock? = nil
     public var catalogSnapshot: CatalogFilamentSnapshot? = nil
     public var externalProfile: ExternalProfileSource? = nil
     public var materialFamily = "PLA"
@@ -143,4 +145,28 @@ public struct LibrarySnapshot: Codable, Sendable {
     public var quotes: [Quote] = []
     public var settings = BusinessSettings()
     public init() {}
+}
+
+/// Optional manual stock counts; saving a quote does not consume inventory.
+public struct FilamentStock: Codable, Sendable, Equatable {
+    public var spoolCount: Int = 0
+    public var remainingGrams: Decimal = 0
+    public var location: String = ""
+    public var notes: String = ""
+    public init() {}
+}
+public extension FilamentProduct {
+    func validateMaterial() throws {
+        guard !manufacturer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !productName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              diameterMM.isFinite, diameterMM > 0, netWeightGrams.isFinite, netWeightGrams > 0 else {
+            throw PricingError.invalid("Enter a manufacturer, product, positive diameter and spool weight.")
+        }
+        guard !pricePerKG.isNaN, pricePerKG >= 0 else { throw PricingError.invalid("Material cost must be zero or greater.") }
+        if let stock {
+            guard stock.spoolCount >= 0, !stock.remainingGrams.isNaN, stock.remainingGrams >= 0 else {
+                throw PricingError.invalid("Stock counts and remaining grams must be zero or greater.")
+            }
+        }
+    }
 }

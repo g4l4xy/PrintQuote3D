@@ -19,18 +19,18 @@ Verified with Xcode 26.6 / Swift 6.3.3 on Apple Silicon. The Mac build script pa
 
 - Adaptive Apple app: sidebar navigation, full-width library detail screens and Details/Price estimate tabs on narrow screens; two-pane layouts on wider iPad/Mac windows.
 
-- Sidebar, dashboard, printer and filament editors, pricing presets, settings and saved quotes.
+- Sidebar, dashboard, printer editor, unified Materials workspace, pricing presets, settings and saved quotes.
 - Live cost breakdown with material/support/waste, power, drying, machine, maintenance, wear, labor, risk, overhead, margin/markup, minimum, rush, discount, tax and shipping.
 - **1–12 physical toolheads**, independent feeder/input/material counts, per-tool capability and cost settings, plus quote material-to-tool/slot assignments.
 - Architecture-specific change/waste/energy behavior for shared-nozzle switching and independent tool systems. See [pricing contract](docs/pricing-engine.md).
-- **Material Database**: offline Open Filament Database snapshot with 2,089 products, 14,577 color variants and 22,355 sizes. Search a product, choose color/spool, enter your price/kg, then add it to Filaments. Purchase links are references, not live price quotes.
+- **Materials**: one workspace with **My materials** for saved spools and **Browse catalog** for the offline Open Filament Database snapshot (2,089 products, 14,577 color variants and 22,355 sizes). Browse a product, choose a color and spool, enter your price/kg, then add it to your materials. Edit a saved material's cost, optional stock and location, notes and source information in the same place. Purchase links are references, not live price quotes.
 - **Printers**: 1,004 real printer profiles available automatically (1,001 Orca model/nozzle configurations plus three manufacturer-sourced configurations), alongside your existing equipment. Search by manufacturer, model or nozzle in the library and estimate chooser. The Orca collection covers 383 model/configuration names across 64 vendors, including every manufacturer named in the supplied printer guide. Imported costs and unverified tool capabilities require review.
 - **Pricing Sources**: 52 source groups from the supplied filament and printer data-source guides, including manufacturer references, Cura, PrusaSlicer, Klipper and packaging/color catalogs.
 - Editable mode-specific build volumes, circular-bed diameter, rated maximum power separate from average-power quality, thermal fields and accessory notes.
 
 ## Quote workflow
 
-Create/select your printer and filament in their libraries, then create a New Estimate. Enter project/customer details and print quantities. Rates use decimal fractions (`0.40` = 40%). Save quote and reopen it from Quotes.
+Create or select your printer and material in their libraries, then create a New Estimate. The estimate's **Choose material** control opens the same Materials workspace, so you can select a saved spool or add a catalog spool without leaving the estimate. Enter project/customer details and print quantities. Rates use decimal fractions (`0.40` = 40%). Save quote and reopen it from Quotes.
 
 Aggregate mode uses total slicer print time and manual gram categories. Tool-assignment mode initializes rows from those gram categories and then uses those rows instead. Enter base print hours excluding change time; enter each material's tool, feeder slot, grams, price and activation count. Tool active hours drive additional wear/heater costs and do not replace overall print duration. Base and per-tool energy/maintenance settings must not count the same cost twice.
 

@@ -1,76 +1,6 @@
 import SwiftUI
 import QuoteDomain
 
-struct MaterialCatalogView: View {
-    @Bindable var state: AppState
-    @State private var query = ""
-    @State private var selection: UUID?
-    var products: [CatalogFilament] {
-        (state.filamentCatalog?.products ?? []).filter { query.isEmpty || ($0.brand + " " + $0.name + " " + $0.materialFamily).localizedCaseInsensitiveContains(query) }
-    }
-    var body: some View {
-        AdaptiveLibrary(selection: $selection, backTitle: "All materials") {
-            VStack {
-                TextField("Search brand, material or product",text:$query).textFieldStyle(.roundedBorder).padding()
-                Text("\(products.count) products · offline catalog").font(.caption).foregroundStyle(.secondary)
-                List(products) { p in
-                    Button { selection = p.id } label: {
-                        VStack(alignment:.leading) {
-                            Text(p.name).font(.headline)
-                            Text(p.brand + " · " + p.materialFamily + " · \(p.variants.count) colors").font(.caption).foregroundStyle(.secondary)
-                        }.frame(maxWidth:.infinity,alignment:.leading).contentShape(Rectangle())
-                    }.buttonStyle(.plain)
-                }
-            }
-        } detail: {
-            if let p = state.filamentCatalog?.products.first(where:{$0.id == selection}) {
-                CatalogFilamentDetail(state:state,product:p).id(p.id)
-            } else { ContentUnavailableView("Filament database",systemImage:"circle.hexagongrid",description:Text("Select a product to inspect colors, spool sizes, technical data and source provenance.")) }
-        }.navigationTitle("Material Database")
-    }
-}
-struct CatalogFilamentDetail: View {
-    @Bindable var state: AppState
-    let product: CatalogFilament
-    @State private var variantID: UUID?
-    @State private var sizeID: UUID?
-    @State private var pricePerKG: Decimal = 0
-    var variant: CatalogColorVariant? { product.variants.first(where:{$0.id == variantID}) ?? product.variants.first }
-    var size: CatalogSpoolSize? { variant?.sizes.first(where:{$0.id == sizeID}) ?? variant?.sizes.first }
-    var body: some View {
-        Form {
-            SwiftUI.Section(product.name) {
-                Text(product.brand + " · " + product.materialFamily)
-                Picker("Color",selection:Binding(get:{variant?.id},set:{variantID=$0;sizeID=nil})) { ForEach(product.variants) { v in Text(v.name).tag(Optional(v.id)) } }
-                if let variant {
-                    if let hex=variant.colorHex { Text("Color: " + hex) }
-                    Picker("Spool size",selection:Binding(get:{size?.id},set:{sizeID=$0})) { ForEach(variant.sizes) { s in Text("\(s.netWeightGrams?.formatted() ?? "Unknown") g · \(s.diameterMM?.formatted() ?? "Unknown") mm").tag(Optional(s.id)) } }
-                }
-                DecimalField(title:"Your price per kg (\(state.library.settings.currency))",value:$pricePerKG)
-                Text("Enter your actual cost. Catalog purchase links do not supply verified current prices.").font(.caption).foregroundStyle(.secondary)
-                Button("Add selected spool to Filaments") { add() }.buttonStyle(.borderedProminent).disabled(size == nil || pricePerKG <= 0 || size?.diameterMM == nil || size?.netWeightGrams == nil || state.library.filaments.contains(where:{$0.id == size?.id}))
-                if state.library.filaments.contains(where:{$0.id == size?.id}) { Text("Already in your library; your edits are preserved.").foregroundStyle(.secondary) }
-            }
-            SwiftUI.Section("Technical properties") { ForEach(product.fields.keys.sorted(),id:\.self) { key in if let field=product.fields[key] { VStack(alignment:.leading) { Text(key.replacingOccurrences(of:"_",with:" ")).font(.headline); if let url = URL(string:field.value), ["https","http"].contains(url.scheme ?? "") { Link("Open source document", destination:url) } else { Text(field.value) }; DisclosureGroup("Source") { Text(field.sourcePath).font(.caption2).foregroundStyle(.secondary).textSelection(.enabled) } } } } }
-            if let size {
-                SwiftUI.Section("Spool metadata") { ForEach(size.fields.keys.sorted(),id:\.self) { key in LabeledContent(key.replacingOccurrences(of:"_",with:" "),value:size.fields[key]!.value) } }
-                SwiftUI.Section("Purchase links") { ForEach(size.purchaseURLs,id:\.self) { link in if let url=URL(string:link),["https","http"].contains(url.scheme ?? "") { Link(url.host ?? "Store",destination:url) } } }
-            }
-            SwiftUI.Section("Source") {
-                Text("Open Filament Database · MIT · " + (state.filamentCatalog?.upstreamVersion ?? ""))
-                Text("Retrieved: " + (state.filamentCatalog?.retrievedAt ?? ""))
-                Text("Unknown properties remain absent. Manufacturer technical documentation takes precedence when verified.").font(.caption).foregroundStyle(.secondary)
-            }
-        }.formStyle(.grouped)
-    }
-    func add() {
-        guard let variant,let size,let catalog=state.filamentCatalog,let diameter=size.diameterMM,let weight=size.netWeightGrams else {return}
-        var f=FilamentProduct(); f.id=size.id; f.manufacturer=product.brand; f.productName=product.name; f.materialFamily=product.materialFamily; f.colorName=variant.name; f.diameterMM=diameter; f.netWeightGrams=weight; f.pricePerKG=pricePerKG
-        f.catalogSnapshot=CatalogFilamentSnapshot(product:product,variant:variant,size:size,catalog:catalog)
-        f.source.name=catalog.sourceName; f.source.url=catalog.sourceURL; f.source.sourceType="openCatalog"; f.source.retrievedAt=ISO8601DateFormatter().date(from:catalog.retrievedAt); f.source.notes="Technical data: OFD \(catalog.upstreamVersion), MIT. Price entered by user."
-        state.library.filaments.append(f); state.persist()
-    }
-}
 struct SourcesView: View {
     @Bindable var state: AppState
     @State private var query = ""
@@ -114,7 +44,7 @@ struct OrcaCatalogView: View {
                             Text("Commit: " + p.source.commitSHA).font(.caption).textSelection(.enabled)
                             ForEach(p.technicalValues.keys.sorted(),id:\.self) { k in LabeledContent(k,value:p.technicalValues[k]!.joined(separator:", ")) }
                         }
-                        Button("Add to \(p.kind == "machine" ? "Printers" : "Filaments")") { add(p) }.disabled(state.library.printers.contains {$0.id==p.id} || state.library.filaments.contains {$0.id==p.id} || (p.kind == "filament" && pricePerKG <= 0))
+                        Button("Add to \(p.kind == "machine" ? "Printers" : "Materials")") { add(p) }.disabled(state.library.printers.contains {$0.id==p.id} || state.library.filaments.contains {$0.id==p.id} || (p.kind == "filament" && pricePerKG <= 0))
                     }
                 }
             }.formStyle(.grouped)
@@ -124,9 +54,10 @@ struct OrcaCatalogView: View {
         var source=SourceReference(); source.name="OrcaSlicer"; source.url=p.source.repositoryURL + "/blob/" + p.source.commitSHA + "/" + p.source.sourcePath; source.sourceType="slicerProfile"; source.retrievedAt=p.source.importedAt; source.notes=p.reviewReasons.joined(separator:"\n")
         if p.kind == "machine" {
             state.library.printers.append(p.makePrinterProfile())
+            _ = state.persist()
         } else {
-            var f=FilamentProduct(); f.id=p.id; f.manufacturer=p.vendor; f.productName=p.name; f.materialFamily=p.materialFamily ?? "Unknown"; f.pricePerKG=pricePerKG; f.source=source; f.externalProfile=p.source; state.library.filaments.append(f)
+            var f=FilamentProduct(); f.id=p.id; f.manufacturer=p.vendor; f.productName=p.name; f.materialFamily=p.materialFamily ?? "Unknown"; f.pricePerKG=pricePerKG; f.source=source; f.externalProfile=p.source
+            _ = state.saveMaterial(f)
         }
-        state.persist()
     }
 }

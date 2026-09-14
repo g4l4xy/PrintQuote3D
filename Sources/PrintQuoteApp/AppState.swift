@@ -34,8 +34,25 @@ import QuoteData
         do {
             guard let repository, ready else { throw PricingError.invalid("Storage is unavailable. Restart after resolving the storage error.") }
             for printer in library.printers { try printer.toolSystem?.validate(); try printer.hardware?.validate() }
+            for material in library.filaments { try material.validateMaterial() }
             try repository.save(library); return true
         } catch { self.error = error.localizedDescription; return false }
+    }
+    @discardableResult func saveMaterial(_ material: FilamentProduct) -> Bool {
+        do { try material.validateMaterial() } catch { self.error = error.localizedDescription; return false }
+        let previous = library
+        if let index = library.filaments.firstIndex(where: { $0.id == material.id }) { library.filaments[index] = material }
+        else { library.filaments.append(material) }
+        if persist() { return true }
+        library = previous
+        return false
+    }
+    @discardableResult func deleteMaterial(id: UUID) -> Bool {
+        let previous = library
+        library.filaments.removeAll { $0.id == id }
+        if persist() { return true }
+        library = previous
+        return false
     }
     func save(_ quote: Quote) -> Bool {
         let previous = library

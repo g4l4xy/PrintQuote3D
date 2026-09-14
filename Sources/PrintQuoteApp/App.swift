@@ -17,7 +17,7 @@ import QuoteDomain
     }
 }
 enum Section: String, CaseIterable, Identifiable {
-    case dashboard = "Dashboard", quotes = "Quotes", estimate = "New Estimate", customers = "Customers", jobs = "Jobs", inventory = "Inventory", filaments = "Filaments", printers = "Printers", presets = "Presets", analytics = "Analytics", settings = "Settings", materials = "Material Database", sources = "Pricing Sources"
+    case dashboard = "Dashboard", quotes = "Quotes", estimate = "New Estimate", customers = "Customers", jobs = "Jobs", inventory = "Inventory", materials = "Materials", printers = "Printers", presets = "Presets", analytics = "Analytics", settings = "Settings", sources = "Pricing Sources"
     var id: String { rawValue }
     var icon: String {
         switch self {
@@ -27,12 +27,11 @@ enum Section: String, CaseIterable, Identifiable {
         case .customers: "person.2"
         case .jobs: "tray.full"
         case .inventory: "shippingbox"
-        case .filaments: "circle.hexagongrid"
+        case .materials: "circle.hexagongrid"
         case .printers: "printer"
         case .presets: "slider.horizontal.3"
         case .analytics: "chart.bar"
         case .settings: "gearshape"
-        case .materials: "square.stack.3d.up"
         case .sources: "link"
         }
     }
@@ -60,11 +59,10 @@ struct RootView: View {
                 case .quotes: quotes
                 case .estimate: QuoteEditor(state:state, initial:nil).id(draftID)
                 case .printers: PrinterLibrary(state:state)
-                case .filaments: FilamentLibrary(state:state)
+                case .materials: MaterialsView(state:state)
                 case .presets: PresetsView(state:state)
                 case .settings: SettingsView(state:state)
                 case .customers: List { ForEach(Array(Set(state.library.quotes.map(\.customer))).filter{ !$0.isEmpty }.sorted(), id:\.self) { Text($0) } }.navigationTitle("Customers")
-                case .materials: MaterialCatalogView(state:state)
                 case .sources: SourcesView(state:state)
                 default: ContentUnavailableView((selection ?? .jobs).rawValue, systemImage:(selection ?? .jobs).icon, description:Text("Planned for a later milestone. Start with an estimate to build your quote library."))
                 }
@@ -83,7 +81,7 @@ struct RootView: View {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))], spacing:16) {
                     metric("Saved quotes", "\(state.library.quotes.count)", "doc.text")
                     metric("Printer profiles", "\(state.library.printers.count)", "printer")
-                    metric("Filament products", "\(state.library.filaments.count)", "circle.hexagongrid")
+                    metric("Saved materials", "\(state.library.filaments.count)", "circle.hexagongrid")
                 }
                 GroupBox {
                     VStack(alignment:.leading, spacing:14) {

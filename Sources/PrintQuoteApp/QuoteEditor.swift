@@ -8,6 +8,7 @@ struct QuoteEditor: View {
     @State private var saved = false
     @State private var compactTab = 0
     @State private var showingPrinterPicker = false
+    @State private var showingMaterials = false
     private let existing: Bool
     init(state: AppState, initial: Quote?) {
         self.state = state; existing = initial != nil
@@ -86,9 +87,16 @@ struct QuoteEditor: View {
                         if quote.printer?.externalProfile?.userOverride == false {
                             Text("Imported technical profile: enter average power, machine and maintenance rates below. Tool setup needs review.").font(.caption).foregroundStyle(.orange)
                         }
-                        Menu(quote.filament?.name ?? "Select filament") {
-                            ForEach(state.library.filaments) { f in Button(f.name) { quote.filament = f; quote.input.pricePerKG = f.pricePerKG; quote.input.supportPricePerKG = f.pricePerKG; quote.input.interfacePricePerKG = f.pricePerKG } }
-                        }
+                        Button(quote.filament?.name ?? "Choose material") { showingMaterials = true }
+                            .sheet(isPresented: $showingMaterials) {
+                                MaterialsView(state: state, onUse: { f in
+                                    quote.filament = f
+                                    quote.input.pricePerKG = f.pricePerKG
+                                    quote.input.supportPricePerKG = f.pricePerKG
+                                    quote.input.interfacePricePerKG = f.pricePerKG
+                                    showingMaterials = false
+                                }).desktopSheet(width: 950, height: 720)
+                            }
                         Menu(quote.preset?.name ?? "Apply pricing preset") { ForEach(state.library.presets) { p in Button(p.name) { quote.preset = p; quote.input.pricingMode = p.mode; quote.input.profitRate = p.rate; quote.input.machineRate = p.machineRate; quote.input.laborRate = p.laborRate; quote.input.minimumCharge = p.minimumCharge; quote.input.materialMultiplier = p.materialMultiplier; quote.input.rushMultiplier = p.rushMultiplier } } }
                     }
                     SwiftUI.Section("Manufacturing mode") {

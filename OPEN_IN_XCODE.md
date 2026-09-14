@@ -20,14 +20,14 @@ If a simulator destination is missing, install its runtime in Xcode → Settings
 - One shared SwiftUI app for Mac, iPhone and iPad.
 - Local SwiftData persistence per device, Decimal pricing logic and 1–12 tool configuration.
 - 1,004 real printer profiles, plus three legacy demos; searchable directly in Printers and estimates.
-- Offline filament catalog and source directory, with licensing and provenance.
+- One Materials workspace with **My materials** for saved spools, costs and optional stock/location, plus **Browse catalog** for the offline filament catalog, source directory, licensing and provenance. Estimates can select a material directly from this workspace.
 - Portable JSON schemas, import scripts, tests and documentation.
 
 All data is included locally. No remote Swift-package dependencies or server setup are required. Data is saved separately on each device; iCloud synchronization is not implemented.
 
 ## Screen behavior
 
-Wide windows show library/detail and estimate/cost panes side by side. Phones and narrow iPad windows show a single library page at a time, with an All printers/All filaments/All materials back button. Narrow estimates have **Details** and **Price breakdown** tabs. Sheets use the available device size.
+Wide windows show library/detail and estimate/cost panes side by side. Phones and narrow iPad windows show a single library page at a time, with an All printers or All materials back button. The Materials section combines your saved spools with the searchable catalog, so there is no separate Filaments or Material Database sidebar destination. Narrow estimates have **Details** and **Price breakdown** tabs. Sheets use the available device size.
 
 ## Verification for this delivery
 

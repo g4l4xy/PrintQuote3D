@@ -41,29 +41,6 @@ struct PrinterLibrary: View {
         }.navigationTitle("Printer Library").sheet(isPresented:$showingCatalog) { OrcaCatalogView(state:state) }.toolbar { Button("Orca profiles") { showingCatalog = true }; Button("Add printer",systemImage:"plus") { let p = PrinterProfile(); state.library.printers.append(p); selection = p.id } }
     }
 }
-struct FilamentLibrary: View {
-    @Bindable var state: AppState
-    @State private var selection: UUID?
-    var body: some View {
-        AdaptiveLibrary(selection: $selection, backTitle: "All filaments") {
-            List(state.library.filaments) { f in Button { selection = f.id } label: { VStack(alignment:.leading) { Text(f.name).font(.headline); Text(f.materialFamily + " · " + money(f.pricePerKG) + "/kg").font(.caption).foregroundStyle(.secondary) }.padding(5).frame(maxWidth:.infinity,alignment:.leading).contentShape(Rectangle()) }.buttonStyle(.plain) }
-        } detail: {
-            if let index = state.library.filaments.firstIndex(where: {$0.id == selection}) {
-                Form {
-                    TextField("Manufacturer",text:$state.library.filaments[index].manufacturer)
-                    TextField("Product",text:$state.library.filaments[index].productName)
-                    TextField("Material family",text:$state.library.filaments[index].materialFamily)
-                    TextField("Color",text:$state.library.filaments[index].colorName)
-                    TextField("Diameter (mm)",value:$state.library.filaments[index].diameterMM,format:.number)
-                    TextField("Spool weight (g)",value:$state.library.filaments[index].netWeightGrams,format:.number)
-                    DecimalField(title:"Price per kg",value:$state.library.filaments[index].pricePerKG)
-                    Text(state.library.filaments[index].source.notes).font(.caption).foregroundStyle(.secondary)
-                    Button("Save filament") { state.library.filaments[index].externalProfile?.userOverride = true; state.library.filaments[index].catalogSnapshot?.userOverride = true; state.persist() }.buttonStyle(.borderedProminent)
-                }.formStyle(.grouped)
-            } else { ContentUnavailableView("Select a filament",systemImage:"circle.hexagongrid",description:Text("Maintain product-specific prices for your estimates.")) }
-        }.navigationTitle("Filament Library").toolbar { Button("Add filament",systemImage:"plus") { let f = FilamentProduct(); state.library.filaments.append(f); selection = f.id } }
-    }
-}
 struct PresetsView: View {
     @Bindable var state: AppState
     var body: some View {
