@@ -1,3 +1,7 @@
+# Windows implementation
+
+The working desktop project is now in [`windows/`](../windows/README.md). Build and installer instructions, storage behavior and verification are documented there.
+
 # Windows behavioral port
 
 Port QuoteDomain Codable schemas and Decimal formulas to Kotlin/kotlinx.serialization and BigDecimal. Build Compose Desktop UI separately. Do not port SwiftUI or SwiftData annotations.

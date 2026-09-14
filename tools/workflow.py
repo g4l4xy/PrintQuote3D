@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One repository workflow for Apple and Android. Python standard library only."""
+"""One repository workflow for Apple, Android and Windows. Python standard library only."""
 import argparse
 import concurrent.futures
 import json
@@ -61,6 +61,7 @@ def check(platform):
         sdk = Path.home() / 'Library/Android/sdk'
         if sdk.exists():
             env['ANDROID_HOME'] = str(sdk)
+    windows_env = os.environ.get('WINDOWS_JAVA_HOME')
     commands = {
         'apple': [['swift', 'test'], ['xcodebuild', '-project', 'PrintQuote3D.xcodeproj',
                    '-scheme', 'PrintQuote3D', '-destination', 'generic/platform=macOS',
@@ -71,18 +72,22 @@ def check(platform):
         'android': [['./android/gradlew', '-p', 'android', ':app:assembleDebug',
                      ':app:testDebugUnitTest', ':app:lintDebug']],
     }
+    commands['windows'] = [[('windows/gradlew.bat' if os.name == 'nt' else './windows/gradlew'), '-p', 'windows', ':sharedLogic:test', ':desktopApp:build']]
     folder = ROOT / '.workflow'
     folder.mkdir(exist_ok=True)
     def worker(name):
         log = folder / (name + '.log')
+        task_env = env.copy()
+        if name == 'windows' and windows_env:
+            task_env['JAVA_HOME'] = windows_env
         with log.open('w') as output:
             for command in commands[name]:
                 output.write('$ ' + ' '.join(command) + '\n'); output.flush()
-                result = subprocess.run(command, cwd=ROOT, env=env, stdout=output, stderr=subprocess.STDOUT)
+                result = subprocess.run(command, cwd=ROOT, env=task_env, stdout=output, stderr=subprocess.STDOUT)
                 if result.returncode:
                     return name, False, log
         return name, True, log
-    selected = list(commands) if platform == 'both' else [platform]
+    selected = ['apple', 'android'] if platform == 'both' else list(commands) if platform == 'all' else [platform]
     failed = False
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
         for name, ok, log in pool.map(worker, selected):
@@ -103,7 +108,7 @@ def feature(slug, title):
 
 ## Shared outcome
 
-Describe the user action and expected result on Apple and Android.
+Describe the user action and expected result on Apple, Android and Windows.
 
 ## Shared contract
 
@@ -116,6 +121,8 @@ Describe the user action and expected result on Apple and Android.
 - [ ] Shared behavior and fixtures defined
 - [ ] Apple: Swift domain/data and SwiftUI implementation
 - [ ] Android: Kotlin domain/data and Compose implementation
+- [ ] Windows: desktop UI and shared Kotlin logic
+- [ ] Windows shared fixture tests and installed MSI interaction checks
 - [ ] Apple tests exercise the shared expected behavior
 - [ ] Android tests exercise the same expected behavior
 - [ ] Phone, tablet and Mac interaction/layout checks recorded
@@ -133,6 +140,7 @@ Apple: `Sources/QuoteDomain`, `Sources/QuoteData`, `Sources/PrintQuoteApp`
 Android: `android/app/src/main/java/local/printquote/android`
 Shared fixtures: `SharedSchemas/`; Apple tests: `Tests/QuoteTests`
 Android tests: `android/app/src/test`, `android/app/src/androidTest`
+Windows: `windows/sharedLogic`, `windows/desktopApp`; shared Android logic is compiled directly
 ''')
     print(f'Created {target}\nImplement both platforms on this branch, then run ./pq check.')
 
@@ -146,7 +154,7 @@ def main():
     push.add_argument('--all', action='store_true', dest='all_files')
     push.add_argument('paths', nargs='*')
     checks = s.add_parser('check', help='Build and test Apple and Android concurrently')
-    checks.add_argument('--platform', choices=['both', 'apple', 'android'], default='both')
+    checks.add_argument('--platform', choices=['both', 'all', 'apple', 'android', 'windows'], default='both')
     f = s.add_parser('feature', help='Create one feature branch and a two-platform specification')
     f.add_argument('slug'); f.add_argument('title')
     args = p.parse_args()

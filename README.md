@@ -10,7 +10,7 @@
 
 ### Your printer makes the part. Make sure the quote makes sense.
 
-**Native print estimating for Mac, iPhone, iPad, and Android.**
+**Native print estimating for Mac, iPhone, iPad, Android, and Windows 11.**
 
 Turn filament, machine time, tool changes, labor, and the little costs that love to hide into a price you can explain.
 
@@ -28,7 +28,7 @@ There are supports that become trash, purge that never becomes a part, electrici
 
 **PrintQuote 3D brings those costs into one estimate.** Choose your equipment and material, enter your print inputs, adjust your pricing rules, and inspect the breakdown before saving the quote. Use a straightforward aggregate estimate for a simple job, or assign materials to individual tools when the machine gets more interesting.
 
-The project includes native Apple and Android apps, a shared data contract, bundled reference catalogs, and matching pricing fixtures. Your workshop data is stored locally on each device.
+The project includes native Apple, Android and Windows desktop apps, a shared data contract, bundled reference catalogs, and matching pricing fixtures. Your workshop data is stored locally on each device.
 
 > **Project status:** working development apps with automated pricing and persistence tests. This repository is the source-and-build distribution; signed app-store releases and automatic installed-app updates are not implemented.
 
@@ -42,7 +42,7 @@ The project includes native Apple and Android apps, a shared data contract, bund
 | 🔧 1–12 physical tools | Model toolheads, feeders, switching waste, heater costs, and wear separately. |
 | 📚 Saved quote snapshots | Reopen quotes with their original inputs, equipment, material, and calculated prices. |
 | 🎛️ Reusable presets | Keep common pricing settings ready for the next estimate. |
-| 📱 Native interfaces | SwiftUI on Apple platforms and Kotlin/Compose on Android. |
+| 📱 Native interfaces | SwiftUI on Apple; Kotlin/Compose on Android and Windows desktop. |
 | 🛠️ One development workflow | Pull, check, and push both implementations from the same repository. |
 
 ## 🚀 Pick your platform
@@ -60,6 +60,7 @@ cd PrintQuote3D
 | iPhone | iOS 17 | The same Xcode project; choose an iPhone destination |
 | iPad | iPadOS 17 | The same Xcode project; choose an iPad destination |
 | Android | Android 8 / API 26 | The **`android/` folder** in Android Studio |
+| Windows | Windows 11, x64 app (also runs under Windows ARM emulation) | **`windows/`** in VS Code or IntelliJ; install the MSI to use the app |
 
 Minimum deployment targets describe intended compatibility. They do not mean every OS version or device has been interaction-tested.
 
@@ -110,6 +111,14 @@ android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
 → [Android setup, architecture, and verification](android/README.md)
+
+### 🪟 Windows 11
+
+Install the MSI from the **Windows desktop** GitHub Actions artifact, or open `windows/` in VS Code with JDK 21 and run `.\gradlew.bat :desktopApp:run`. Double-click `windows/PrintQuote-Windows.cmd` for run, build, install and safe pull shortcuts. The MSI bundles Java.
+
+Windows uses the Mac-style graphite sidebar, grouped estimate fields and live cost breakdown, with local SQLite storage and the same 1,007 printer profiles and 2,089-product material catalog.
+
+→ [Windows setup, installer build, shortcuts and storage](windows/README.md)
 
 ## 🏭 Meet your workshop
 
@@ -253,7 +262,7 @@ Pull requires a clean checkout and uses fast-forward updates. Push preserves pre
 
 **Source sync is not quote sync or app installation.** Each clone needs its own pull, each installed app needs a rebuild/run, and each device keeps its own workshop data.
 
-### Add a feature to Apple and Android together
+### Add a feature across Apple, Android and Windows
 
 ```sh
 ./pq feature quote-pdf-export "Export a customer quote as PDF"
@@ -285,7 +294,7 @@ PrintQuote3D/
 └── ThirdParty/              # Upstream license notices
 ```
 
-Apple uses local SwiftData persistence. Android writes its workspace atomically to private app storage. Android streams the large filament catalog to build a small search index and retains the selected product for its detail view.
+Apple uses local SwiftData persistence. Android writes its workspace atomically to private app storage. Windows stores a versioned workspace in transactional SQLite under `%LOCALAPPDATA%\PrintQuote3D`. Android streams the large filament catalog to build a small search index and retains the selected product for its detail view.
 
 Common JSON contracts and fixtures keep the native implementations aligned. Android packages the existing shared files and OFD catalog as build assets; it does not maintain a second checked-in catalog. Source records retain upstream paths, versions, and attribution where provided.
 
@@ -298,6 +307,9 @@ The latest shared workflow validation was recorded on **September 14, 2026**:
 | Swift tests | **28 passed** |
 | Apple builds | macOS and iOS Simulator builds passed; iOS target includes iPhone and iPad |
 | Android JVM tests | **13 passed** |
+| Windows logic and SQLite/catalog tests | **13 passed** |
+| Windows MSI / EXE | Built; MSI installed and launched in Parallels Windows 11 |
+| Windows upgrade persistence | Complete workspace retained after upgrade |
 | Android build and lint | Passed; dependency-update notices remain |
 | Git workflow tests | **6 passed**, using temporary repositories |
 | Android interaction tests | **2 passed** in the preceding app verification on an Android 17 ARM64 emulator |
@@ -345,7 +357,7 @@ These are scope notes, not promised release dates. Feature proposals are welcome
 | [Filament source guide](docs/filament-data-sources.md) | Filament reference sources |
 | [Printer source guide](docs/printer-data-sources.md) | Printer reference sources |
 | [V2 project brief](docs/project-brief-v2.md) | Product requirements and background |
-| [Windows port notes](docs/windows-port.md) | Porting considerations; not a shipped Windows app |
+| [Windows desktop guide](windows/README.md) | Run, build MSI/EXE, storage and shared Kotlin logic |
 
 Some detailed delivery notes describe earlier milestones. The dated verification table above records the newer combined check.
 

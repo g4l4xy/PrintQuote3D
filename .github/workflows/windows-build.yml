@@ -1,0 +1,49 @@
+name: Windows desktop
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Test, build and package
+        working-directory: windows
+        shell: pwsh
+        run: .\gradlew.bat :sharedLogic:test :desktopApp:build :desktopApp:packageMsi :desktopApp:packageExe --console=plain
+      - name: Install and launch packaged application
+        shell: pwsh
+        run: |
+          $data = Join-Path $env:LOCALAPPDATA 'PrintQuote3D/database'
+          New-Item -ItemType Directory -Force $data | Out-Null
+          Set-Content (Join-Path $data 'installer-preservation-check.txt') 'preserve user data'
+          $msi = Get-ChildItem windows/desktopApp/build/compose/binaries/main/msi/*.msi | Select-Object -First 1
+          $result = Start-Process msiexec.exe -ArgumentList @('/i', $msi.FullName, '/qn', '/norestart', '/L*v', "$env:RUNNER_TEMP\install.log") -Wait -PassThru
+          if ($result.ExitCode -notin @(0,3010)) { throw "MSI install failed: $($result.ExitCode)" }
+          $app = Join-Path $env:LOCALAPPDATA 'PrintQuote3D-App/PrintQuote3D.exe'
+          if (!(Test-Path $app)) { throw 'Installed launcher not found' }
+          $process = Start-Process $app -PassThru
+          Start-Sleep -Seconds 20
+          if ($process.HasExited) { throw "Installed app exited early: $($process.ExitCode)" }
+          Stop-Process -Id $process.Id
+          $uninstall = Start-Process msiexec.exe -ArgumentList @('/x', $msi.FullName, '/qn', '/norestart') -Wait -PassThru
+          if ($uninstall.ExitCode -notin @(0,3010)) { throw 'MSI uninstall failed' }
+          if (!(Test-Path (Join-Path $data 'installer-preservation-check.txt'))) { throw 'Installer removed user data' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: PrintQuote3D-Windows
+          path: |
+            windows/desktopApp/build/compose/binaries/main/msi/*.msi
+            windows/desktopApp/build/compose/binaries/main/exe/*.exe
+            windows/sharedLogic/build/reports/tests/
+            windows/desktopApp/build/compose/logs/

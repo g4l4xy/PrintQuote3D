@@ -53,3 +53,9 @@ Use `./pq check` when ready and publish the feature's selected files. GitHub's f
 Android Studio's bundled JDK and the standard macOS SDK directory are detected when JAVA_HOME/ANDROID_HOME are unset. Existing environment values are honored. Install the pinned Android SDK/build tools listed in android/README.md. Select the full Xcode developer directory for Apple builds.
 
 After pulling, open `PrintQuote3D.xcodeproj` for Apple and `android/` for Android Studio, then Run. The Android debug APK is `android/app/build/outputs/apk/debug/app-debug.apk`. To package the Mac development app, run `./Scripts/build-app.sh`. These are development builds; the workflow does not publish to app stores or perform signed releases.
+
+## Windows desktop
+
+`windows/` is part of the same repository, so normal `pq pull` and `pq push` include Windows source changes too. Use `./pq check --platform windows` with JDK 21 (`WINDOWS_JAVA_HOME` can override the default Java path). On Windows, run `python tools/workflow.py check --platform windows` or the Gradle commands in `windows/README.md`. `--platform both` retains Apple + Android checks; `--platform all` additionally checks Windows desktop when all toolchains are present.
+
+The GitHub Windows workflow tests, packages MSI/EXE, installs and launches the MSI. Windows packages must be built on Windows. The common pricing engine and JSON defaults compile directly from Android sources into Windows sharedLogic. Changes there need both platform checks and the same Swift fixtures. UI changes require equivalent Windows desktop behavior.
