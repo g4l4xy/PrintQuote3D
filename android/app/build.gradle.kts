@@ -16,6 +16,7 @@ android {
         targetSdk = 37
         versionCode = 1
         versionName = "0.1"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures { compose = true }
     compileOptions {
@@ -37,4 +38,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     // Android provides org.json at runtime; this supplies it to local JVM tests.
     testImplementation("org.json:json:20251224")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2026.03.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation("androidx.test:runner:1.7.0")
+    // 3.7 fixes InputManager reflection removed by newer Android versions.
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
 }

@@ -28,4 +28,8 @@ With JAVA_HOME pointing to Android Studio's bundled JDK and the SDK configured:
 
 The debug APK is `app/build/outputs/apk/debug/app-debug.apk`. Build outputs, IDE metadata, and machine paths are ignored.
 
-Validation on 2026-09-13: Gradle configuration/dependency resolution, `assembleDebug`, and all 3 `testDebugUnitTest` tests succeeded using the installed JDK 25/API 37 SDK. The managed validation session used writable workspace paths for `GRADLE_USER_HOME` and `ANDROID_USER_HOME`, plus `-Pkotlin.compiler.execution.strategy=in-process` to avoid sandbox restrictions on the compiler daemon. These are validation-environment overrides, not everyday Android Studio requirements. IDE UI sync was not separately exercised. No AVD/system image or connected device was available, so app launch remains unverified.
+Validation on 2026-09-13: Gradle configuration/dependency resolution, `assembleDebug`, and all 3 `testDebugUnitTest` tests succeeded using the installed JDK 25/API 37 SDK. A subsequent normal build passed without the earlier Android-path/compiler sandbox overrides. IDE UI sync was not separately verified.
+
+The app was installed and launched on the local `PrintQuote_API_37` ARM64 Android 17 emulator, which is available in Android Studio's Device Manager. `:app:connectedDebugAndroidTest` passed (1 instrumentation test). It verifies the shared-data status and opens/closes all four placeholders: New Quote, Printers, Filaments, and Settings. The test uses Espresso 3.7.0 to avoid the older InputManager reflection API removed in Android 17. No app-runtime dependencies were added for testing.
+
+To repeat the interaction test, start an emulator, then run `./gradlew :app:connectedDebugAndroidTest` or run `HomeScreenTest` from Android Studio. Open the `android/` folder itself: opening only the repository root does not import the Android Gradle app and may leave Run disabled.
