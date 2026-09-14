@@ -1,5 +1,8 @@
 package local.printquote.android.ui
 
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import local.printquote.android.R
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -71,6 +74,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
 @Composable fun Dashboard(vm:WorkspaceViewModel) {
     val quotes=vm.entries("quotes"); val currency=vm.library!!.getJSONObject("settings").text("currency","USD")
     LazyColumn(Modifier.fillMaxSize(),contentPadding=PaddingValues(20.dp),verticalArrangement=Arrangement.spacedBy(12.dp)) {
+        item {Row(verticalAlignment=androidx.compose.ui.Alignment.CenterVertically) {Image(painterResource(R.mipmap.ic_launcher),contentDescription=null,modifier=Modifier.size(64.dp));Column {Text("PrintQuote 3D",style=MaterialTheme.typography.titleLarge);Text("Real parts. Real prices. Faster.",style=MaterialTheme.typography.bodySmall)}}}
         item {Text("Your workshop, in focus.",style=MaterialTheme.typography.headlineMedium);Text(vm.library!!.getJSONObject("settings").text("businessName"))}
         item {Text("${quotes.size} saved quotes · ${vm.entries("printers").size} printer profiles · ${vm.entries("filaments").size} saved materials")}
         item {Button(onClick=vm::newQuote,modifier=Modifier.fillMaxWidth()) {Text("Create estimate")}}

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ABCDEF001234567890000001 /* BrandAssets in Resources */ = {isa = PBXBuildFile; fileRef = ABCDEF001234567890000002; };
 		079FEB986518EC24CFA76ED6 /* Libraries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5648EB725B57EF1125CDF541 /* Libraries.swift */; };
 		0A4F477B923B507BF4AD327E /* QuoteEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7612989D29ADF1BE6B4AA8 /* QuoteEditor.swift */; };
 		0C7A5F6F2DC6DF01D382CEDC /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D332188C13C0F99BC5E72 /* App.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ABCDEF001234567890000002 /* BrandAssets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sources/PrintQuoteApp/BrandAssets.xcassets; sourceTree = SOURCE_ROOT; };
 		08EEEC30C6FC304E7B1DC81D /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		0AF7553D0AC61F74068599BF /* ATTRIBUTION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ATTRIBUTION.md; sourceTree = "<group>"; };
 		0D7B06F8063DEF23229FCCDF /* PrinterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterPicker.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 		45768B19A47E7455D8D22FD2 = {
 			isa = PBXGroup;
 			children = (
+				ABCDEF001234567890000002 /* BrandAssets */,
 				0AF7553D0AC61F74068599BF /* ATTRIBUTION.md */,
 				7B205F91FD8201EEDA5F0253 /* Fixtures */,
 				3F54CA356204E0D10223A7D2 /* LICENSE */,
@@ -239,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABCDEF001234567890000001 /* BrandAssets in Resources */,
 				FC1FC07B805C32194C28BDB2 /* ATTRIBUTION.md in Resources */,
 				B7B14F24E9870C94759F1A4E /* LICENSE in Resources */,
 				7D6DB5C3F98054B02FCD3251 /* ThirdParty in Resources */,

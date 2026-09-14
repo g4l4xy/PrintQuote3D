@@ -45,7 +45,7 @@ struct RootView: View {
     var body: some View {
         NavigationSplitView(preferredCompactColumn: $compactColumn) {
             VStack(alignment:.leading, spacing: 20) {
-                VStack(alignment:.leading) { Text("PRINTQUOTE 3D").font(.headline); Text("Upload. Configure. Price. Quote.").font(.caption).foregroundStyle(.secondary) }.padding(.horizontal).padding(.top)
+                VStack(alignment:.leading) { HStack { BrandIcon().frame(width:44,height:44); Text("PrintQuote 3D").font(.headline) }; Text("Real parts. Real prices. Faster.").font(.caption).foregroundStyle(.secondary) }.padding(.horizontal).padding(.top)
                 List(Section.allCases, selection: $selection) { item in NavigationLink(value: item) { Label(item.rawValue, systemImage:item.icon) } }.navigationTitle("PrintQuote 3D")
                 Text("LOCAL WORKSPACE  ·  V2").font(.caption2).foregroundStyle(.secondary).padding()
             }.navigationSplitViewColumnWidth(min:210, ideal:230)
@@ -120,5 +120,15 @@ struct DecimalField: View {
                 .keyboardType(.decimalPad)
                 #endif
         }
+    }
+}
+
+struct BrandIcon: View {
+    var body: some View {
+        #if SWIFT_PACKAGE
+        Image("BrandIcon", bundle: .module).resizable().scaledToFit().accessibilityHidden(true)
+        #else
+        Image("BrandIcon").resizable().scaledToFit().accessibilityHidden(true)
+        #endif
     }
 }

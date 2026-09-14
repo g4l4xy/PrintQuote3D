@@ -5,6 +5,6 @@ let package = Package(name: "PrintQuote3D", platforms: [.macOS(.v14), .iOS(.v17)
     .target(name: "OrcaProfiles", dependencies: ["QuoteDomain"]),
     .executableTarget(name: "OrcaProfileImporter", dependencies: ["OrcaProfiles"], path: "tools/OrcaProfileImporter"),
     .target(name: "QuoteData", dependencies: ["QuoteDomain"], resources: [.process("SeedData")]),
-    .executableTarget(name: "PrintQuoteApp", dependencies: ["QuoteDomain", "QuoteData"]),
+    .executableTarget(name: "PrintQuoteApp", dependencies: ["QuoteDomain", "QuoteData"], exclude: ["BrandAssets.xcassets"], resources: [.process("Resources")]),
     .testTarget(name: "QuoteTests", dependencies: ["QuoteDomain", "QuoteData", "OrcaProfiles"], resources: [.copy("Fixtures")])
 ])

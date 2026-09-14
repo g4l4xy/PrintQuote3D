@@ -8,10 +8,13 @@ APP_DIR="$PROJECT_DIR/PrintQuote 3D.app"
 mkdir -p "$APP_DIR/Contents/MacOS" "$APP_DIR/Contents/Resources"
 cp "$BIN_DIR/PrintQuote3D" "$APP_DIR/Contents/MacOS/PrintQuote3D"
 cp -R "$BIN_DIR/PrintQuote3D_QuoteData.bundle" "$APP_DIR/Contents/Resources/"
+cp -R "$BIN_DIR/PrintQuote3D_PrintQuoteApp.bundle" "$APP_DIR/Contents/Resources/"
+cp "$PROJECT_DIR/assets/branding/PrintQuote.icns" "$APP_DIR/Contents/Resources/PrintQuote.icns"
 cat > "$APP_DIR/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
+<key>CFBundleIconFile</key><string>PrintQuote</string>
 <key>CFBundleExecutable</key><string>PrintQuote3D</string>
 <key>CFBundleIdentifier</key><string>local.printquote.desktop</string>
 <key>CFBundleName</key><string>PrintQuote 3D</string>

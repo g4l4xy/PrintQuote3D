@@ -1,6 +1,12 @@
 <div align="center">
 
-# 🧊 PrintQuote 3D
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/branding/wordmark-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/branding/wordmark-light.png">
+  <img alt="PrintQuote — Real parts. Real prices. Faster." src="assets/branding/wordmark-light.png" width="850">
+</picture>
+
+# PrintQuote 3D
 
 ### Your printer makes the part. Make sure the quote makes sense.
 
