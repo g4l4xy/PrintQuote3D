@@ -1,5 +1,7 @@
 # PrintQuote 3D
 
+Android development shell: open [`android/`](android/) directly in Android Studio. See the [Android setup guide](android/README.md) for toolchain and shared-data details. The Swift app remains the behavioral reference.
+
 Native macOS 14+, iOS 17+ and iPadOS 17+ print estimating and quoting, built with SwiftUI, SwiftData and a portable Decimal pricing domain. Public source: https://github.com/g4l4xy/PrintQuote3D
 
 ## Run and build
