@@ -1,6 +1,6 @@
 # PrintQuote 3D
 
-Android development shell: open [`android/`](android/) directly in Android Studio. See the [Android setup guide](android/README.md) for toolchain and shared-data details. The Swift app remains the behavioral reference.
+Android app: open [`android/`](android/) directly in Android Studio. See the [Android setup guide](android/README.md) for toolchain and shared-data details. The Swift app remains the behavioral reference.
 
 Native macOS 14+, iOS 17+ and iPadOS 17+ print estimating and quoting, built with SwiftUI, SwiftData and a portable Decimal pricing domain. Public source: https://github.com/g4l4xy/PrintQuote3D
 
@@ -52,7 +52,7 @@ SharedSchemas includes JSON schemas, version conventions, catalog manifests and 
 
 Automated tests cover the original **$33.31 → $55.52** fixture, margin versus markup, invalid input, disk persistence, legacy decoding, tool counts, assignment validation, architecture costs, portable tool fixtures, inheritance cycles/vendor scope, catalog decoding and source precedence. Native Mac UI checks cover catalog search/detail, the estimate printer chooser and the 1–12 tool picker. Xcode macOS tests and both iOS SDK builds pass; simulator/device interaction has not been tested on this host.
 
-Quotes still contain one manufacturing estimate, with aggregate labor. Jobs, Inventory and Analytics remain placeholders. Source-directory entries do not imply implemented ingestion: network adapters for Cura, PrusaSlicer, Klipper, OpenPrintTag and manufacturer TDS feeds remain future work. Accessories are recorded as notes; configure their actual tool/capability effects explicitly. No STL/3MF parsing, 3D viewer, live pricing, web scraping, PDF export or Kotlin UI is included yet.
+Quotes still contain one manufacturing estimate, with aggregate labor. Jobs, Inventory and Analytics remain placeholders. Source-directory entries do not imply implemented ingestion: network adapters for Cura, PrusaSlicer, Klipper, OpenPrintTag and manufacturer TDS feeds remain future work. Accessories are recorded as notes; configure their actual tool/capability effects explicitly. No STL/3MF parsing, 3D viewer, live pricing, web scraping or PDF export is included yet. The Android Compose app implements the working Apple workflows; see the [Android feature and setup guide](android/README.md).
 
 ## License
 

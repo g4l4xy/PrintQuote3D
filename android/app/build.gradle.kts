@@ -6,6 +6,13 @@ plugins {
 // This repository's authoritative shared files currently live in SharedSchemas.
 // Expose that directory as assets/test resources without maintaining JSON copies.
 val sharedSchemas = rootProject.layout.projectDirectory.dir("../SharedSchemas")
+val catalogAssets = tasks.register<Sync>("prepareCatalogAssets") {
+    from(rootProject.file("../Sources/QuoteData/SeedData")) { include("open_filaments_v2.json") }
+    from(rootProject.file("../ThirdParty")) { into("licenses") }
+    from(rootProject.file("../LICENSE")) { into("licenses/PrintQuote") }
+    from(rootProject.file("../ATTRIBUTION.md")) { into("licenses") }
+    into(layout.buildDirectory.dir("generated/catalogAssets"))
+}
 
 android {
     namespace = "local.printquote.android"
@@ -14,8 +21,8 @@ android {
         applicationId = "local.printquote.android"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1
-        versionName = "0.1"
+        versionCode = 2
+        versionName = "0.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures { compose = true }
@@ -25,9 +32,11 @@ android {
     }
     sourceSets {
         getByName("main").assets.directories.add(sharedSchemas.asFile.path)
+        getByName("main").assets.directories.add(layout.buildDirectory.dir("generated/catalogAssets").get().asFile.path)
         getByName("test").resources.directories.add(sharedSchemas.asFile.path)
     }
 }
+tasks.named("preBuild").configure { dependsOn(catalogAssets) }
 
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2026.03.00"))
