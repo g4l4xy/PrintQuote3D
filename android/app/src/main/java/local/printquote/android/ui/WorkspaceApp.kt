@@ -2,6 +2,7 @@ package local.printquote.android.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
 import local.printquote.android.R
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -38,7 +39,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
     }
     fun back() {when { vm.editor!=null -> discard={vm.editor=null};vm.product!=null -> vm.product=null; vm.picker!=null -> vm.picker=null;vm.quote!=null -> discard={vm.quote=null;vm.screen="Dashboard"};else->vm.screen="Dashboard"}}
     BackHandler(vm.screen!="Dashboard" || vm.editor!=null || vm.product!=null || vm.picker!=null) { back() }
-    MaterialTheme(colorScheme=darkColorScheme()) {
+    MaterialTheme(colorScheme=darkColorScheme(primary=Color(0xFF7AC6FF), onPrimary=Color(0xFF003352), secondary=Color(0xFF5CDCEB), tertiary=Color(0xFF9BDCF5))) {
         Scaffold(topBar={TopAppBar(title={Text(if(vm.editor!=null) "Edit ${when(vm.editorKind){"filaments"->"material";"printers"->"printer";"presets"->"preset";else->"settings"}}" else if(vm.product!=null) "Catalog material" else if(vm.picker!=null) "Choose ${vm.picker}" else vm.screen)},
             navigationIcon={TextButton(onClick={if(vm.editor!=null || vm.product!=null || vm.picker!=null) back() else menu=true}) {Text(if(vm.editor!=null || vm.product!=null || vm.picker!=null) "Back" else "Menu")}},actions={
                 if(vm.editor!=null) TextButton(enabled=!vm.busy,onClick={vm.save(vm.editorKind,vm.editor!!.json)}) {Text("Save")}
@@ -74,7 +75,15 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
 @Composable fun Dashboard(vm:WorkspaceViewModel) {
     val quotes=vm.entries("quotes"); val currency=vm.library!!.getJSONObject("settings").text("currency","USD")
     LazyColumn(Modifier.fillMaxSize(),contentPadding=PaddingValues(20.dp),verticalArrangement=Arrangement.spacedBy(12.dp)) {
-        item {Row(verticalAlignment=androidx.compose.ui.Alignment.CenterVertically) {Image(painterResource(R.mipmap.ic_launcher),contentDescription=null,modifier=Modifier.size(64.dp));Column {Text("PrintQuote 3D",style=MaterialTheme.typography.titleLarge);Text("Real parts. Real prices. Faster.",style=MaterialTheme.typography.bodySmall)}}}
+        item {
+            Row(verticalAlignment=androidx.compose.ui.Alignment.CenterVertically, horizontalArrangement=Arrangement.spacedBy(12.dp), modifier=Modifier.fillMaxWidth()) {
+                Image(painterResource(R.drawable.brand_mark), contentDescription=null, modifier=Modifier.size(40.dp), contentScale=androidx.compose.ui.layout.ContentScale.Fit)
+                Column(Modifier.weight(1f), verticalArrangement=Arrangement.spacedBy(4.dp)) {
+                    Text("PrintQuote 3D", style=MaterialTheme.typography.titleLarge)
+                    Text("Real parts. Real prices. Faster.", style=MaterialTheme.typography.bodySmall, color=MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+        }
         item {Text("Your workshop, in focus.",style=MaterialTheme.typography.headlineMedium);Text(vm.library!!.getJSONObject("settings").text("businessName"))}
         item {Text("${quotes.size} saved quotes · ${vm.entries("printers").size} printer profiles · ${vm.entries("filaments").size} saved materials")}
         item {Button(onClick=vm::newQuote,modifier=Modifier.fillMaxWidth()) {Text("Create estimate")}}

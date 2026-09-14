@@ -45,7 +45,13 @@ struct RootView: View {
     var body: some View {
         NavigationSplitView(preferredCompactColumn: $compactColumn) {
             VStack(alignment:.leading, spacing: 20) {
-                VStack(alignment:.leading) { HStack { BrandIcon().frame(width:44,height:44); Text("PrintQuote 3D").font(.headline) }; Text("Real parts. Real prices. Faster.").font(.caption).foregroundStyle(.secondary) }.padding(.horizontal).padding(.top)
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 10) {
+                        BrandIcon().frame(width: 32, height: 36).fixedSize()
+                        Text("PrintQuote 3D").font(.headline).lineLimit(1).minimumScaleFactor(0.8).layoutPriority(1)
+                    }
+                    Text("Real parts. Real prices. Faster.").font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                }.frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 16).padding(.top, 12)
                 List(Section.allCases, selection: $selection) { item in NavigationLink(value: item) { Label(item.rawValue, systemImage:item.icon) } }.navigationTitle("PrintQuote 3D")
                 Text("LOCAL WORKSPACE  ·  V2").font(.caption2).foregroundStyle(.secondary).padding()
             }.navigationSplitViewColumnWidth(min:210, ideal:230)
@@ -125,7 +131,15 @@ struct DecimalField: View {
 
 struct BrandIcon: View {
     var body: some View {
-        #if SWIFT_PACKAGE
+        #if SWIFT_PACKAGE && os(macOS)
+        // Plain SwiftPM PNG resources are not asset-catalog named images.
+        // Prefer the packaged resource so a copied .app works away from its build directory.
+        let packaged = Bundle.main.resourceURL?.appendingPathComponent("PrintQuote3D_PrintQuoteApp.bundle/BrandIcon.png")
+        if let image = packaged.flatMap({ NSImage(contentsOf: $0) })
+            ?? Bundle.module.url(forResource: "BrandIcon", withExtension: "png").flatMap({ NSImage(contentsOf: $0) }) {
+            Image(nsImage: image).resizable().scaledToFit().accessibilityHidden(true)
+        }
+        #elseif SWIFT_PACKAGE
         Image("BrandIcon", bundle: .module).resizable().scaledToFit().accessibilityHidden(true)
         #else
         Image("BrandIcon").resizable().scaledToFit().accessibilityHidden(true)
