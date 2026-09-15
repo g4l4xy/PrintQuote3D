@@ -35,6 +35,11 @@ import QuoteDomain
     }
 }
 public enum SeedLoader {
+    public static func data(_ name:String)throws->Data {
+        let embedded = Bundle.main.resourceURL.flatMap { Bundle(url:$0.appendingPathComponent("PrintQuote3D_QuoteData.bundle")) }
+        guard let url=(embedded ?? Bundle.module).url(forResource:name,withExtension:"json") else{throw PricingError.invalid("Missing bundled catalog: \(name)")}
+        return try Data(contentsOf:url)
+    }
     public static func resource<T: Decodable>(_ name: String, as type: T.Type) throws -> T {
         let embedded = Bundle.main.resourceURL.flatMap { Bundle(url: $0.appendingPathComponent("PrintQuote3D_QuoteData.bundle")) }
         let resources = embedded ?? Bundle.module

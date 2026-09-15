@@ -1,15 +1,40 @@
 import SwiftUI
 import QuoteDomain
+import QuoteData
+import UniformTypeIdentifiers
 
 struct SourcesView: View {
     @Bindable var state: AppState
     @State private var query = ""
+    @State private var exporting=false
+    @State private var showingLogs=false
+    @State private var diagnostics=CatalogSupportDocument(data:Data())
     var body: some View {
         List {
             SwiftUI.Section("Offline catalogs") {
                 Text("Open Filament Database: \(state.filamentCatalog?.products.count ?? 0) products, version \(state.filamentCatalog?.upstreamVersion ?? "unknown")")
                 Text("OrcaSlicer: \(state.technicalCatalog?.profiles.count ?? 0) pinned technical profiles. No retail prices imported.")
                 Text("Catalog → manufacturer TDS → process profiles → packaging → secondary cross-checks. Retail prices remain a separate stream. User overrides are preserved.").foregroundStyle(.secondary)
+            }
+            SwiftUI.Section("Filament pipeline diagnostics") {
+                let c=state.filamentCounts
+                Text("Source spool records: \(c.discovered) · Decoded: \(c.decoded) · Normalized: \(c.normalized)")
+                Text("Rejected: \(c.rejected) · Inserted: \(c.inserted) · Updated: \(c.updated) · Duplicate IDs: \(c.duplicates)")
+                Text("Indexed: \(c.stored) · Saved inventory: \(state.library.filaments.count)")
+                Text(state.filamentStatus)
+                if let failure=state.filamentFailure{Text(failure).foregroundStyle(.orange)}
+                Text(state.printerStatus)
+                Button("Refresh Printer Data"){state.refreshPrinters()}.disabled(state.printerLoading)
+                if state.printerLoading{Button("Cancel printer refresh"){state.printerTask?.cancel()}}
+                Button("Open Logs"){showingLogs=true}
+                Button("Refresh Filament Data / Rebuild Search Index"){state.refreshFilaments()}.disabled(state.filamentLoading)
+                if state.filamentLoading{Button("Cancel"){state.catalogTask?.cancel()}}
+                Button("Create Support Bundle") {do {
+                    let encoder=JSONEncoder();encoder.outputFormatting=[.prettyPrinted,.sortedKeys]
+                    diagnostics=CatalogSupportDocument(data:try encoder.encode(CatalogDiagnosticReport(status:state.filamentStatus,failure:state.filamentFailure,displayedAfterFilters:state.filamentVisibleCount,counts:state.filamentCounts)));exporting=true
+                }catch{state.error="Could not export catalog diagnostics: \(error.localizedDescription)"}}
+                Text("The diagnostic bundle contains catalog counts and quarantine reasons, without customer quotes or inventory prices.").font(.caption)
+                DisclosureGroup("Quarantine (\(c.quarantine.count) diagnostics)") {ForEach(Array(c.quarantine.prefix(200).enumerated()),id:\.offset){_,d in Text("\(d.sourceID): \(d.reason) · \(d.count) records").font(.caption)}}
             }
             SwiftUI.Section("Source directory") {
                 ForEach((state.sourceCatalog?.sources ?? []).filter {query.isEmpty || $0.name.localizedCaseInsensitiveContains(query)}) { source in
@@ -20,7 +45,7 @@ struct SourcesView: View {
                     }
                 }
             }
-        }.searchable(text:$query,prompt:"Find source or manufacturer").navigationTitle("Data & Pricing Sources")
+        }.sheet(isPresented:$showingLogs){NavigationStack{ScrollView{VStack(alignment:.leading){Text(state.filamentStatus);Text(state.printerStatus);if let failure=state.filamentFailure{Text(failure)};ForEach(Array(state.filamentCounts.quarantine.prefix(200).enumerated()),id:\.offset){_,d in Text("\(d.sourceID): \(d.reason) · \(d.count)")}}.padding().textSelection(.enabled)}.navigationTitle("Local database log").toolbar{Button("Done"){showingLogs=false}}}.desktopSheet(width:680,height:560)}.fileExporter(isPresented:$exporting,document:diagnostics,contentType:.json,defaultFilename:"PrintQuote-V4-catalog-diagnostics"){result in if case .failure(let error)=result{state.error=error.localizedDescription}}.searchable(text:$query,prompt:"Find source or manufacturer").navigationTitle("Data & Pricing Sources")
     }
 }
 struct OrcaCatalogView: View {
@@ -61,3 +86,13 @@ struct OrcaCatalogView: View {
         }
     }
 }
+
+private struct CatalogSupportDocument:FileDocument {
+    static var readableContentTypes:[UTType]{[.json]}
+    var data:Data
+    init(data:Data){self.data=data}
+    init(configuration:ReadConfiguration)throws{data=configuration.file.regularFileContents ?? Data()}
+    func fileWrapper(configuration:WriteConfiguration)throws->FileWrapper{FileWrapper(regularFileWithContents:data)}
+}
+
+private struct CatalogDiagnosticReport:Codable {var appVersion="0.4.0";var status:String;var failure:String?;var displayedAfterFilters:Int;var counts:FilamentImportCounts}

@@ -83,7 +83,7 @@ swift test
 open 'PrintQuote 3D.app'
 ```
 
-The packaging script includes resources and license notices and signs the development app ad hoc. Distribution signing and notarization are separate work. The Apple toolchain has been verified with Xcode 26.6 / Swift 6.3.3 on Apple Silicon.
+The packaging script includes resources and license notices and signs the development app ad hoc. Distribution signing and notarization are separate work. The Apple toolchain has been verified with Xcode 27.0 / Swift 6.4 on Apple Silicon.
 
 → [Xcode setup and device notes](OPEN_IN_XCODE.md)
 
@@ -134,8 +134,8 @@ Saved quotes keep snapshots of the selected printer, material, preset when appli
 
 The **Materials** destination combines two views:
 
-- **My materials:** your saved products, actual cost per kilogram, spool dimensions, source information, and optional stock quantities, remaining grams, location, and notes.
-- **Browse catalog:** the bundled Open Filament Database snapshot, searchable by brand, product, or material family.
+- **My Inventory:** your saved products, actual cost per kilogram, spool dimensions, source information, and optional stock quantities, remaining grams, location, and notes.
+- **All Filaments** (opens by default): the bundled Open Filament Database, indexed at the individual color/spool level. Search manufacturer, product, material, color, SKU and source tags; combine manufacturer/material filters, favorites and recently used selections.
 
 The bundled snapshot contains:
 
@@ -147,7 +147,23 @@ The bundled snapshot contains:
 
 Choose a product, color, and spool size, enter **your purchase cost**, and save it for estimates. You can also create a manual material when you need something custom or have verified dimensions the catalog does not supply.
 
+**Where did the other filaments go?** Previous versions opened the three saved sample spools, while the full catalog lived behind a second tab. V4 opens the real catalog and shows matching/total counts. Your inventory still means spools you have actually saved.
+
+Search is debounced and paginated (100 rows at a time). Apple uses a durable SQLite/FTS index; Android and Windows stream the bundled source into repository-level token indexes on background workers. The Data & Pricing Sources page shows discovered, decoded, normalized, rejected, inserted, updated and duplicate counts, quarantine reasons, cancel/rebuild controls and a diagnostic export.
+
+Material editors preserve imported values alongside separate user overrides. Per-system feeder compatibility stays **Unknown / not verified** unless source data or your override supplies an answer. Prices remain your entered purchase costs.
+
 Purchase links are references, not live prices. Catalog records retain source metadata and provenance. Saving a quote does **not** automatically subtract filament from stock.
+
+### ⌨️ V4: fewer clicks, more confidence
+
+Open **Search & Commands** with **⌘K** on Mac, **Ctrl+K** on Windows, or the Search action on mobile. Find saved workshop records, jump to the full filament search, create an estimate, import STL/3MF, open settings or rebuild catalog data. Desktop shortcuts also cover new quotes, save, import and search.
+
+Quotes now show **Saving… / Saved / Save failed**, with an 800 ms debounce and separate atomic recovery journals. Relaunch offers **Restore** or **Discard** for recovered drafts. A failed save is visible; existing quotes are not silently replaced by a recovered draft. Favorites and recent selections help bring familiar library records forward. Desktop context menus include open, favorite and duplicate actions.
+
+Switch filament and printer libraries between **Cards** and **Table**. Save column visibility, ordering and widths, or edit inventory price, remaining grams, nickname and notes directly in the table. Picker groups bring recent spools and favorites forward. Price sorting uses your saved costs; missing difficulty/drying data remains unknown. Printer quick actions start an estimate with that configuration already selected.
+
+See the [V4 implementation and verification record](docs/features/v4-usability.md) for exact coverage and remaining acceptance work. Build checks do not establish phone, tablet or keyboard interaction acceptance.
 
 ### 🖨️ Printers: bring the machine, then bring its real costs
 
@@ -294,7 +310,7 @@ PrintQuote3D/
 └── ThirdParty/              # Upstream license notices
 ```
 
-Apple uses local SwiftData persistence. Android writes its workspace atomically to private app storage. Windows stores a versioned workspace in transactional SQLite under `%LOCALAPPDATA%\PrintQuote3D`. Android streams the large filament catalog to build a small search index and retains the selected product for its detail view.
+Apple uses local SwiftData persistence. Android writes its workspace atomically to private app storage. Windows stores a versioned workspace in transactional SQLite under `%LOCALAPPDATA%\PrintQuote3D`. Android and Windows stream the large filament catalog into background token indexes and retain a selected product for its detail view. Apple keeps catalog search in a separate SQLite index, alongside the SwiftData workshop.
 
 Common JSON contracts and fixtures keep the native implementations aligned. Android packages the existing shared files and OFD catalog as build assets; it does not maintain a second checked-in catalog. Source records retain upstream paths, versions, and attribution where provided.
 
@@ -304,15 +320,15 @@ The latest shared workflow validation was recorded on **September 15, 2026**:
 
 | Check | Result / scope |
 | --- | --- |
-| Swift tests | **38 passed** locally |
+| Swift tests | **68 passed** locally, including catalog scale, cancellation rollback and recovery |
 | Apple builds | macOS and iOS Simulator builds passed; iOS target includes iPhone and iPad |
-| Android JVM tests | **24 passed**, including the opt-in local model check |
-| Windows logic, importer and SQLite/catalog tests | **31 passed**, one optional local-model test skipped |
-| Windows MSI / EXE | Import build packaged successfully; installation/launch not repeated (prior release was installed and launched) |
-| Windows upgrade persistence | Complete workspace retained after upgrade |
+| Android JVM tests | **32 tests: 31 passed, one optional local-model test skipped**, including shared V4 catalog and recovery tests |
+| Windows logic, importer and SQLite/catalog tests | **40 tests, 39 passed and one optional local-model test skipped** |
+| Windows V4 MSI | 0.4.0 packaged and installed (exit 0); installed process remained running. Visual interaction check blocked by locked host. EXE packaging not repeated. |
+| Windows upgrade persistence | Existing database backed up; its hash unchanged by the V4 MSI upgrade |
 | Android build and lint | Passed; dependency-update notices remain |
 | Git workflow tests | **6 passed**, using temporary repositories |
-| Android interaction tests | **2 passed** in the preceding app verification on an Android 17 ARM64 emulator |
+| Android interaction tests | **2 passed in an earlier release**; updated V4 test source, not rerun for this build |
 
 Tests cover pricing fixtures, validation, tool limits, persistence, source handling, and workflow behavior. Android interaction coverage includes creating/reopening a quote, searching libraries, saving a catalog spool, and changing business settings. Prior native Mac checks covered catalog search/detail, printer selection, and the tool-count picker.
 

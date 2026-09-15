@@ -7,21 +7,20 @@ import org.json.JSONObject
 import org.json.JSONArray
 import java.io.Reader
 
-data class CatalogEntry(val id:String,val name:String,val brand:String,val family:String)
+typealias CatalogEntry = local.printquote.android.data.CatalogRecord
 
 /** Stream the large shared OFD catalog; keep only its small searchable index in memory. */
 class MaterialCatalogRepository(private val open:()->Reader) {
+    var diagnostics=local.printquote.android.data.CatalogDiagnostics();private set
     fun index():List<CatalogEntry> = open().use { reader ->
-        val json=JsonReader(reader); val result=mutableListOf<CatalogEntry>(); json.beginObject()
+        val json=JsonReader(reader);val normalizer=local.printquote.android.data.CatalogNormalizer();val result=mutableListOf<CatalogEntry>();var schema=0;json.beginObject()
         while(json.hasNext()) {
-            if(json.nextName()!="products") { json.skipValue(); continue }
-            json.beginArray()
-            while(json.hasNext()) {
-                var id=""; var name=""; var brand=""; var family=""; json.beginObject()
-                while(json.hasNext()) when(json.nextName()) { "id"->id=json.nextString(); "name"->name=json.nextString(); "brand"->brand=json.nextString(); "materialFamily"->family=json.nextString(); else->json.skipValue() }
-                json.endObject(); result.add(CatalogEntry(id,name,brand,family))
-            }; json.endArray()
-        }; json.endObject(); result
+            when(json.nextName()) {
+                "schemaVersion"->schema=json.nextInt()
+                "products"->{json.beginArray();while(json.hasNext()){if(Thread.currentThread().isInterrupted)throw InterruptedException("Catalog refresh canceled");result.addAll(normalizer.product(readValue(json) as JSONObject))};json.endArray()}
+                else->json.skipValue()
+            }
+        };json.endObject();require(schema==2){"Unsupported filament schema version; existing local index is preserved"};diagnostics=normalizer.diagnostics;result
     }
     fun product(id:String):Pair<JSONObject,JSONObject> = open().use { reader ->
         val json=JsonReader(reader); val metadata=JSONObject(); var found:JSONObject?=null; json.beginObject()

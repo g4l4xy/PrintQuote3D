@@ -1,0 +1,1208 @@
+{
+  "schemaVersion": 2,
+  "sourceName": "PrintQuote V4 synthetic regression fixture",
+  "sourceURL": "https://example.invalid/printquote-v4-fixture",
+  "sourceLicense": "MIT",
+  "upstreamVersion": "fixture-v1",
+  "generatedAt": "2026-09-12T23:59:16Z",
+  "retrievedAt": "2026-09-13T22:53:02.120991+00:00",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "products": [
+    {
+      "id": "e4b2b7a3-db1f-54c7-a73f-75d3e9ae984d",
+      "brand": "Maker A",
+      "name": "Test 0",
+      "materialFamily": "PLA",
+      "fields": {},
+      "variants": [
+        {
+          "id": "1946ab68-8c44-51ca-be42-d66e21aba011",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "86ed67b6-7d5f-5410-aaa1-84c39315c51c",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "e669a8f8-af2c-5a0b-9d4f-c844b53e7e17",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "25f99fd3-5aa5-52e2-8aec-c28762d0c89d",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "a939d5b2-2877-5089-9bb0-6d80ade33e3c",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "72cff3b6-ff0c-5e64-aa08-6d9d5c728cf8",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "763e06f7-6572-5721-9220-c494342e70ab",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "be57a4bb-5bb0-501b-8ccd-4ff76e6f3ee5",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "1814712a-2030-5450-a44e-0445bc86257b",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "ec48dbc6-512b-5ebb-bcd3-1d13d2985df2",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "7d7ad377-ffdf-5ba9-afa2-0d3c7fd8066a",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "956d03ff-2b1e-540c-9d3b-f34882e7c37f",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "fd1f7f3e-159b-569d-b827-ea064d2c5a19",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "e27b1881-08d3-51d4-8695-17bd141a4405",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "3efaacf1-733f-5fa6-9cde-e243a77b0a20",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "59465aaa-a227-54f6-8f50-a28ab390740a",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "c98c7d7d-05d6-566b-8ac2-ea70ff76594e",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "e20b9985-4e6a-57c5-8e88-48b112c69f4d",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "10d117f0-7ca1-5bda-a51d-53d278927e29",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "1a856abd-6548-5ac1-8b2e-4b330f63a23d",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "75c1a7bc-03e4-5ad1-9ea8-9fda6ae20888",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "e3fb604c-cd2d-58d5-9ff5-c557a5104d39",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "1b4f6b04-26a9-5c1f-b936-d4fa1eb6e1c1",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "e44c0c67-a550-5fc2-bad4-b223426fd327",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "568cb45e-8e03-5e32-8049-95e936cc199c",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "62dcdb90-9e2d-552c-af8a-511c65683afc",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "1dbc14f8-7ac8-5ab5-a852-06da58117507",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "37dbb59c-955d-5c22-971d-12327322918d",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "4d3ae93c-8a4e-5d3e-9070-7a9976f9bed2",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "25491374-2004-52e1-9f31-4688d1361d31",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "0a7437b2-2bc4-574e-bff2-d9d111d358bf",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "7bfbadff-2610-5379-a6b6-a54aa02a9137",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "244fc9f2-0974-5893-b8c5-51653d924949",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "bcb7a637-78e6-5892-8ea1-30ddad094462",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "9de3fe64-28f5-52b6-a09d-9841ae8dec91",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "3929c904-de10-5562-929b-f7e011fcf297",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "fd47eeaf-12a6-575b-a68f-28cadc8401df",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "c39aa3e1-9315-503c-978a-135c611b8325",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "73afe5f5-5833-52fa-84e6-161444a23fe6",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "e15785d7-d491-54e8-a3be-ac9ae5ae1ea2",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "88d0d592-eb2a-5d05-a0fb-24bf4b05c376",
+      "brand": "Maker B",
+      "name": "Test 1",
+      "materialFamily": "PETG",
+      "fields": {},
+      "variants": [
+        {
+          "id": "e84b1b69-2fe7-5244-9c17-38386d73c8a5",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "9aeeaeaf-7fbe-57d6-85db-0a4168d800db",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "fbd02f71-8786-5b98-acb4-57b3804b0dd9",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "25b63dff-c446-5365-80b3-c69a95c834fc",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "e1a998bf-71f2-5c7e-b4ab-8fbf9d6db51e",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "d75f18b3-2388-5d8d-9992-c61d229cefc8",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "ed536fa6-2573-5b86-9dd0-e3b59f07d02d",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "11a83a78-f2b5-5bea-a77c-95318335a817",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "12381782-9afc-5930-b922-fc2a5ab12e44",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "6d37f85a-585b-5201-9f46-89af3c32557c",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "b02456e8-953b-57fc-8b30-a7de47393585",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "0196367a-7f78-55cf-8cc7-f5024cb9e594",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "b54e6bd5-c9ec-512f-b780-5ffaa4b116fc",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "e4a4b5ff-b20d-55d2-ada2-733e49fc400f",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "8a518533-b32e-514b-af84-4dc6b243fddf",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "79efe91f-55be-56a5-b0a8-25b0d5350416",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "ee3c73ff-d9b8-5830-ba90-2806ce26f67f",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "7fcbfca4-fb18-56bd-a115-6bfc6e5e10a2",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "ad97cee4-e80e-5baf-add9-45a12518be2e",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "1a29c05a-2a3c-5466-ad02-6fb64db878c4",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "00fdaf91-e80e-59df-a01e-a0a6c8a3ea46",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "33648a96-2023-5c88-9579-1d0398e10c4b",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "fbf0f052-fb73-595f-97a9-29dc0bf96bec",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "ff78000a-dcc3-58b7-8f24-6f11ad5bd56a",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "234858b1-ce16-555b-b40d-960dcda9937a",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "e3490c2b-cc5b-5d2f-b599-2a7413600b98",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "f78e3593-030c-5440-860f-d8cf9ccf91ae",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "286532cb-56be-5ada-87bb-8c0a12873077",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "09b897bd-21d2-5a04-b4dc-aa90d34f94a7",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "78edd653-5107-52e1-bcef-cfd0790a966b",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "fd606ec0-5552-5f30-8f0c-9eecfdd5d4bd",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "0d9abb1d-3ea9-5c43-9c00-3c320739dafd",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "4cc8fe61-6b98-5146-9670-6e9e0083cc4b",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "1049801c-128b-5b26-9714-301b2c270482",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "6bb13f48-e3ed-5c66-8e03-b59f1989e331",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "713546b7-5c2f-557d-a783-7f2a315f7dd2",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "033d6927-ba6c-50a8-a4d1-ef9fbd95b7c4",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "57eb5ca6-2aef-58be-85cd-3d45b2af7409",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "350c0d54-cfb1-5f56-b249-a6ac01aba513",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "2c360346-c2c9-53db-a23b-4e72bfa225f2",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4d6e093e-de8a-56e7-a94b-9a7ec6dd337e",
+      "brand": "Maker A",
+      "name": "Test 2",
+      "materialFamily": "PLA",
+      "fields": {},
+      "variants": [
+        {
+          "id": "38790796-2dee-59a1-a1d4-fd48c8cffa86",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "c09c9c22-c5d5-56ce-b142-bacee1bd28b5",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "1b8bc7d3-0d59-56c2-b6dc-2c2854701fb9",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "6068ebc5-6112-54c0-b4fa-5baeca928c71",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "1c11be75-11ff-5f36-b3ea-abaab69cd99d",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "d3937a95-8e06-574b-a430-5740149000a5",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "04d9c5f4-0de7-570a-9de7-4c3f5bc2bbc9",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "564f624b-095b-5c52-a5d7-fe16b9b51ff5",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "c76709a4-a724-570e-a0d4-6bc62ff7688b",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "0e8a7ef7-2d74-532e-9380-107b9084c5df",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "b1eade4c-967b-5c10-ae3c-1041653e8db5",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "ccf37b90-220c-58a1-8c0f-6f1b97396fbf",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "83f8c928-17ce-51d5-9cb1-5d91a7078078",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "7db85e55-4a2a-50ea-968c-3d795dacf64c",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "2fd5ed01-19cb-5d31-bb90-55ce4cc0dcbe",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "4fbffa84-5416-5c89-982b-5bb6ca82c602",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "5cc23b76-cff3-5f70-bbc3-a855b5d6b34a",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "76c63029-1c9f-5aa9-ba3c-cea69aed6614",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "59bd3fc0-8e12-5a03-a0c7-09115c2146d0",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "ae522cd0-5ca0-5b1e-87ee-e3b9bbfd5998",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "85d639fb-1ee3-57f3-9491-c7500b0c6388",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "a72b2fac-d007-5ab9-9f01-ba331694ab83",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "2072ea6b-d91f-5793-8f93-78c61894acdd",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "81b20dc7-6508-5437-9a4f-df21f15e53d3",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "7451d2ab-6b3e-577a-8191-d4ab3baa36c6",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "3c61a3cd-cbdd-53d1-91f1-bdb049543f63",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "c821eea6-3a5b-583a-a3c5-1ce7580b523e",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "0c1f9a16-7751-5f96-a66b-5d71212d07c0",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "6579803e-e08d-5b85-8565-f086c778cd32",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "ff8a3d22-98ff-57e2-ae6a-0a87f9b3aecf",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "ca409693-7148-5ed6-8072-f4c1544ae08f",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "6221f85a-cd76-56c6-b4ee-17207af2b8ba",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "7ffe8e97-5e14-5744-9d65-80006601fa3e",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "e93fe328-d08e-5d31-b0df-f8fe44cbead0",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "b76bc059-0f0e-5145-95eb-86174a0d174d",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "2caaf1f9-d698-520d-ae1c-c659d744f4b6",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "fbc38f10-8131-51cb-941d-20fc9e920402",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "96862af4-91d1-5029-b132-72dc23517dc0",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "ff788eae-5b4a-5420-b0ab-f6f8ae3b53b3",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "11421813-e62f-5b90-b320-183f02a9156d",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0f3bdac6-923a-506a-95b0-270f65461161",
+      "brand": "Maker B",
+      "name": "Test 3",
+      "materialFamily": "PETG",
+      "fields": {},
+      "variants": [
+        {
+          "id": "78b920fe-e135-5e8c-91b5-dfd67d86da50",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "3a90eb27-2596-5916-aa8f-0ad262f4e2ff",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "6fec2682-262c-5b15-98a6-f9af45bf07b1",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "6595e927-da80-5e38-aad9-1e3f773d3057",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "8bb1f945-1aae-5f3b-83f2-b0c17c8117b7",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "e8ed87ef-2132-57fc-8d0f-bbc8562f1153",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "f2904aad-fcd6-5f5c-8a49-b18a7cf903b7",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "e5245008-f899-5628-afd3-b804ac897c63",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "668f4cd5-120d-5265-90c3-669f20ec1bcb",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "51f7c009-8927-5961-8728-87e8aab0616f",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "e5f4c4de-cb68-533e-a6d5-e03f41c7d41a",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "8d76f31e-ec24-5c72-b01b-41105173f5f3",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "24861c17-6000-52a6-81a4-265948658c0c",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "f99f24c0-f85f-5988-8920-1ed8cc6b2aaf",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "0d82eb0e-1587-5efc-a664-aaea05555910",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "f8fca3fe-8cd2-511e-bffd-ef7c92e77c2b",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "b9f62248-f370-532d-a308-5204a5d4cb6a",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "e9a32f59-198f-551d-8d02-7d18e5998f2b",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "2eaf0159-c630-523e-b7a1-27e5081672ac",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "b2b90957-a7af-5458-9497-710ec1d1c19f",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "630d9202-1163-5e69-9723-4b6f5c233a6d",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "5e14a06a-afd1-5c70-b5a3-5aca7a0d9056",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "858f4f51-c691-5f65-aa19-fdb3db448b54",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "49701dd1-6003-51f6-b6c1-42bbbc10da51",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "67ce4584-97b1-5492-8a64-31e6149f26c0",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "2a2862b7-a89d-5708-a43c-75b930e5ae1b",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "5619d9c8-7bc7-5ad9-a5fd-e61dcc664804",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "8a629123-d978-559f-accb-99500a6e0845",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "4ea89891-f927-5844-9e7a-d9b2123a92b9",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "e60a4592-ed86-5aac-8f0a-24c54d2e8703",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "fa2ea13b-205e-55c0-a46c-ddbcd18c22a6",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "5efd5722-f79a-52c5-832e-8313006ab474",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "c66226af-4b3c-56f8-8d69-b5d666f1c528",
+          "name": "Black",
+          "colorHex": "#000000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "22f840c6-8a84-5f98-be88-b5c47675e6ac",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "5750fc9d-e558-55ae-8bf9-89ce1c029606",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "e710cfee-dd35-5e4b-85c4-154bdd8eeaca",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        },
+        {
+          "id": "e1d449b4-6519-5b8d-bcfb-3523cf15e88a",
+          "name": "Red",
+          "colorHex": "#FF0000",
+          "fields": {},
+          "sizes": [
+            {
+              "id": "93c589cb-3b36-545e-847d-4a50fb989abf",
+              "diameterMM": 1.75,
+              "netWeightGrams": 250,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "2709eadc-3af6-53a2-96c8-b311fcab7956",
+              "diameterMM": 1.75,
+              "netWeightGrams": 500,
+              "fields": {},
+              "purchaseURLs": []
+            },
+            {
+              "id": "ccd348c1-87ee-557e-9b01-be5db03e6f0e",
+              "diameterMM": 1.75,
+              "netWeightGrams": 1000,
+              "fields": {},
+              "purchaseURLs": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -21,8 +21,8 @@ android {
         applicationId = "local.printquote.android"
         minSdk = 26
         targetSdk = 37
-        versionCode = 2
-        versionName = "0.2"
+        versionCode = 4
+        versionName = "0.4.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures { compose = true }

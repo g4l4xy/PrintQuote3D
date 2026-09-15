@@ -13,7 +13,7 @@ class HomeScreenTest {
             compose.runOnUiThread {
                 val vm=androidx.lifecycle.ViewModelProvider(compose.activity)[local.printquote.android.viewmodel.WorkspaceViewModel::class.java]
                 check(vm.error==null) { vm.error!! }
-                done=vm.library!=null && !vm.busy
+                done=vm.library!=null && !vm.busy && !vm.catalogLoading && vm.catalogPage.total>20000
             }
             done
         }
@@ -42,16 +42,16 @@ class HomeScreenTest {
         compose.onNodeWithText("1007 of 1007").assertExists()
         compose.onNodeWithText("Search manufacturer, model or nozzle").performTextInput("Prusa XL")
         compose.onAllNodes(hasText("Prusa XL",substring=true) and hasClickAction() and !hasSetTextAction()).onFirst().assertExists()
-        go("Materials");compose.onNodeWithText("Browse catalog").performClick()
-        compose.onNodeWithText("2089 catalog products").assertExists()
-        compose.onNodeWithText("Search brand, product or material family").performTextInput("Bambu")
+        go("Materials");compose.onNodeWithText("All Filaments").performClick()
+        compose.onNode(hasText("22355",substring=true) and hasText("spool options",substring=true)).assertExists()
+        compose.onNodeWithText("Search brand, product, color, SKU or tags").performTextInput("Bambu")
         compose.onAllNodes(hasText("Bambu",substring=true) and hasClickAction() and !hasSetTextAction()).onFirst().performClick()
         compose.waitUntil(30_000) {compose.onAllNodesWithText("Catalog material").fetchSemanticsNodes().isNotEmpty()}
         compose.onNodeWithText("Your price per kg").performTextInput("24.75")
         compose.onNodeWithText("Save to My materials").performScrollTo().performClick()
         compose.waitUntil(20_000) {compose.onAllNodesWithText("Edit material").fetchSemanticsNodes().isNotEmpty()}
         compose.onNodeWithText("Back").performClick()
-        compose.onNodeWithText("Discard").performClick()
+        compose.onNodeWithText("Leave").performClick()
         go("Settings")
         compose.onNodeWithText("Business Name").performTextReplacement("Android workshop")
         compose.onNodeWithText("Save").performClick()

@@ -30,8 +30,8 @@ class SqliteTests {
  }
  @Test fun catalogImportPreservesFieldPriorityAndSelectedSize(){
   val catalog=MaterialCatalogRepository{resource("open_filaments_v2.json").bufferedReader()}
-  assertEquals(2089,catalog.index().size)
-  val(p,meta)=catalog.product(catalog.index().first().id)
+  assertEquals(22355,catalog.index().size)
+  val(p,meta)=catalog.product(catalog.index().first().productID)
   val v=p.array("variants").first();val s=v.array("sizes").first()
   val material=MaterialCatalogRepository.material(p,v,s,meta,"24.95")
   assertEquals(s.text("id"),material.text("id"));assertEquals("24.95",material.text("pricePerKG"))

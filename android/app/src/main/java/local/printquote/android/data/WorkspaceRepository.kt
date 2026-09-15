@@ -29,7 +29,13 @@ class WorkspaceRepository(private val file: File, private val readAsset: (String
         temp.outputStream().use { stream -> stream.write(library.toString().toByteArray(Charsets.UTF_8)); stream.fd.sync() }
         Files.move(temp.toPath(),file.toPath(),StandardCopyOption.ATOMIC_MOVE,StandardCopyOption.REPLACE_EXISTING)
     }
+    fun printerCatalog()=importedPrinters(readAsset)
     companion object {
+        fun importedPrinters(read:(String)->String):List<JSONObject> = listOf("orca_profiles_v2.json","manufacturer_printers_v2.json").flatMap { name ->
+            val root=JSONObject(read(name));require(root.number("schemaVersion",2)==2){"Unsupported printer catalog schema"}
+            root.array("profiles").filter{it.text("kind")=="machine"}.map{if(Thread.currentThread().isInterrupted)throw InterruptedException("Printer refresh canceled");convertPrinter(it)}
+        }
+
         fun convertPrinter(p:JSONObject): JSONObject {
             val vendor=if(p.text("vendor")=="BBL") "Bambu Lab" else p.text("vendor")
             val name=p.text("name"); val model=if(name.startsWith("$vendor ",ignoreCase=true)) name.substring(vendor.length+1) else name

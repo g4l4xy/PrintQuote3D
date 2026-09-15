@@ -1,5 +1,6 @@
 import SwiftUI
 import QuoteDomain
+import QuoteData
 
 struct QuoteEditor: View {
     @Bindable var state: AppState
@@ -9,6 +10,10 @@ struct QuoteEditor: View {
     @State private var compactTab = 0
     @State private var showingPrinterPicker = false
     @State private var showingMaterials = false
+    @State private var editRevision=0
+    @State private var saveStatus=""
+    @State private var saveFailure:String?
+    @State private var confirmClose=false
     private let existing: Bool
     init(state: AppState, initial: Quote?) {
         self.state = state; existing = initial != nil
@@ -32,9 +37,9 @@ struct QuoteEditor: View {
                 HStack {
                     Text(quote.number).font(.caption).foregroundStyle(.secondary)
                     Spacer()
-                    if saved { Text("Saved").font(.caption).foregroundStyle(.secondary) }
-                    if existing { Button("Close") { dismiss() } }
-                    Button("Save quote") { save() }.buttonStyle(.borderedProminent).disabled((try? result.get()) == nil)
+                    Text(saveStatus.isEmpty ? (saved ? "Saved":"") : saveStatus).font(.caption).foregroundStyle(.secondary)
+                    if existing { Button("Close") { close() } }
+                    Button("Save quote") { save() }.keyboardShortcut("s",modifiers:.command).buttonStyle(.borderedProminent).disabled((try? result.get()) == nil)
                 }
             }.padding(16)
             GeometryReader { geometry in
@@ -54,15 +59,20 @@ struct QuoteEditor: View {
                     }
                 }
             }
-        }.onChange(of:quote.input) { _,_ in saved = false }
-        .onChange(of:quote.projectName) { _,_ in saved = false }
-        .onChange(of:quote.customer) { _,_ in saved = false }
-        .onChange(of:quote.status) { _,_ in saved = false }
-        .onChange(of:quote.notes) { _,_ in saved = false }
-        .onChange(of:quote.expiresAt) { _,_ in saved = false }
-        .onChange(of:quote.printer) { _,_ in saved = false }
-        .onChange(of:quote.filament) { _,_ in saved = false }
-        .onChange(of:quote.preset) { _,_ in saved = false }
+        }
+        .task(id:editRevision){if editRevision>0{await autosave()}}
+        .onDisappear{if saved{let id=quote.id;Task{try? await state.recovery.discard(id)}}}
+        .interactiveDismissDisabled(!saved && editRevision>0)
+        .confirmationDialog("This draft has unsaved changes",isPresented:$confirmClose,titleVisibility:.visible){Button("Keep editing",role:.cancel){};Button("Close without saving again",role:.destructive){dismiss()}} message:{Text(saveFailure ?? "A recovery draft is kept locally. Wait for Saved before closing if you want it in the quote library.")}
+        .onChange(of:quote.input) { _,_ in changed() }
+        .onChange(of:quote.projectName) { _,_ in changed() }
+        .onChange(of:quote.customer) { _,_ in changed() }
+        .onChange(of:quote.status) { _,_ in changed() }
+        .onChange(of:quote.notes) { _,_ in changed() }
+        .onChange(of:quote.expiresAt) { _,_ in changed() }
+        .onChange(of:quote.printer) { _,_ in changed() }
+        .onChange(of:quote.filament) { _,_ in changed() }
+        .onChange(of:quote.preset) { _,_ in changed() }
     }
     private var inputForm: some View {
                 Form {
@@ -77,6 +87,7 @@ struct QuoteEditor: View {
                         Button(quote.printer?.name ?? "Select printer") { showingPrinterPicker = true }
                             .sheet(isPresented: $showingPrinterPicker) {
                                 PrinterPicker(printers: state.library.printers) { p in
+                                    state.used("printers",p.id.uuidString)
                                     quote.printer = p
                                     if quote.input.toolJob != nil { quote.input.toolJob?.system = p.toolSystem ?? PrinterToolSystem() }
                                     quote.input.averageWatts = p.typicalPowerWatts
@@ -90,6 +101,7 @@ struct QuoteEditor: View {
                         Button(quote.filament?.name ?? "Choose material") { showingMaterials = true }
                             .sheet(isPresented: $showingMaterials) {
                                 MaterialsView(state: state, onUse: { f in
+                                    state.usedMaterial(f)
                                     quote.filament = f
                                     quote.input.pricePerKG = f.pricePerKG
                                     quote.input.supportPricePerKG = f.pricePerKG
@@ -97,7 +109,7 @@ struct QuoteEditor: View {
                                     showingMaterials = false
                                 }).desktopSheet(width: 950, height: 720)
                             }
-                        Menu(quote.preset?.name ?? "Apply pricing preset") { ForEach(state.library.presets) { p in Button(p.name) { quote.preset = p; quote.input.pricingMode = p.mode; quote.input.profitRate = p.rate; quote.input.machineRate = p.machineRate; quote.input.laborRate = p.laborRate; quote.input.minimumCharge = p.minimumCharge; quote.input.materialMultiplier = p.materialMultiplier; quote.input.rushMultiplier = p.rushMultiplier } } }
+                        Menu(quote.preset?.name ?? "Apply pricing preset") { ForEach(state.library.presets) { p in Button(p.name) { state.used("presets",p.id.uuidString); quote.preset = p; quote.input.pricingMode = p.mode; quote.input.profitRate = p.rate; quote.input.machineRate = p.machineRate; quote.input.laborRate = p.laborRate; quote.input.minimumCharge = p.minimumCharge; quote.input.materialMultiplier = p.materialMultiplier; quote.input.rushMultiplier = p.rushMultiplier } } }
                     }
                     SwiftUI.Section("Manufacturing mode") {
                         Toggle("Assign materials to physical tools", isOn: Binding(get: { quote.input.toolJob != nil }, set: { enabled in
@@ -197,5 +209,19 @@ struct QuoteEditor: View {
         quote.input.toolJob = job
     }
     func row(_ name:String,_ value:Decimal) -> some View { HStack { Text(name); Spacer(); Text(money(value,currency:quote.currency)).monospacedDigit() } }
-    func save() { do { quote.schemaVersion = 2; quote.result = try result.get(); saved = state.save(quote) } catch { state.error = error.localizedDescription } }
+    func changed(){saved=false;editRevision+=1;saveStatus="Saving…"}
+    func close(){if !saved && editRevision>0{confirmClose=true}else{dismiss()}}
+    func autosave() async {
+        let snapshot=quote
+        do {
+            try await state.recovery.save(snapshot)
+            try await Task.sleep(for:.milliseconds(800));try Task.checkCancellation()
+            var prepared=snapshot;prepared.result=try PricingEngine.calculate(snapshot.input)
+            let previousError=state.error
+            if state.save(prepared){saved=true;saveStatus="Saved";saveFailure=nil}
+            else{saveFailure=state.error;state.error=previousError;saveStatus="Save failed — recovery draft retained"}
+        }catch is CancellationError{return}
+        catch{saveStatus="Save failed — keep editing";saveFailure=error.localizedDescription}
+    }
+    func save() { do { quote.schemaVersion = 2; quote.result = try result.get(); saved = state.save(quote);saveStatus=saved ? "Saved":"Save failed";if saved{Task{try? await state.recovery.discard(quote.id)}} } catch { state.error = error.localizedDescription;saveStatus="Save failed" } }
 }

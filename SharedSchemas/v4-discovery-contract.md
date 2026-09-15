@@ -1,0 +1,15 @@
+# V4 local discovery contract
+
+The offline OFD catalog retains separate product, color-variant and spool identities. The searchable unit is one spool option. A favorite/recent catalog key is the spool UUID, never manufacturer + family. Shop inventory is a separate collection and is not populated with fictitious ownership.
+
+`v4-filament-fixture.json` contains 4 products, 40 color variants and 120 distinct spool options (250/500/1000 g). Every platform must expose all 120 matches, with a bounded first page of 100, without collapsing colors or sizes. Swift and the shared Android/Windows JUnit suite exercise this exact fixture.
+
+Diagnostic counters are counts of spool options unless explicitly labeled products/variants. A completed refresh reconciles `discovered = normalized + rejected + duplicates` and `stored = normalized`. Inserted/updated refer to whether a successfully normalized ID existed in the previous index. Whole-file invalid JSON/schema/read failures abort the refresh and retain the previous index; they are shown as refresh errors, not successful zero-record imports. Per-record failures include a quarantine ID/reason/count. Unsupported/malformed products can quarantine all contained spool options. A source with no spool options records a zero-count diagnostic and contributes zero searchable records; this does not imply owned stock.
+
+A completed search reports total index rows and matches after filters. Default page size is 100; public queries cap at 200. Search is a conjunction of normalized prefix tokens. Brand/family selections are OR within each facet and AND across facets. Unknown technical data is not inferred.
+
+Optional `FilamentProduct.technicalOverrides` maps technical field keys to user strings; imported `catalogSnapshot.fields` stays intact. A nonempty override is the effective technical reference value. Clearing it falls back to source or Unknown. Price continues to use the existing `pricePerKG` field. Technical override fields do not silently alter quote consumption, machine settings, or slicer files. Feeder compatibility keys are `compatibility_ams`, `compatibility_ams_lite`, `compatibility_ams_2_pro`, `compatibility_ams_ht`, `compatibility_ace_pro`, `compatibility_ace_2_pro`, `compatibility_ifs`, `compatibility_mmu`, `compatibility_cfs`, `compatibility_external_spool`.
+
+Recovery journals are atomic per-quote files separate from validated workspace saves. Restore/Discard is explicit. Failed parsing preserves journal bytes and reports an error. Kotlin workspace updates are serialized and merge only changed collection records to avoid overwriting unrelated intervening saves. The saved quote retains its original material/printer snapshots and overrides.
+
+Catalog price sorting joins saved inventory `pricePerKG` by spool identity; it does not manufacture retail offers. Explicit source `difficulty` and `drying_required` strings can be sorted with unknowns last. Maximum drying temperature fields must not be substituted for a drying requirement. Saved table layout and favorites are local preferences and never mutate source metadata.

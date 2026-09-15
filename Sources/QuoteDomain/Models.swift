@@ -28,6 +28,8 @@ public struct PrinterProfile: Identifiable, Codable, Sendable, Equatable {
     public var name: String { manufacturer + " " + model }
 }
 public struct FilamentProduct: Identifiable, Codable, Sendable, Equatable {
+    /// User values are separate from the immutable imported technical evidence.
+    public var technicalOverrides: [String:String]? = nil
     public var id: UUID = UUID()
     public var manufacturer = "Generic"
     public var productName = "New filament"

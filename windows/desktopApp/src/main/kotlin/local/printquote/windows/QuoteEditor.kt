@@ -24,9 +24,11 @@ import java.time.*
  };HorizontalDivider(color=Color(0xff373c3d))
 }
 @Composable fun QuoteEditor(w:Workspace,d:Draft){
+ LaunchedEffect(d.revision){if(d.revision>0)w.autosave(d.json.toString())}
  d.revision;val q=d.json;val i=q.getJSONObject("input");val calculation=runCatching{PricingEngine.calculate(i)}
  Column(Modifier.fillMaxSize().padding(24.dp)){
   Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){Column(Modifier.weight(1f)){Text("New estimate",fontSize=28.sp,fontWeight=FontWeight.Bold);Text(q.text("number"),color=Muted)};Action("Save quote"){w.saveQuote()}}
+  Text(w.autosaveStatus,color=Muted)
   Spacer(Modifier.height(24.dp))
   BoxWithConstraints(Modifier.weight(1f)){
    if(maxWidth>=710.dp)Row(Modifier.fillMaxSize(),horizontalArrangement=Arrangement.spacedBy(20.dp)){

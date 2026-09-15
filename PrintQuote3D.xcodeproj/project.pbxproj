@@ -35,6 +35,8 @@
 		A3181F1159D24222AC000004 /* ModelInspectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000003; };
 		A3181F1159D24222AC000006 /* ThreeMFReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000005; };
 		A3181F1159D24222AC000008 /* ThreeMFManufacturingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000007; };
+		A3181F1159D24222AC00000C /* DraftRecoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC00000B; };
+		A3181F1159D24222AC00000A /* FilamentRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000009; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +66,8 @@
 		A3181F1159D24222AC000003 /* ModelInspectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInspectionTests.swift; sourceTree = "<group>"; };
 		A3181F1159D24222AC000005 /* ThreeMFReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeMFReviewView.swift; sourceTree = "<group>"; };
 		A3181F1159D24222AC000007 /* ThreeMFManufacturingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeMFManufacturingTests.swift; sourceTree = "<group>"; };
+		A3181F1159D24222AC00000B /* DraftRecoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftRecoveryTests.swift; sourceTree = "<group>"; };
+		A3181F1159D24222AC000009 /* FilamentRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilamentRepositoryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +122,8 @@
 			children = (
 				27ED3134650FE59CBB86084C /* ImportTests.swift */,
 				A3181F1159D24222AC000007 /* ThreeMFManufacturingTests.swift */,
+				A3181F1159D24222AC00000B /* DraftRecoveryTests.swift */,
+				A3181F1159D24222AC000009 /* FilamentRepositoryTests.swift */,
 				A3181F1159D24222AC000003 /* ModelInspectionTests.swift */,
 				19DB3D188EB925BED3C89698 /* MaterialsTests.swift */,
 				CA0FA9043E14D81720549B1C /* PricingTests.swift */,
@@ -270,6 +276,8 @@
 			files = (
 				9666B315ED9FBF71178F286D /* ImportTests.swift in Sources */,
 				A3181F1159D24222AC000008 /* ThreeMFManufacturingTests.swift in Sources */,
+				A3181F1159D24222AC00000C /* DraftRecoveryTests.swift in Sources */,
+				A3181F1159D24222AC00000A /* FilamentRepositoryTests.swift in Sources */,
 				A3181F1159D24222AC000004 /* ModelInspectionTests.swift in Sources */,
 				B494F4E9F0367F2158909480 /* MaterialsTests.swift in Sources */,
 				134C16D856180A573F3AC03D /* PricingTests.swift in Sources */,
@@ -403,7 +411,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.3.0;
+				MARKETING_VERSION = 0.4.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -465,7 +473,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.3.0;
+				MARKETING_VERSION = 0.4.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

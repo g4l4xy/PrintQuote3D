@@ -18,6 +18,7 @@ import java.math.BigDecimal
 
 @Composable fun QuoteScreen(vm:WorkspaceViewModel) {
     val d=vm.quote ?: return; d.revision
+    LaunchedEffect(d.revision){if(d.revision>0)vm.autosave(d.json.toString())}
     var tab by rememberSaveable(d.json.text("id")) {mutableStateOf("Details")}
     val result=remember(d.revision) {runCatching {PricingEngine.calculate(d.json.getJSONObject("input"))}}
     BoxWithConstraints(Modifier.fillMaxSize()) {
@@ -29,6 +30,7 @@ import java.math.BigDecimal
     val q=d.json;val i=q.getJSONObject("input");d.revision
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)) {
         Text(q.text("number"),style=MaterialTheme.typography.titleLarge)
+        Text(vm.autosaveStatus,style=MaterialTheme.typography.bodySmall)
         Heading("Project")
         Field(d,q,"projectName","Project name");Field(d,q,"customer");Choice(d,q,"status",listOf("draft","sent","approved","rejected","expired","convertedToJob"))
         val date=d.expiryText ?: java.time.Instant.ofEpochSecond(q.decimal("expiresAt").toLong()+978307200).atZone(ZoneOffset.UTC).toLocalDate().toString()
