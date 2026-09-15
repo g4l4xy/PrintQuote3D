@@ -2,7 +2,7 @@
 
 1. Keep the complete extracted **PrintQuote3D** folder together.
 2. Open **PrintQuote3D.xcodeproj** (not just an individual Swift file).
-3. Choose the **PrintQuote3D** scheme.
+3. Choose the **PrintQuote3D App** scheme.
 4. Pick **My Mac**, an iPhone simulator, an iPad simulator, or your connected iPhone/iPad.
 5. Press **Command-R**.
 
@@ -43,3 +43,7 @@ The checked-in project is ready to use. `project.yml` allows regeneration with X
 ## Current feature scope
 
 Quotes use manual print inputs; Jobs, Inventory and Analytics remain future screens. There is no STL/3MF parsing, live pricing, PDF export or cloud sync yet. See README for the complete implemented scope and source coverage.
+
+## iPhone launch: missing bundle identifier
+
+Use the **PrintQuote3D App** scheme from `PrintQuote3D.xcodeproj`. The standalone `PrintQuote3D-Package` executable is not an iOS app bundle and can crash with `BUNDLE_IDENTIFIER_FOR_CURRENT_PROCESS_IS_NIL`. Close any separate window opened from the repository folder or `Package.swift`; keep the `.xcodeproj` window open. If package products appear missing after switching, reopen the project so Xcode resolves its local dependencies.

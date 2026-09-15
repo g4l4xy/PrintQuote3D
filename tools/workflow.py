@@ -64,9 +64,9 @@ def check(platform):
     windows_env = os.environ.get('WINDOWS_JAVA_HOME')
     commands = {
         'apple': [['swift', 'test'], ['xcodebuild', '-project', 'PrintQuote3D.xcodeproj',
-                   '-scheme', 'PrintQuote3D', '-destination', 'generic/platform=macOS',
+                   '-scheme', 'PrintQuote3D App', '-destination', 'generic/platform=macOS',
                    '-derivedDataPath', '.workflow/apple', 'CODE_SIGNING_ALLOWED=NO', 'build'],
-                  ['xcodebuild', '-project', 'PrintQuote3D.xcodeproj', '-scheme', 'PrintQuote3D',
+                  ['xcodebuild', '-project', 'PrintQuote3D.xcodeproj', '-scheme', 'PrintQuote3D App',
                    '-destination', 'generic/platform=iOS Simulator', '-derivedDataPath', '.workflow/apple',
                    'CODE_SIGNING_ALLOWED=NO', 'build']],
         'android': [['./android/gradlew', '-p', 'android', ':app:assembleDebug',

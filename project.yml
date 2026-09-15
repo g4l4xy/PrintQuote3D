@@ -80,3 +80,14 @@ schemes:
       config: Debug
       targets:
         - QuoteTests
+
+  PrintQuote3D App:
+    build:
+      targets:
+        PrintQuote3D: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - QuoteTests
