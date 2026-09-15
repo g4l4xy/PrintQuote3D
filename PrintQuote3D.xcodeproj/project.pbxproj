@@ -37,6 +37,7 @@
 		A3181F1159D24222AC000008 /* ThreeMFManufacturingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000007; };
 		A3181F1159D24222AC00000C /* DraftRecoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC00000B; };
 		A3181F1159D24222AC00000A /* FilamentRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000009; };
+		A3181F1159D24222AC00000E /* PQDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC00000D; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		A3181F1159D24222AC000007 /* ThreeMFManufacturingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeMFManufacturingTests.swift; sourceTree = "<group>"; };
 		A3181F1159D24222AC00000B /* DraftRecoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftRecoveryTests.swift; sourceTree = "<group>"; };
 		A3181F1159D24222AC000009 /* FilamentRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilamentRepositoryTests.swift; sourceTree = "<group>"; };
+		A3181F1159D24222AC00000D /* PQDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PQDesign.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 			children = (
 				B864906FD28B0C9A90AD153D /* AdaptiveViews.swift */,
 				760D332188C13C0F99BC5E72 /* App.swift */,
+				A3181F1159D24222AC00000D /* PQDesign.swift */,
 				A3181F1159D24222AC000005 /* ThreeMFReviewView.swift */,
 				A3181F1159D24222AC000001 /* ModelInspectionView.swift */,
 				08EEEC30C6FC304E7B1DC81D /* AppState.swift */,
@@ -292,6 +295,7 @@
 			files = (
 				A39264BB6CC5E34C043CAF9D /* AdaptiveViews.swift in Sources */,
 				0C7A5F6F2DC6DF01D382CEDC /* App.swift in Sources */,
+				A3181F1159D24222AC00000E /* PQDesign.swift in Sources */,
 				A3181F1159D24222AC000006 /* ThreeMFReviewView.swift in Sources */,
 				A3181F1159D24222AC000002 /* ModelInspectionView.swift in Sources */,
 				6F97B29798CA6DDBA2A92513 /* AppState.swift in Sources */,

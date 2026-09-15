@@ -1,0 +1,3 @@
+# PQ Design · Navigation
+
+Desktop: sidebar grouped Workspace (Dashboard, Quotes, New Estimate, Customers, Jobs), Library (Inventory, Materials, Printers, Presets), Utility (Analytics, Data Sources, Settings). Preserve Materials as the unified destination; do not reintroduce a separate material database tab. Compact: Dashboard, Quotes, Materials and More; New Quote is a primary action. Medium: rail or collapsible sidebar, then content. Expanded: sidebar/content; Wide: optional details/summary. Cmd/Ctrl+K global commands, Cmd/Ctrl+F local search, N new, S save, O import. Escape dismisses transient UI only when data protection permits it.

@@ -31,7 +31,10 @@ import javax.imageio.ImageIO
 import java.time.*
 import java.time.format.DateTimeFormatter
 
-val Graphite=Color(0xff232728);val Panel=Color(0xff2b2f30);val Blue=Color(0xff009dff);val Muted=Color(0xffa0a4a6)
+val Graphite:Color @Composable get()=MaterialTheme.colorScheme.background
+val Panel:Color @Composable get()=MaterialTheme.colorScheme.surface
+val Blue:Color @Composable get()=MaterialTheme.colorScheme.primary
+val Muted:Color @Composable get()=MaterialTheme.colorScheme.onSurfaceVariant
 val LocalSearchRequest = compositionLocalOf { 0 }
 val routes=listOf("Dashboard","Quotes","New Estimate","Customers","Jobs","Inventory","Materials","Printers","Presets","Analytics","Settings","Pricing Sources")
 fun title(o:JSONObject,k:String)=when(k){"printers"->o.text("manufacturer")+" "+o.text("model");"filaments"->o.text("manufacturer")+" "+o.text("productName")+" · "+o.text("colorName");"quotes"->o.text("projectName");else->o.text("name")}
@@ -49,7 +52,7 @@ fun main()=application {
   else if(e.type==KeyEventType.KeyDown && e.key==Key.Escape){w.editor=null;w.picker=null;w.product=null;true}else false
  }) {
   window.minimumSize=java.awt.Dimension(850,600)
-  MaterialTheme(colorScheme=workshopColors()) {
+  PQTheme {
    if(confirmExit)AlertDialog(onDismissRequest={confirmExit=false},title={Text("Edits are not fully saved")},text={Text("${w.autosaveStatus}. Stay here to save your changes. Quote recovery drafts are separate from saved quotes; unsaved library edits may be lost.")},confirmButton={TextButton(onClick={confirmExit=false}){Text("Keep editing")}},dismissButton={TextButton(onClick={exitApplication()}){Text("Close anyway")}})
 
    CompositionLocalProvider(LocalSearchRequest provides w.searchRequest, LocalScrollbarStyle provides defaultScrollbarStyle().copy(unhoverColor=Muted.copy(alpha=0.65f),hoverColor=Color.White)){Surface(Modifier.fillMaxSize(),color=Graphite) {WorkspaceView(w)}}
@@ -100,8 +103,8 @@ fun main()=application {
  }
  if(w.commandPalette)CommandPalette(w)
  if(w.error!=null && w.editor==null && w.product==null)AlertDialog(onDismissRequest={w.error=null},title={Text("Unable to complete action")},text={Text(w.error!!)},confirmButton={TextButton(onClick={w.error=null}){Text("OK")}})
- w.editor?.let{d->DialogWindow(onCloseRequest={w.editor=null},onPreviewKeyEvent={e->if(e.type==KeyEventType.KeyDown && e.isCtrlPressed && e.key==Key.S){w.save(w.kind,d.json);true}else if(e.type==KeyEventType.KeyDown && e.key==Key.Escape){w.editor=null;true}else false},title="Edit ${w.kind}",state=rememberDialogState(width=700.dp,height=760.dp)){MaterialTheme(colorScheme=workshopColors()){Surface{Column(Modifier.fillMaxSize().padding(20.dp)){Row(verticalAlignment=Alignment.CenterVertically){Text("Edit ${if(w.kind=="filaments")"material" else w.kind}",fontSize=24.sp);Spacer(Modifier.weight(1f));Action("Save"){w.save(w.kind,d.json)};if(w.kind=="filaments")TextButton(onClick={w.save("filaments",d.json){w.useMaterial(d.json)}}){Text("Save & use")}};w.error?.let{Text(it,color=MaterialTheme.colorScheme.error)};Column(Modifier.weight(1f).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(10.dp)){if(w.kind=="settings")SearchField(settingsSearch,{settingsSearch=it},"Search settings");CompositionLocalProvider(LocalSettingsSearch provides (if(w.kind=="settings")settingsSearch else "")){LibraryEditor(d,w.kind)}};TextButton(onClick={w.editor=null}){Text("Cancel")}}}}}}
- w.picker?.let{k->DialogWindow(onCloseRequest={w.picker=null},onPreviewKeyEvent={dismissOnEscape(it){w.picker=null}},title="Choose ${if(k=="filaments")"material"else k}",state=rememberDialogState(width=700.dp,height=650.dp)){MaterialTheme(colorScheme=workshopColors()){Surface{Column(Modifier.padding(20.dp)){
+ w.editor?.let{d->DialogWindow(onCloseRequest={w.editor=null},onPreviewKeyEvent={e->if(e.type==KeyEventType.KeyDown && e.isCtrlPressed && e.key==Key.S){w.save(w.kind,d.json);true}else if(e.type==KeyEventType.KeyDown && e.key==Key.Escape){w.editor=null;true}else false},title="Edit ${w.kind}",state=rememberDialogState(width=700.dp,height=760.dp)){PQTheme{Surface{Column(Modifier.fillMaxSize().padding(20.dp)){Row(verticalAlignment=Alignment.CenterVertically){Text("Edit ${if(w.kind=="filaments")"material" else w.kind}",fontSize=24.sp);Spacer(Modifier.weight(1f));Action("Save"){w.save(w.kind,d.json)};if(w.kind=="filaments")TextButton(onClick={w.save("filaments",d.json){w.useMaterial(d.json)}}){Text("Save & use")}};w.error?.let{Text(it,color=MaterialTheme.colorScheme.error)};Column(Modifier.weight(1f).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(10.dp)){if(w.kind=="settings")SearchField(settingsSearch,{settingsSearch=it},"Search settings");CompositionLocalProvider(LocalSettingsSearch provides (if(w.kind=="settings")settingsSearch else "")){LibraryEditor(d,w.kind)}};TextButton(onClick={w.editor=null}){Text("Cancel")}}}}}}
+ w.picker?.let{k->DialogWindow(onCloseRequest={w.picker=null},onPreviewKeyEvent={dismissOnEscape(it){w.picker=null}},title="Choose ${if(k=="filaments")"material"else k}",state=rememberDialogState(width=700.dp,height=650.dp)){PQTheme{Surface{Column(Modifier.padding(20.dp)){
  if(k=="filaments"){
   var group by remember{mutableStateOf("Recently Used")}
   Row{listOf("Recently Used","Favorites","Recommended","My Inventory","All Filaments").forEach{label->TextButton(onClick={group=label}){Text(label)}}}
@@ -138,5 +141,4 @@ fun main()=application {
  OutlinedTextField(value,onChange,placeholder={Text(placeholder)},singleLine=true,modifier=Modifier.fillMaxWidth().focusRequester(requester))
 }
 
-fun workshopColors()=darkColorScheme(primary=Blue,onPrimary=Color.White,background=Graphite,surface=Graphite,onSurface=Color(0xffeeeeee),surfaceVariant=Panel,surfaceContainerHigh=Panel)
 fun dismissOnEscape(e:KeyEvent,close:()->Unit):Boolean {if(e.type==KeyEventType.KeyDown && e.key==Key.Escape){close();return true};return false}

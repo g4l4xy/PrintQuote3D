@@ -47,7 +47,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
     if(commands)V4Commands(vm){commands=false}
     val snackbar=remember{SnackbarHostState()}
     LaunchedEffect(vm.savedMessage){vm.savedMessage?.let{snackbar.showSnackbar(it);vm.savedMessage=null}}
-    MaterialTheme(colorScheme=darkColorScheme(primary=Color(0xFF7AC6FF), onPrimary=Color(0xFF003352), secondary=Color(0xFF5CDCEB), tertiary=Color(0xFF9BDCF5))) {
+    PQTheme {
         Scaffold(snackbarHost={SnackbarHost(snackbar)},topBar={TopAppBar(title={Text(if(vm.editor!=null) "Edit ${when(vm.editorKind){"filaments"->"material";"printers"->"printer";"presets"->"preset";else->"settings"}}" else if(vm.product!=null) "Catalog material" else if(vm.picker!=null) "Choose ${vm.picker}" else vm.screen)},
             navigationIcon={TextButton(onClick={if(vm.editor!=null || vm.product!=null || vm.picker!=null) back() else menu=true}) {Text(if(vm.editor!=null || vm.product!=null || vm.picker!=null) "Back" else "Menu")}},actions={
                 if(vm.editor!=null) TextButton(enabled=!vm.busy,onClick={vm.save(vm.editorKind,vm.editor!!.json)}) {Text("Save")}

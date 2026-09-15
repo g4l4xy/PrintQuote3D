@@ -34,7 +34,7 @@ import java.net.URI
 @Composable fun CatalogFilter(title:String,options:List<String>,selected:Set<String>,onChange:(Set<String>)->Unit){var open by remember{mutableStateOf(false)};TextButton(onClick={open=true}){Text("$title (${selected.size})")};if(open)AlertDialog(onDismissRequest={open=false},title={Text(title)},text={LazyColumn(Modifier.heightIn(max=350.dp)){items(options){value->Row{Checkbox(value in selected,onCheckedChange={onChange(if(it)selected+value else selected-value)});Text(value)}}}},confirmButton={TextButton(onClick={open=false}){Text("Done")}})}
 @Composable fun Select(title:String,options:List<String>,selected:Int,onSelect:(Int)->Unit){var open by remember{mutableStateOf(false)};Box{OutlinedButton(onClick={open=true}){Text("$title: ${options.getOrNull(selected)?:"None"}")};DropdownMenu(open,{open=false},modifier=Modifier.heightIn(max=320.dp)){options.forEachIndexed{i,t->DropdownMenuItem(text={Text(t)},onClick={onSelect(i);open=false})}}}}
 @Composable fun ProductDialog(w:Workspace,pair:Pair<JSONObject,JSONObject>){val(product,metadata)=pair
- DialogWindow(onCloseRequest={w.product=null},onPreviewKeyEvent={dismissOnEscape(it){w.product=null}},title="Material catalog",state=rememberDialogState(width=700.dp,height=700.dp)){MaterialTheme(colorScheme=workshopColors()){Surface{Column(Modifier.padding(24.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(12.dp)){
+ DialogWindow(onCloseRequest={w.product=null},onPreviewKeyEvent={dismissOnEscape(it){w.product=null}},title="Material catalog",state=rememberDialogState(width=700.dp,height=700.dp)){PQTheme{Surface{Column(Modifier.padding(24.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(12.dp)){
   w.error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
   Text("${product.text("brand")} ${product.text("name")}",fontSize=24.sp)
   Text("${product.text("materialFamily")} · ${metadata.text("sourceName")}",color=Muted)
@@ -92,7 +92,7 @@ import java.net.URI
 @Composable fun CommandPalette(w:Workspace){
  var query by remember{mutableStateOf("")};var hits by remember{mutableStateOf<List<Pair<String,JSONObject>>>(emptyList())}
  LaunchedEffect(query,w.library){kotlinx.coroutines.delay(200);val snapshot=listOf("quotes","printers","filaments","presets").flatMap{k->w.entries(k).map{k to it.copy()}};hits=kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default){snapshot.filter{(k,o)->query.isNotBlank() && (title(o,k)+" "+o.text("customer")).contains(query,true)}.take(40)}}
- DialogWindow(onCloseRequest={w.commandPalette=false},title="Search & Commands",state=rememberDialogState(width=720.dp,height=620.dp)){MaterialTheme(colorScheme=workshopColors()){Surface{Column(Modifier.padding(20.dp)){
+ DialogWindow(onCloseRequest={w.commandPalette=false},title="Search & Commands",state=rememberDialogState(width=720.dp,height=620.dp)){PQTheme{Surface{Column(Modifier.padding(20.dp)){
   SearchField(query,{query=it},"Search commands, quotes, customers, printers or materials")
   LazyColumn {
    items(listOf("New Quote","Import 3MF","Search Filaments","Search Printers","Settings","Refresh Data").filter{query.isBlank() || it.contains(query,true)}){command->TextButton(onClick={w.commandPalette=false;when(command){"New Quote"->w.newQuote();"Import 3MF"->w.screen="Inspect Model";"Search Filaments"->w.screen="Materials";"Search Printers"->w.screen="Printers";"Settings"->w.screen="Settings";else->w.refreshFilaments()}}){Text(command)}}

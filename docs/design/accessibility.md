@@ -1,0 +1,3 @@
+# PQ Design · Accessibility
+
+Test light/dark, large text, keyboard-only, screen-reader labels, contrast, motion/transparency reductions and narrow/short windows. Use native controls for role/selection/focus. Icon-only actions need names and tooltips. Decorative branding is accessibility-hidden. Technical values include units in accessible labels. Do not use minimumScaleFactor for essential body text. Desktop does not imply pointer-only. Reduced effects must never remove data or actions. Windows/Android accessibility overrides supplement OS detection where unavailable; document any unverified OS integrations.

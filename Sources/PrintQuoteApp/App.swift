@@ -4,10 +4,11 @@ import QuoteData
 
 @main struct QuoteApp: App {
     @State private var state = AppState()
+    @AppStorage("pq.appearance") private var appearance="System"
     var body: some Scene {
         WindowGroup {
             RootView(state: state).desktopWindowMinimum()
-                .preferredColorScheme(.dark).tint(.blue)
+                .preferredColorScheme(appearance == "System" ? nil : appearance == "Dark" ? .dark:.light).pqWorkspace()
                 .alert("Unable to complete action", isPresented: Binding(get: {state.error != nil}, set: {if !$0 {state.error = nil}})) {
                     Button("OK") { state.error = nil }
                 } message: { Text(state.error ?? "") }

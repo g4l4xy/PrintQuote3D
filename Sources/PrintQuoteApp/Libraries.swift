@@ -87,6 +87,7 @@ struct SettingsView: View {
     @State private var search=""
     var body: some View {
         Form {
+            if search.isEmpty || "appearance theme light dark accessibility effects".localizedCaseInsensitiveContains(search){PQAppearanceSettings()}
             if search.isEmpty || "business name currency tax quote validity".localizedCaseInsensitiveContains(search) {SwiftUI.Section("Business") {
                 TextField("Business name",text:$state.library.settings.businessName)
                 Picker("Currency",selection:$state.library.settings.currency) { ForEach(["USD","CAD","EUR","GBP","AUD"],id:\.self) { Text($0).tag($0) } }

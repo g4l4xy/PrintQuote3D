@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "color": {
+    "light": {
+      "workspace": "#F4F6F9",
+      "panel": "#FFFFFF",
+      "raised": "#E8EDF4",
+      "text": "#182230",
+      "secondary": "#536175",
+      "accent": "#205BCD"
+    },
+    "dark": {
+      "workspace": "#151A21",
+      "panel": "#1E2631",
+      "raised": "#293545",
+      "text": "#F2F5FA",
+      "secondary": "#AFBED0",
+      "accent": "#8BB5FF"
+    }
+  },
+  "spacing": {
+    "hair": 2,
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 20,
+    "section": 24,
+    "page": 32,
+    "wide": 40,
+    "touch": 48,
+    "hero": 64
+  },
+  "radius": {
+    "control": 6,
+    "panel": 12,
+    "floating": 20,
+    "pill": 999
+  },
+  "motionMilliseconds": {
+    "immediate": 0,
+    "fast": 120,
+    "standard": 180,
+    "pane": 240
+  },
+  "layout": {
+    "medium": 600,
+    "expanded": 840,
+    "wide": 1200
+  },
+  "iconSize": {
+    "small": 16,
+    "standard": 20,
+    "navigation": 24,
+    "identity": 40
+  },
+  "controlSize": {
+    "desktop": 32,
+    "appleTouch": 44,
+    "androidTouch": 48
+  },
+  "border": {
+    "normal": 1,
+    "emphasized": 2
+  },
+  "elevation": {
+    "workspace": 0,
+    "panel": 0,
+    "raised": 1,
+    "tools": 3,
+    "modal": 8
+  }
+}
