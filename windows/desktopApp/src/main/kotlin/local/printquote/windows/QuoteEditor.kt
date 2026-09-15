@@ -35,7 +35,7 @@ import java.time.*
  LaunchedEffect(d.revision){if(d.revision>0)w.autosave(d.json.toString())}
  d.revision;val q=d.json;val i=q.getJSONObject("input");val calculation=runCatching{PricingEngine.calculate(i)}
  Column(Modifier.fillMaxSize().padding(PQSpacing.section)){
-  PQGlassSurface(Modifier.fillMaxWidth()){Row(Modifier.fillMaxWidth().padding(PQSpacing.md),verticalAlignment=Alignment.CenterVertically){Column(Modifier.weight(1f)){Text("New estimate",fontSize=28.sp,fontWeight=FontWeight.Bold);Text(q.text("number"),color=Muted)};TextButton(onClick={modelReview=true}){Text("Model & source")};Action("Save quote"){w.saveQuote()}}}
+  PQGlassSurface(Modifier.fillMaxWidth()){FlowRow(Modifier.fillMaxWidth().padding(PQSpacing.md),horizontalArrangement=Arrangement.spacedBy(PQSpacing.md)){Column{Text("New estimate",fontSize=28.sp,fontWeight=FontWeight.Bold);Text(q.text("number"),color=Muted)};TextButton(onClick={modelReview=true}){Text("Model & source")};Action("Save quote"){w.saveQuote()}}}
   Text(w.autosaveStatus,color=Muted)
   Spacer(Modifier.height(24.dp))
   BoxWithConstraints(Modifier.weight(1f)){

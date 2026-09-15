@@ -190,7 +190,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(PQSpacing.lg),verticalArrangement=Arrangement.spacedBy(10.dp)) {
         if(vm.editorKind=="settings") {
             OutlinedTextField(settingsSearch,{settingsSearch=it},label={Text("Search settings")},modifier=Modifier.fillMaxWidth())
-            Text("PrintQuote 3D · 0.4.0 · Workspace schema 2")
+            Text("PrintQuote 3D · 0.5.0 · Workspace schema 2")
             Text("Printers: ${vm.entries("printers").size} · Products: ${vm.catalogDiagnostics.products} · Colors: ${vm.catalogDiagnostics.variants} · Spool options: ${vm.catalogDiagnostics.stored}")
             TextButton(onClick={vm.refreshFilaments()}){Text("Validate catalog / rebuild index")}
         }

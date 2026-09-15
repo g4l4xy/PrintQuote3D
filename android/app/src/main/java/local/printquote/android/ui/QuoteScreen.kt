@@ -26,7 +26,7 @@ import java.math.BigDecimal
     var modelReview by remember{mutableStateOf(false)}
     if(modelReview)Dialog(onDismissRequest={modelReview=false},properties=DialogProperties(usePlatformDefaultWidth=false)){Surface(Modifier.fillMaxSize()){Column{TextButton(onClick={modelReview=false}){Text("Back to quote")};ModelInspectionScreen()}}}
     Column(Modifier.fillMaxSize()) {
-      PQGlassSurface(Modifier.fillMaxWidth().padding(PQSpacing.md)){Row(Modifier.padding(PQSpacing.sm)){TextButton(onClick={modelReview=true}){Text("Model & source")};Text(vm.autosaveStatus,Modifier.padding(PQSpacing.sm),style=MaterialTheme.typography.labelLarge)}}
+      PQGlassSurface(Modifier.fillMaxWidth().padding(PQSpacing.md)){FlowRow(Modifier.padding(PQSpacing.sm)){TextButton(onClick={modelReview=true}){Text("Model & source")};Text(vm.autosaveStatus,Modifier.padding(PQSpacing.sm),style=MaterialTheme.typography.labelLarge)}}
       BoxWithConstraints(Modifier.weight(1f)) {
         val wideWorkspace=maxWidth>=PQLayout.wide
         if(maxWidth>=PQLayout.expanded && androidx.compose.ui.platform.LocalDensity.current.fontScale<1.5f) Row {

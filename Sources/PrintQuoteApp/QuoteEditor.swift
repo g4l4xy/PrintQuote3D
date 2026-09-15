@@ -32,18 +32,24 @@ struct QuoteEditor: View {
         }
         _quote = State(initialValue:q)
     }
+    private var headerSource: some View {
+        HStack { Text(quote.number).font(.caption).foregroundStyle(.secondary); Button("Model & source",systemImage:"cube.transparent"){reviewingModel=true} }
+    }
+    private var headerActions: some View {
+        HStack {
+            Text(saveStatus.isEmpty ? (saved ? "Saved":"") : saveStatus).font(.caption).foregroundStyle(.secondary)
+            if existing { Button("Close") { close() } }
+            Button("Save quote") { save() }.keyboardShortcut("s",modifiers:.command).buttonStyle(.borderedProminent).disabled((try? result.get()) == nil)
+        }
+    }
     var result: Result<PricingResult, Error> { Result { try PricingEngine.calculate(quote.input) } }
     var body: some View {
         VStack(spacing:0) {
             VStack(alignment: .leading, spacing: 8) {
                 Text(existing ? quote.projectName : "New estimate").font(PQTypography.pageTitle)
-                HStack {
-                    Text(quote.number).font(.caption).foregroundStyle(.secondary)
-                    Button("Model & source",systemImage:"cube.transparent"){reviewingModel=true}
-                    Spacer()
-                    Text(saveStatus.isEmpty ? (saved ? "Saved":"") : saveStatus).font(.caption).foregroundStyle(.secondary)
-                    if existing { Button("Close") { close() } }
-                    Button("Save quote") { save() }.keyboardShortcut("s",modifiers:.command).buttonStyle(.borderedProminent).disabled((try? result.get()) == nil)
+                ViewThatFits(in:.horizontal) {
+                    HStack { headerSource; Spacer(); headerActions }
+                    VStack(alignment:.leading,spacing:PQSpacing.sm) { headerSource; headerActions }
                 }
             }.padding(PQSpacing.lg).pqGlass(.toolbar).padding(PQSpacing.md)
             GeometryReader { geometry in

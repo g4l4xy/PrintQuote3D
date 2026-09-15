@@ -95,4 +95,4 @@ private struct CatalogSupportDocument:FileDocument {
     func fileWrapper(configuration:WriteConfiguration)throws->FileWrapper{FileWrapper(regularFileWithContents:data)}
 }
 
-private struct CatalogDiagnosticReport:Codable {var appVersion="0.4.0";var status:String;var failure:String?;var displayedAfterFilters:Int;var counts:FilamentImportCounts}
+private struct CatalogDiagnosticReport:Codable {var appVersion="0.5.0";var status:String;var failure:String?;var displayedAfterFilters:Int;var counts:FilamentImportCounts}

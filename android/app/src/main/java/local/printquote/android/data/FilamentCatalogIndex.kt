@@ -66,7 +66,7 @@ class FilamentCatalogIndex(private val rows:List<CatalogRecord>) {
 }
 
 /** Diagnostic export intentionally excludes quotes, customer names and inventory prices. */
-fun CatalogDiagnostics.supportJSON(displayed:Int):String=JSONObject().put("appVersion","0.4.0").put("schemaVersion",2).put("database","bundled-open-filaments-v2")
+fun CatalogDiagnostics.supportJSON(displayed:Int):String=JSONObject().put("appVersion","0.5.0").put("schemaVersion",2).put("database","bundled-open-filaments-v2")
  .put("products",products).put("variants",variants).put("discovered",discovered).put("decoded",decoded).put("normalized",normalized).put("rejected",rejected).put("inserted",inserted).put("updated",updated).put("duplicates",duplicates).put("stored",stored).put("displayedAfterFilters",displayed)
  .put("quarantine",org.json.JSONArray(quarantine.map{JSONObject().put("sourceID",it.sourceID).put("reason",it.reason).put("count",it.count)})).toString(2)
 

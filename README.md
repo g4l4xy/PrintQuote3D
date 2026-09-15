@@ -314,6 +314,14 @@ Apple uses local SwiftData persistence. Android writes its workspace atomically 
 
 Common JSON contracts and fixtures keep the native implementations aligned. Android packages the existing shared files and OFD catalog as build assets; it does not maintain a second checked-in catalog. Source records retain upstream paths, versions, and attribution where provided.
 
+## 🎛️ PQ Design: the same workshop, at home on every screen
+
+PrintQuote now has a shared design language: graphite dark and porcelain light workspaces, precise blue accents, clear technical numbers and selective depth around navigation and tools. Choose **System, Light or Dark** in Settings. Forms and large tables stay opaque and readable.
+
+Apple uses native **Liquid Glass on supported systems**, with native-material and opaque accessibility fallbacks on older systems. Android adapts from bottom navigation to a rail and sidebar. Windows keeps desktop tables, keyboard search and a wide-window record inspector. Quote builders reveal more simultaneous information as space grows, and library filters collapse when you need room for results.
+
+Explore the [PrintQuote Design Language](docs/design/PRINTQUOTE_DESIGN_LANGUAGE.md), [platform adaptation matrix](docs/design/platform-adaptation.md), [seven-screen concept preview](docs/design/preview.html) and [verification record](docs/design/verification.md). The HTML preview is illustrative; download/open it locally to use its controls. **Native visual, accessibility and performance acceptance is still pending**, so this is not a claim that every target device has been interaction-tested.
+
 ## ✅ What has been checked?
 
 The latest shared workflow validation was recorded on **September 15, 2026**:
@@ -324,11 +332,11 @@ The latest shared workflow validation was recorded on **September 15, 2026**:
 | Apple builds | macOS and iOS Simulator builds passed; iOS target includes iPhone and iPad |
 | Android JVM tests | **32 tests: 31 passed, one optional local-model test skipped**, including shared V4 catalog and recovery tests |
 | Windows logic, importer and SQLite/catalog tests | **40 tests, 39 passed and one optional local-model test skipped** |
-| Windows V4 MSI | 0.4.0 packaged and installed (exit 0); installed process remained running. Visual interaction check blocked by locked host. EXE packaging not repeated. |
-| Windows upgrade persistence | Existing database backed up; its hash unchanged by the V4 MSI upgrade |
+| Windows PQ Design MSI | 0.5.0 packaged and installed (exit 0); installed process remained running; installed classpath hashes match the package. Visual interaction check blocked by locked host. EXE packaging not repeated. |
+| Windows upgrade persistence | Existing database backed up; its hash unchanged by the PQ Design MSI installation |
 | Android build and lint | Passed; dependency-update notices remain |
 | Git workflow tests | **6 passed**, using temporary repositories |
-| Android interaction tests | **2 passed in an earlier release**; updated V4 test source, not rerun for this build |
+| Android interaction tests | **2 passed in an earlier release**; updated test source compiles, not rerun for this build |
 
 Tests cover pricing fixtures, validation, tool limits, persistence, source handling, and workflow behavior. Android interaction coverage includes creating/reopening a quote, searching libraries, saving a catalog spool, and changing business settings. Prior native Mac checks covered catalog search/detail, printer selection, and the tool-count picker.
 

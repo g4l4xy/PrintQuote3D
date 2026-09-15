@@ -81,7 +81,7 @@ fun main()=application {
     if(s in listOf("Dashboard","Inventory","Analytics"))Text(when(s){"Dashboard"->"WORKSPACE";"Inventory"->"LIBRARY";else->"UTILITY"},style=MaterialTheme.typography.labelSmall,color=Muted,modifier=Modifier.padding(vertical=PQSpacing.md))
     NavigationDrawerItem(label={Text(s,style=MaterialTheme.typography.bodyMedium)},selected=w.screen==s,onClick={if(s=="New Estimate" && w.draft==null)w.newQuote()else w.screen=s},modifier=Modifier.height(40.dp).padding(vertical=PQSpacing.xs))
    }}
-   Text("WORKSPACE · V4",fontSize=10.sp,color=Muted,modifier=Modifier.padding(top=16.dp))
+   Text("PQ DESIGN · WORKSPACE",fontSize=10.sp,color=Muted,modifier=Modifier.padding(top=16.dp))
   }
   VerticalDivider(color=MaterialTheme.colorScheme.outlineVariant)
   Column(Modifier.weight(1f).fillMaxHeight()) {
@@ -96,7 +96,7 @@ fun main()=application {
     "Materials"->Materials(w)
     "Printers"->Library(w,"printers")
     "Presets"->Library(w,"presets")
-    "Settings"->Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(PQSpacing.section)){PQAppearanceControls();HorizontalDivider(Modifier.padding(vertical=PQSpacing.section));Text("Settings",fontSize=28.sp,fontWeight=FontWeight.Bold);Text("PrintQuote 3D · 0.4.0 · Workspace schema 2");Text("Printers: ${w.entries("printers").size} · Products: ${w.catalogDiagnostics.products} · Colors: ${w.catalogDiagnostics.variants} · Spool options: ${w.catalogDiagnostics.stored}");TextButton(onClick={w.screen="Pricing Sources"}){Text("Validate database, rebuild index & export diagnostics")};Spacer(Modifier.height(20.dp));Action("Edit business defaults"){w.edit("settings",w.library!!.getJSONObject("settings"))};Spacer(Modifier.height(12.dp));Action("Export backup"){
+    "Settings"->Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(PQSpacing.section)){PQAppearanceControls();HorizontalDivider(Modifier.padding(vertical=PQSpacing.section));Text("Settings",fontSize=28.sp,fontWeight=FontWeight.Bold);Text("PrintQuote 3D · 0.5.0 · Workspace schema 2");Text("Printers: ${w.entries("printers").size} · Products: ${w.catalogDiagnostics.products} · Colors: ${w.catalogDiagnostics.variants} · Spool options: ${w.catalogDiagnostics.stored}");TextButton(onClick={w.screen="Pricing Sources"}){Text("Validate database, rebuild index & export diagnostics")};Spacer(Modifier.height(20.dp));Action("Edit business defaults"){w.edit("settings",w.library!!.getJSONObject("settings"))};Spacer(Modifier.height(12.dp));Action("Export backup"){
      val owner=java.awt.Frame.getFrames().firstOrNull {it.isVisible && it.title=="PrintQuote 3D"}
      val chooser=javax.swing.JFileChooser().apply {
       dialogTitle="Export workspace backup"
