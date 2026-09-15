@@ -20,8 +20,8 @@ import java.time.*
  d.revision
  Row(Modifier.fillMaxWidth().heightIn(min=42.dp).padding(vertical=9.dp),verticalAlignment=Alignment.CenterVertically){
   Text(name,Modifier.weight(1f),fontSize=14.sp)
-  BasicTextField(o.text(key),onValueChange={v->d.change{o.put(key,if(numeric)v.toBigDecimalOrNull()?:v else v)}},textStyle=TextStyle(color=Color(0xffeeeeee),fontSize=14.sp,textAlign=TextAlign.End),cursorBrush=SolidColor(Blue),singleLine=key!="notes",modifier=Modifier.weight(1f).padding(start=12.dp))
- };HorizontalDivider(color=Color(0xff373c3d))
+  BasicTextField(o.text(key),onValueChange={v->d.change{o.put(key,if(numeric)v.toBigDecimalOrNull()?:v else v)}},textStyle=TextStyle(color=MaterialTheme.colorScheme.onSurface,fontSize=14.sp,textAlign=TextAlign.End),cursorBrush=SolidColor(Blue),singleLine=key!="notes",modifier=Modifier.weight(1f).padding(start=12.dp))
+ };HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
 }
 @Composable fun QuoteEditor(w:Workspace,d:Draft){
  LaunchedEffect(d.revision){if(d.revision>0)w.autosave(d.json.toString())}
@@ -33,7 +33,7 @@ import java.time.*
   BoxWithConstraints(Modifier.weight(1f)){
    if(maxWidth>=710.dp)Row(Modifier.fillMaxSize(),horizontalArrangement=Arrangement.spacedBy(20.dp)){
     ScrollColumn(Modifier.weight(1.4f).fillMaxHeight()){QuoteFields(w,d)}
-    VerticalDivider(color=Color(0xff424748))
+    VerticalDivider(color=MaterialTheme.colorScheme.outlineVariant)
     ScrollColumn(Modifier.weight(1f).fillMaxHeight()){Breakdown(calculation,q.text("currency","USD"))}
    }else ScrollColumn(Modifier.fillMaxSize()){QuoteFields(w,d);Breakdown(calculation,q.text("currency","USD"))}
   }
@@ -94,7 +94,7 @@ import java.time.*
  listOf("subtotal","discount","tax","shipping").forEach{Amount(it.replaceFirstChar{it.uppercase()},value(it))}
  HorizontalDivider(Modifier.padding(vertical=12.dp));Text("Consumed: ${rounded(r.decimal("totalGrams"))} g",color=Muted)
  Text("Material efficiency: ${r.decimal("materialEfficiency").multiply(100.toBigDecimal()).setScale(1,java.math.RoundingMode.HALF_UP)}%",color=Muted,modifier=Modifier.padding(top=8.dp))
- val warnings=r.optJSONArray("warnings");if(warnings!=null)(0 until warnings.length()).forEach{Text(warnings.getString(it),color=Color(0xffffcb70),fontSize=12.sp,modifier=Modifier.padding(top=12.dp))}
+ val warnings=r.optJSONArray("warnings");if(warnings!=null)(0 until warnings.length()).forEach{Text(warnings.getString(it),color=MaterialTheme.colorScheme.error,fontSize=12.sp,modifier=Modifier.padding(top=12.dp))}
 }
 @Composable fun Amount(name:String,value:String){Row(Modifier.fillMaxWidth().padding(vertical=8.dp),horizontalArrangement=Arrangement.spacedBy(12.dp)){Text(name,Modifier.weight(1f),fontSize=14.sp);Text(value,fontSize=14.sp)}}
 

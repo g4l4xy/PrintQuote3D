@@ -19,7 +19,7 @@ import QuoteData
             CommandGroup(replacing:.newItem){Button("New Quote"){state.navigationRequest="New Estimate"}.keyboardShortcut("n")}
             CommandMenu("Navigate") {
                 Button("Command Palette"){state.commandRequested=true}.keyboardShortcut("k")
-                Button("Universal Search"){state.commandRequested=true}.keyboardShortcut("f")
+                Button("Search this screen"){NotificationCenter.default.post(name:.pqFocusSearch,object:nil)}.keyboardShortcut("f")
                 Button("Import STL / 3MF"){state.navigationRequest="Import"}.keyboardShortcut("o")
                 Button("Refresh local filament data"){state.refreshFilaments()}
             }
@@ -53,7 +53,10 @@ struct RootView: View {
     @State private var editingQuote: Quote?
     @State private var draftID = UUID()
     @State private var inspectingModel = false
-    @State private var compactColumn: NavigationSplitViewColumn = .sidebar
+    @State private var compactColumn: NavigationSplitViewColumn = .detail
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var sizeClass
+    #endif
     var body: some View {
         NavigationSplitView(preferredCompactColumn: $compactColumn) {
             VStack(alignment:.leading, spacing: 20) {
@@ -64,7 +67,11 @@ struct RootView: View {
                     }
                     Text("Real parts. Real prices. Faster.").font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                 }.frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 16).padding(.top, 12)
-                List(Section.allCases, selection: $selection) { item in NavigationLink(value: item) { Label(item.rawValue, systemImage:item.icon) } }.navigationTitle("PrintQuote 3D")
+                List(selection:$selection) {
+                    SwiftUI.Section("Workspace"){ForEach([Section.dashboard,.quotes,.estimate,.customers,.jobs]){item in NavigationLink(value:item){Label(item.rawValue,systemImage:item.icon)}}}
+                    SwiftUI.Section("Library"){ForEach([Section.inventory,.materials,.printers,.presets]){item in NavigationLink(value:item){Label(item.rawValue,systemImage:item.icon)}}}
+                    SwiftUI.Section("Utility"){ForEach([Section.analytics,.sources,.settings]){item in NavigationLink(value:item){Label(item.rawValue,systemImage:item.icon)}}}
+                }.navigationTitle("PrintQuote 3D")
                 Text("LOCAL WORKSPACE  ·  V4").font(.caption2).foregroundStyle(.secondary).padding()
             }.navigationSplitViewColumnWidth(min:210, ideal:230)
         } detail: {
@@ -88,7 +95,21 @@ struct RootView: View {
                 .disabled(!state.ready)
             }
         }
-        .toolbar {Button("Search / Commands",systemImage:"magnifyingglass"){state.commandRequested=true}}
+        .pqWorkspace()
+        .toolbar {
+            ToolbarItem {Button("Search / Commands",systemImage:"magnifyingglass"){state.commandRequested=true}}
+            #if os(iOS)
+            if sizeClass == .compact {ToolbarItemGroup(placement:.bottomBar){
+                Button("Dashboard",systemImage:"square.grid.2x2"){selection = .dashboard}
+                Spacer()
+                Button("Quotes",systemImage:"doc.text"){selection = .quotes}
+                Spacer()
+                Button("Materials",systemImage:"circle.hexagongrid"){selection = .materials}
+                Spacer()
+                Menu("More",systemImage:"ellipsis.circle"){ForEach(Section.allCases){item in Button(item.rawValue,systemImage:item.icon){selection=item}}}
+            }}
+            #endif
+        }
         .overlay(alignment:.bottom){if let toast=state.toast{Text(toast).padding(12).background(.regularMaterial,in:Capsule()).padding()}}
         .task(id:state.toast){if state.toast != nil{do{try await Task.sleep(for:.seconds(3));state.toast=nil}catch{}}}
         .sheet(isPresented:$state.commandRequested){V4CommandPalette(state:state){kind,id in
@@ -111,22 +132,18 @@ struct RootView: View {
     }
     var dashboard: some View {
         ScrollView {
-            VStack(alignment:.leading, spacing:24) {
-                Text("Your workshop, in focus.").font(.largeTitle.bold())
+            VStack(alignment:.leading, spacing:PQSpacing.section) {
+                Text("Your workshop, in focus.").font(PQTypography.display)
                 Text("Build a clear estimate from material, machine time and labor.").foregroundStyle(.secondary)
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))], spacing:16) {
                     metric("Saved quotes", "\(state.library.quotes.count)", "doc.text")
                     metric("Printer profiles", "\(state.library.printers.count)", "printer")
                     metric("Catalog spool options", "\(state.filamentCounts.stored.formatted())", "circle.hexagongrid")
                 }
-                GroupBox {
-                    VStack(alignment:.leading, spacing:14) {
-                        Label("Start with the production cost", systemImage:"plus.circle.fill").font(.title2.bold())
-                        Text("Enter print data manually, compare margin and markup, then save a complete pricing snapshot.")
-                        Button("Inspect STL / 3MF") { inspectingModel = true }.buttonStyle(.bordered)
-                        Button("Create estimate") { draftID = UUID(); selection = .estimate }.buttonStyle(.borderedProminent)
-                    }.frame(maxWidth:.infinity, alignment:.leading).padding(16)
-                }
+                ViewThatFits(in:.horizontal){
+                    HStack(spacing:PQSpacing.md){dashboardActions}
+                    VStack(alignment:.leading,spacing:PQSpacing.md){dashboardActions}
+                }.padding(PQSpacing.lg).pqGlass(.toolbar)
                 if !state.recoveredDrafts.isEmpty {
                     GroupBox("Recovered drafts found") {
                         ForEach(state.recoveredDrafts){draft in
@@ -146,12 +163,15 @@ struct RootView: View {
                 if state.library.quotes.isEmpty { Text("Your first saved quote will appear here.").foregroundStyle(.secondary) }
                 ForEach(state.library.quotes.prefix(5)) { q in Button { editingQuote = q;state.used("quotes",q.id.uuidString);state.used("customers",q.customer) } label: { HStack { Text(q.number); Text(q.projectName); Spacer(); Text(money(q.result?.total ?? 0, currency:q.currency)) }.padding(10) }.buttonStyle(.plain) }
                 Text("Seed profiles are examples. Review your actual costs before issuing a quote.").font(.caption).foregroundStyle(.secondary)
-            }.padding(32)
+            }.padding(PQSpacing.section)
         }.navigationTitle("Dashboard")
     }
-    func metric(_ title:String, _ value:String, _ icon:String) -> some View {
-        GroupBox { VStack(alignment:.leading, spacing:12) { Label(title,systemImage:icon).foregroundStyle(.secondary); Text(value).font(.system(size:34,weight:.semibold,design:.rounded)) }.frame(maxWidth:.infinity,alignment:.leading).padding(12) }
+    @ViewBuilder var dashboardActions:some View {
+        Button("Create estimate",systemImage:"plus"){draftID=UUID();selection = .estimate}.buttonStyle(.borderedProminent)
+        Button("Inspect STL / 3MF",systemImage:"cube.transparent"){inspectingModel=true}.buttonStyle(.bordered)
+        Button("Browse materials",systemImage:"circle.hexagongrid"){selection = .materials}.buttonStyle(.bordered)
     }
+    func metric(_ title:String, _ value:String, _ icon:String)->some View {PQMetric(title:title,value:value,icon:icon)}
     var quotes: some View {
         List {
             if state.library.quotes.isEmpty { Text("No saved quotes yet. Create a new estimate to get started.") }

@@ -162,7 +162,7 @@ val prefs=java.util.prefs.Preferences.userRoot().node("PrintQuote3D/V4/Compariso
 }
 @Composable fun ComparisonMode(key:String):Boolean {
  val store=comparisonStorage(key+".mode")
- var table by remember(key){mutableStateOf(store.read()=="table")}
+ var table by remember(key){mutableStateOf(store.read()!="cards")}
  Row {FilterChip(!table,onClick={table=false;store.write("cards")},label={Text("Cards")});FilterChip(table,onClick={table=true;store.write("table")},label={Text("Table")})}
  return table
 }

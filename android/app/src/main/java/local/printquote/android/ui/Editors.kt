@@ -24,7 +24,7 @@ import org.json.JSONArray
 
 val LocalSettingsSearch=compositionLocalOf { "" }
 fun label(key:String)=key.replace(Regex("([a-z])([A-Z])"),"$1 $2").replace("MM"," (mm)").replace("KG","kg").replaceFirstChar { it.uppercase() }
-@Composable fun Heading(text:String) { Text(text,style=MaterialTheme.typography.titleMedium,modifier=Modifier.padding(top=12.dp)) }
+@Composable fun Heading(text:String) { Column(Modifier.padding(top=PQSpacing.lg,bottom=PQSpacing.sm)){PQSectionHeader(text)} }
 @Composable fun Fields(d:Draft,o:JSONObject,keys:List<String>,numeric:Boolean=true) { keys.forEach { Field(d,o,it,label(it),numeric) } }
 @Composable fun Field(d:Draft,o:JSONObject,key:String,title:String=label(key),numeric:Boolean=false,optional:Boolean=false) {
     val filter=LocalSettingsSearch.current
@@ -148,6 +148,7 @@ private fun materialSection(key:String)=when { key.contains("dry")->"Drying";lis
             Fields(d,o,listOf("rate","materialMultiplier","machineRate","laborRate","minimumCharge","rushMultiplier"))
         }
         "settings" -> {
+            PQAppearanceControls()
             Field(d,o,"businessName");Choice(d,o,"currency",listOf("USD","CAD","EUR","GBP","AUD"))
             Field(d,o,"taxRate","Default tax rate (0.08 = 8%)",true);Field(d,o,"electricityRate","Electricity per kWh",true);Field(d,o,"expirationDays","Quote validity (1–365 days)",true)
             Text("Defaults apply to new quotes. Saved quotes retain their original rates and snapshots.")

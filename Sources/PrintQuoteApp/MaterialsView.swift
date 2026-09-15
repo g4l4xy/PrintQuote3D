@@ -15,7 +15,7 @@ struct MaterialsView: View {
     let onUse: ((FilamentProduct) -> Void)?
 
     @State private var tab: MaterialsTab = .catalog
-    @AppStorage("v4.materials.layout") private var layout="Cards"
+    @AppStorage("v4.materials.layout") private var layout=PQLayout.defaultLibraryLayout
     @AppStorage("v4.inventory.sort") private var inventorySort="Favorite"
     @State private var materialID: UUID?
     @State private var pickerGroup="all"

@@ -8,7 +8,7 @@ struct AdaptiveLibrary<Master: View, Detail: View>: View {
     @ViewBuilder var detail: () -> Detail
     var body: some View {
         GeometryReader { geometry in
-            if geometry.size.width >= 720 {
+            if geometry.size.width >= PQLayout.expanded && selection != nil {
                 HStack(spacing: 0) {
                     master().frame(width: min(340, geometry.size.width * 0.36))
                     Divider()
@@ -16,7 +16,7 @@ struct AdaptiveLibrary<Master: View, Detail: View>: View {
                 }
             } else if selection != nil {
                 VStack(alignment: .leading, spacing: 0) {
-                    Button { selection = nil } label: { Label(backTitle, systemImage: "chevron.left") }.padding()
+                    Button { selection = nil } label: { Label(backTitle, systemImage: "chevron.left") }.padding(PQSpacing.md).pqGlass(.toolbar).padding(PQSpacing.sm)
                     detail().frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             } else { master() }

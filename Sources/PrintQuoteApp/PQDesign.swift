@@ -99,3 +99,5 @@ struct PQDesignPreview:View {
 #Preview("Printer Detail · Large text"){PQDesignPreview(screen:"Printer Detail").environment(\.dynamicTypeSize,.accessibility2).frame(width:600,height:700)}
 #Preview("Filament Detail · Opaque fallback"){PQDesignPreview(screen:"Filament Detail").environment(\.pqOpaquePreview,true).frame(width:600,height:700)}
 #Preview("Settings · Opaque fallback"){PQDesignPreview(screen:"Settings").environment(\.pqOpaquePreview,true).frame(width:700,height:700)}
+
+extension Notification.Name {static let pqFocusSearch=Notification.Name("pq.focusLocalSearch")}

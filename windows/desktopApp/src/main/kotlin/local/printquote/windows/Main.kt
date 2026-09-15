@@ -48,10 +48,10 @@ fun main()=application {
   else if(e.type==KeyEventType.KeyDown && e.isCtrlPressed && e.key==Key.S){if(w.editor!=null)w.save(w.kind,w.editor!!.json) else w.saveQuote();true}
   else if(e.type==KeyEventType.KeyDown && e.isCtrlPressed && e.key==Key.O){w.screen="Inspect Model";true}
   else if(e.type==KeyEventType.KeyDown && e.isCtrlPressed && e.key==Key.K){w.commandPalette=true;true}
-  else if(e.type==KeyEventType.KeyDown && e.isCtrlPressed && e.key==Key.F){w.commandPalette=true;true}
+  else if(e.type==KeyEventType.KeyDown && e.isCtrlPressed && e.key==Key.F){w.searchRequest++;true}
   else if(e.type==KeyEventType.KeyDown && e.key==Key.Escape){w.editor=null;w.picker=null;w.product=null;true}else false
  }) {
-  window.minimumSize=java.awt.Dimension(850,600)
+  window.minimumSize=java.awt.Dimension(600,500)
   PQTheme {
    if(confirmExit)AlertDialog(onDismissRequest={confirmExit=false},title={Text("Edits are not fully saved")},text={Text("${w.autosaveStatus}. Stay here to save your changes. Quote recovery drafts are separate from saved quotes; unsaved library edits may be lost.")},confirmButton={TextButton(onClick={confirmExit=false}){Text("Keep editing")}},dismissButton={TextButton(onClick={exitApplication()}){Text("Close anyway")}})
 
@@ -66,17 +66,22 @@ fun main()=application {
  LaunchedEffect(w.message){if(w.message!=null){kotlinx.coroutines.delay(3500);w.message=null}}
  Column(Modifier.fillMaxSize()) {
   if(w.recoveredDrafts.isNotEmpty())Row{Text("Recovered drafts found");w.recoveredDrafts.take(3).forEach{q->TextButton(onClick={w.open(q);w.recoveredDrafts=w.recoveredDrafts.filterNot{it.text("id")==q.text("id")}}){Text("Restore ${q.text("projectName")}")};TextButton(onClick={w.discardRecovery(q.text("id"))}){Text("Discard")}}}
- Row(Modifier.weight(1f)) {
-  Column(Modifier.width(220.dp).fillMaxHeight().background(Color(0xff2c3031)).padding(12.dp)) {
+ BoxWithConstraints(Modifier.weight(1f)) {
+ val sidebarWidth=if(maxWidth>=PQLayout.expanded)208.dp else 156.dp
+ Row(Modifier.fillMaxSize()) {
+  Column(Modifier.width(sidebarWidth).fillMaxHeight().background(MaterialTheme.colorScheme.surfaceContainerHigh).padding(12.dp)) {
    Row(Modifier.padding(top=12.dp,bottom=4.dp),verticalAlignment=Alignment.CenterVertically){val logo=remember{ImageIO.read(resource("brand-mark.png")).toComposeImageBitmap()};Image(BitmapPainter(logo),null,Modifier.size(34.dp));Spacer(Modifier.width(10.dp));Text("PrintQuote3D",fontWeight=FontWeight.Bold,fontSize=18.sp)}
    Text("Real parts. Real prices. Faster.",color=Muted,fontSize=11.sp,modifier=Modifier.padding(bottom=26.dp))
-   Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {routes.forEach {s->Text(s,Modifier.fillMaxWidth().background(if(w.screen==s)Color(0xff075ccb)else Color.Transparent,RoundedCornerShape(7.dp)).clickable{if(s=="New Estimate" && w.draft==null)w.newQuote()else w.screen=s}.padding(horizontal=10.dp,vertical=10.dp),fontSize=14.sp)}}
+   Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {routes.forEach {s->
+    if(s in listOf("Dashboard","Inventory","Analytics"))Text(when(s){"Dashboard"->"WORKSPACE";"Inventory"->"LIBRARY";else->"UTILITY"},style=MaterialTheme.typography.labelSmall,color=Muted,modifier=Modifier.padding(vertical=PQSpacing.md))
+    NavigationDrawerItem(label={Text(s,style=MaterialTheme.typography.bodyMedium)},selected=w.screen==s,onClick={if(s=="New Estimate" && w.draft==null)w.newQuote()else w.screen=s},modifier=Modifier.padding(vertical=PQSpacing.xs))
+   }}
    Text("WORKSPACE · V4",fontSize=10.sp,color=Muted,modifier=Modifier.padding(top=16.dp))
   }
-  VerticalDivider(color=Color(0xff414546))
+  VerticalDivider(color=MaterialTheme.colorScheme.outlineVariant)
   Column(Modifier.weight(1f).fillMaxHeight()) {
-   Row(Modifier.fillMaxWidth().height(48.dp).padding(horizontal=24.dp),verticalAlignment=Alignment.CenterVertically){Text("PrintQuote 3D V4",fontWeight=FontWeight.SemiBold);TextButton(onClick={w.commandPalette=true}){Text("Search / Ctrl+K")};TextButton(onClick={w.screen="Inspect Model"}){Text("Inspect STL / 3MF")};Spacer(Modifier.weight(1f));if(w.busy)Text("Working…",color=Muted);w.message?.let{Text(it,color=Blue)}}
-   HorizontalDivider(color=Color(0xff363b3c))
+   FlowRow(Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainerHigh).padding(horizontal=PQSpacing.lg,vertical=PQSpacing.xs),horizontalArrangement=Arrangement.spacedBy(PQSpacing.sm)){TextButton(onClick={w.commandPalette=true}){Text("Search / Ctrl+K")};TextButton(onClick={w.screen="Inspect Model"}){Text("Inspect STL / 3MF")};if(w.busy)Text("Working…",color=Muted);w.message?.let{Text(it,color=Blue)}}
+   HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
    if(w.library==null)Box(Modifier.fillMaxSize(),contentAlignment=Alignment.Center){Column(horizontalAlignment=Alignment.CenterHorizontally){Text(if(!w.loadFailed)"Loading your workshop…" else "Workspace could not be loaded. Your existing data has been preserved.");if(w.loadFailed)TextButton(onClick={w.openRecoveryFolder()}){Text("Open recovery folder")}}}
    else when(w.screen){
     "Inspect Model"->ModelInspection()
@@ -86,7 +91,7 @@ fun main()=application {
     "Materials"->Materials(w)
     "Printers"->Library(w,"printers")
     "Presets"->Library(w,"presets")
-    "Settings"->Column(Modifier.padding(24.dp)){Text("Settings",fontSize=28.sp,fontWeight=FontWeight.Bold);Text("PrintQuote 3D · 0.4.0 · Workspace schema 2");Text("Printers: ${w.entries("printers").size} · Products: ${w.catalogDiagnostics.products} · Colors: ${w.catalogDiagnostics.variants} · Spool options: ${w.catalogDiagnostics.stored}");TextButton(onClick={w.screen="Pricing Sources"}){Text("Validate database, rebuild index & export diagnostics")};Spacer(Modifier.height(20.dp));Action("Edit business defaults"){w.edit("settings",w.library!!.getJSONObject("settings"))};Spacer(Modifier.height(12.dp));Action("Export backup"){
+    "Settings"->Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(PQSpacing.section)){PQAppearanceControls();HorizontalDivider(Modifier.padding(vertical=PQSpacing.section));Text("Settings",fontSize=28.sp,fontWeight=FontWeight.Bold);Text("PrintQuote 3D · 0.4.0 · Workspace schema 2");Text("Printers: ${w.entries("printers").size} · Products: ${w.catalogDiagnostics.products} · Colors: ${w.catalogDiagnostics.variants} · Spool options: ${w.catalogDiagnostics.stored}");TextButton(onClick={w.screen="Pricing Sources"}){Text("Validate database, rebuild index & export diagnostics")};Spacer(Modifier.height(20.dp));Action("Edit business defaults"){w.edit("settings",w.library!!.getJSONObject("settings"))};Spacer(Modifier.height(12.dp));Action("Export backup"){
      val owner=java.awt.Frame.getFrames().firstOrNull {it.isVisible && it.title=="PrintQuote 3D"}
      val chooser=javax.swing.JFileChooser().apply {
       dialogTitle="Export workspace backup"
@@ -99,6 +104,7 @@ fun main()=application {
     else->Column(Modifier.padding(24.dp)){Text(w.screen,fontSize=28.sp,fontWeight=FontWeight.Bold);Text("${w.screen} workspace",Modifier.padding(top=20.dp));Text("This section is reserved for the next release, matching the current Mac application.",color=Muted)}
    }
   }
+ }
  }
  }
  if(w.commandPalette)CommandPalette(w)
@@ -116,8 +122,8 @@ fun main()=application {
 }
 @Composable fun Dashboard(w:Workspace){Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp)){
  Text("Your workshop, in focus.",fontSize=30.sp,fontWeight=FontWeight.Bold);Text("Turn production costs into clear, confident quotes.",color=Muted,modifier=Modifier.padding(top=6.dp,bottom=24.dp))
- Row(horizontalArrangement=Arrangement.spacedBy(14.dp)){listOf("Saved quotes" to "quotes","Printer profiles" to "printers","Saved materials" to "filaments").forEach{(label,k)->Column(Modifier.weight(1f).background(Panel,RoundedCornerShape(12.dp)).padding(20.dp)){Text(label,color=Muted);Text(w.entries(k).size.toString(),fontSize=32.sp,fontWeight=FontWeight.Bold,modifier=Modifier.padding(top=12.dp))}}}
- Spacer(Modifier.height(24.dp));Block("Start with the production cost"){Text("Account for material, machine time, energy, labor and your margin.",color=Muted,modifier=Modifier.padding(vertical=12.dp));Action("Create estimate"){w.newQuote()};Spacer(Modifier.height(12.dp))}
+ FlowRow(horizontalArrangement=Arrangement.spacedBy(PQSpacing.md),verticalArrangement=Arrangement.spacedBy(PQSpacing.md)){PQMetric("Saved quotes",w.entries("quotes").size.toString());PQMetric("Printer profiles",w.entries("printers").size.toString());PQMetric("Catalog spools",w.catalogDiagnostics.stored.toString())}
+ Spacer(Modifier.height(PQSpacing.section));PQGlassSurface(Modifier.fillMaxWidth()){FlowRow(Modifier.padding(PQSpacing.md),horizontalArrangement=Arrangement.spacedBy(PQSpacing.sm)){Action("Create estimate"){w.newQuote()};OutlinedButton(onClick={w.screen="Inspect Model"}){Text("Inspect STL / 3MF")};TextButton(onClick={w.screen="Materials"}){Text("Browse materials")}}};Spacer(Modifier.height(PQSpacing.section))
  Block("Workshop activity"){Text("${w.catalogDiagnostics.stored} catalog spool options available offline");Text("Material alerts: ${w.entries("filaments").count{it.optJSONObject("stock")?.optDouble("remainingGrams",1000.0)?.let{g->g<100} ?: false}} saved spools below 100 g");Text("Printer status: local profiles available. Live monitoring is not connected.");Text("Active jobs: no job tracker connected.");Text("Recent customers: "+w.entries("quotes").map{it.text("customer")}.filter{it.isNotBlank()}.distinct().take(5).joinToString(", "))}
  Block("Recent quotes"){if(w.entries("quotes").isEmpty())Text("Your saved quotes will appear here.",color=Muted,modifier=Modifier.padding(12.dp));w.entries("quotes").take(5).forEach{q->Row(Modifier.fillMaxWidth().clickable{w.open(q)}.padding(12.dp)){Text(q.text("projectName"),Modifier.weight(1f));Text(q.optJSONObject("result")?.let{money(it,"total",q.text("currency","USD"))}?:"Draft")}}}
 }}
@@ -131,7 +137,7 @@ fun main()=application {
  LaunchedEffect(entries,query,sort,workspace?.entityFavorites,workspace?.entityRecent,workspace?.favoriteFilaments,workspace?.recentFilaments){kotlinx.coroutines.delay(200);filtered=kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default){val rows=entries.filter{title(it,k).contains(query,true)};workspace?.sortedRecords(k,rows,sort) ?: sortDiscoveryRecords(k,rows,sort)}}
  val table=if(k in listOf("filaments","printers"))ComparisonMode(k)else false
  if(table)ComparisonTable(k,if(k=="printers")listOf("Name","Manufacturer","Build volume","Toolheads")else listOf("Name","Material","Color","Price / kg","Stock (g)","Nickname","Notes"),filtered.map{comparisonRow(it,k)},onOpen={id->entries.firstOrNull{it.text("id")==id}?.let(onOpen)},onEdit=if(k=="filaments" && workspace!=null) {id,column,value->entries.firstOrNull{it.text("id")==id}?.let{original->runCatching{inlineMaterialEdit(original,column,value)}.onSuccess{workspace.save(k,it){workspace.message="Inventory field saved"}}.onFailure{workspace.error=it.message}}}else null)
- else LazyColumn(Modifier.fillMaxSize()){items(filtered,key={it.text("id")}){o->ContextMenuArea(items={listOf(ContextMenuItem("Open"){onOpen(o)}) + if(workspace==null)emptyList() else  (if(k=="printers")listOf(ContextMenuItem("New Quote"){workspace.quickQuoteFor(o)},ContextMenuItem("Maintenance settings"){workspace.edit(k,o)})else emptyList()) + listOf(ContextMenuItem(if(workspace.isFavorite(k,o.text("id")))"Remove favorite" else "Favorite"){workspace.favoriteEntity(k,o.text("id"))},ContextMenuItem("Duplicate"){workspace.duplicateEntity(k,o)})}){Row(Modifier.fillMaxWidth().clickable{onOpen(o)}.padding(vertical=12.dp),verticalAlignment=Alignment.CenterVertically){Column(Modifier.weight(1f)){Text(title(o,k),fontWeight=FontWeight.Medium);Text(when(k){"printers"->"${o.text("buildVolumeXMM")} × ${o.text("buildVolumeYMM")} × ${o.text("buildVolumeZMM")} mm";"filaments"->"${o.text("materialFamily")} · ${money(o,"pricePerKG")}/kg";"quotes"->"${o.text("number")} · ${o.text("customer")} · ${o.text("status")}";else->o.text("mode")},color=Muted,fontSize=12.sp)};if(k=="quotes")o.optJSONObject("result")?.let{Text(money(it,"total",o.text("currency","USD")),color=Blue)};if(onDelete!=null)TextButton(onClick={remove=o}){Text("Delete",color=Muted)}}};HorizontalDivider(color=Color(0xff363b3c))}}
+ else LazyColumn(Modifier.fillMaxSize()){items(filtered,key={it.text("id")}){o->ContextMenuArea(items={listOf(ContextMenuItem("Open"){onOpen(o)}) + if(workspace==null)emptyList() else  (if(k=="printers")listOf(ContextMenuItem("New Quote"){workspace.quickQuoteFor(o)},ContextMenuItem("Maintenance settings"){workspace.edit(k,o)})else emptyList()) + listOf(ContextMenuItem(if(workspace.isFavorite(k,o.text("id")))"Remove favorite" else "Favorite"){workspace.favoriteEntity(k,o.text("id"))},ContextMenuItem("Duplicate"){workspace.duplicateEntity(k,o)})}){Row(Modifier.fillMaxWidth().clickable{onOpen(o)}.padding(vertical=12.dp),verticalAlignment=Alignment.CenterVertically){Column(Modifier.weight(1f)){Text(title(o,k),fontWeight=FontWeight.Medium);Text(when(k){"printers"->"${o.text("buildVolumeXMM")} × ${o.text("buildVolumeYMM")} × ${o.text("buildVolumeZMM")} mm";"filaments"->"${o.text("materialFamily")} · ${money(o,"pricePerKG")}/kg";"quotes"->"${o.text("number")} · ${o.text("customer")} · ${o.text("status")}";else->o.text("mode")},color=Muted,fontSize=12.sp)};if(k=="quotes")o.optJSONObject("result")?.let{Text(money(it,"total",o.text("currency","USD")),color=Blue)};if(onDelete!=null)TextButton(onClick={remove=o}){Text("Delete",color=Muted)}}};HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)}}
  remove?.let{o->AlertDialog(onDismissRequest={remove=null},title={Text("Delete ${title(o,k)}?")},text={Text(if(k=="quotes")"This quote and its saved cost snapshot will be deleted."else "Existing quote snapshots will be retained.")},confirmButton={TextButton(onClick={onDelete?.invoke(o);remove=null}){Text("Delete")}},dismissButton={TextButton(onClick={remove=null}){Text("Cancel")}})}
 }
 

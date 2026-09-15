@@ -40,7 +40,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
     var discard by remember {mutableStateOf<(() -> Unit)?>(null)}
     fun navigate(to:String) {
         fun perform() { vm.editor=null;vm.product=null;vm.picker=null; if(to=="New Estimate") vm.newQuote() else {vm.quote=null;vm.screen=to}; if(to=="Settings") vm.edit("settings",vm.library!!.getJSONObject("settings")) }
-        if(vm.quote!=null || vm.editor!=null) discard={perform()} else perform()
+        if((vm.quote?.revision ?: 0)>0 && vm.autosaveStatus!="Saved" || (vm.editor?.revision ?: 0)>0) discard={perform()} else perform()
     }
     fun back() {when { vm.editor!=null -> discard={vm.editor=null};vm.product!=null -> vm.product=null; vm.picker!=null -> vm.picker=null;vm.quote!=null -> discard={vm.quote=null;vm.screen="Dashboard"};else->vm.screen="Dashboard"}}
     BackHandler(vm.screen!="Dashboard" || vm.editor!=null || vm.product!=null || vm.picker!=null) { back() }
@@ -48,13 +48,28 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
     val snackbar=remember{SnackbarHostState()}
     LaunchedEffect(vm.savedMessage){vm.savedMessage?.let{snackbar.showSnackbar(it);vm.savedMessage=null}}
     PQTheme {
-        Scaffold(snackbarHost={SnackbarHost(snackbar)},topBar={TopAppBar(title={Text(if(vm.editor!=null) "Edit ${when(vm.editorKind){"filaments"->"material";"printers"->"printer";"presets"->"preset";else->"settings"}}" else if(vm.product!=null) "Catalog material" else if(vm.picker!=null) "Choose ${vm.picker}" else vm.screen)},
+      BoxWithConstraints(Modifier.fillMaxSize()) {
+        val compact=maxWidth<PQLayout.medium
+        val expanded=maxWidth>=PQLayout.expanded
+        Scaffold(containerColor=MaterialTheme.colorScheme.background,bottomBar={
+            if(compact && vm.editor==null && vm.product==null && vm.picker==null) NavigationBar {
+                listOf("Dashboard","Quotes","Materials","More").forEach { to -> NavigationBarItem(selected=vm.screen==to,onClick={if(to=="More")menu=true else navigate(to)},icon={Text(when(to){"Dashboard"->"⌂";"Quotes"->"≡";"Materials"->"◉";else->"•••"})},label={Text(to)}) }
+            }
+        },snackbarHost={SnackbarHost(snackbar)},topBar={TopAppBar(title={Text(if(vm.editor!=null) "Edit ${when(vm.editorKind){"filaments"->"material";"printers"->"printer";"presets"->"preset";else->"settings"}}" else if(vm.product!=null) "Catalog material" else if(vm.picker!=null) "Choose ${vm.picker}" else vm.screen)},
             navigationIcon={TextButton(onClick={if(vm.editor!=null || vm.product!=null || vm.picker!=null) back() else menu=true}) {Text(if(vm.editor!=null || vm.product!=null || vm.picker!=null) "Back" else "Menu")}},actions={
                 if(vm.editor!=null) TextButton(enabled=!vm.busy,onClick={vm.save(vm.editorKind,vm.editor!!.json)}) {Text("Save")}
                 else if(vm.quote!=null && vm.product==null && vm.picker==null) TextButton(enabled=!vm.busy,onClick={vm.saveQuote()}) {Text("Save quote")}
                 TextButton(onClick={commands=true}){Text("Search")}
             })}) { padding ->
-            Column(Modifier.padding(padding).fillMaxSize()) {
+            Row(Modifier.padding(padding).fillMaxSize()) {
+              if(!compact) {
+                if(expanded) Column(Modifier.width(208.dp).fillMaxHeight().verticalScroll(rememberScrollState()).padding(PQSpacing.md),verticalArrangement=Arrangement.spacedBy(PQSpacing.xs)) {
+                    Text("PrintQuote 3D",style=MaterialTheme.typography.titleMedium,modifier=Modifier.padding(PQSpacing.md))
+                    destinations.forEach {to->NavigationDrawerItem(label={Text(to)},selected=vm.screen==to,onClick={navigate(to)},modifier=Modifier.fillMaxWidth())}
+                } else NavigationRail {listOf("Dashboard","Quotes","Materials","More").forEach{to->NavigationRailItem(selected=vm.screen==to,onClick={if(to=="More")menu=true else navigate(to)},icon={Text(when(to){"Dashboard"->"⌂";"Quotes"->"≡";"Materials"->"◉";else->"•••"})},label={Text(to)})}}
+                VerticalDivider()
+              }
+              Column(Modifier.weight(1f).fillMaxHeight()) {
                 if(vm.busy) LinearProgressIndicator(Modifier.fillMaxWidth())
                 if(vm.library==null) {
                     Column(Modifier.padding(24.dp)) {Text(if(vm.busy) "Loading your workshop…" else "Workspace unavailable");if(!vm.busy) Button(onClick=vm::reload) {Text("Retry")}}
@@ -74,8 +89,10 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
                     vm.screen=="Pricing Sources" -> Sources(vm)
                     else -> Dashboard(vm)
                 }
+              }
             }
         }
+      }
         if(menu) AlertDialog(onDismissRequest={menu=false},title={Text("PrintQuote 3D")},text={Column(Modifier.heightIn(max=500.dp).verticalScroll(rememberScrollState())) {destinations.forEach {to->TextButton(onClick={menu=false;navigate(to)},enabled=vm.library!=null,modifier=Modifier.fillMaxWidth()) {Text(to)}}}},confirmButton={TextButton(onClick={menu=false}) {Text("Close")}})
         if(discard!=null) AlertDialog(onDismissRequest={discard=null},title={Text("Leave this draft?")},text={Text(if(vm.quote!=null)"${vm.autosaveStatus}. Quote recovery drafts are kept separately. Wait for Saved before leaving, or keep editing to resolve a save failure." else "Unsaved library edits will be discarded.")},confirmButton={TextButton(onClick={val action=discard;discard=null;action?.invoke()}) {Text("Leave")}},dismissButton={TextButton(onClick={discard=null}) {Text("Keep editing")}})
         vm.error?.let {message->AlertDialog(onDismissRequest={vm.error=null},title={Text("Unable to complete action")},text={Text(message)},confirmButton={TextButton(onClick={vm.error=null}) {Text("OK")}})}
@@ -86,7 +103,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
     var showCommands by remember{mutableStateOf(false)}
     if(showCommands)V4Commands(vm){showCommands=false}
     val quotes=vm.entries("quotes"); val currency=vm.library!!.getJSONObject("settings").text("currency","USD")
-    LazyColumn(Modifier.fillMaxSize(),contentPadding=PaddingValues(20.dp),verticalArrangement=Arrangement.spacedBy(12.dp)) {
+    LazyColumn(Modifier.fillMaxSize(),contentPadding=PaddingValues(PQSpacing.section),verticalArrangement=Arrangement.spacedBy(PQSpacing.md)) {
         item { TextButton(onClick={showCommands=true}){Text("Search & Commands")} }
         items(vm.recoveredDrafts,key={it.text("id")}){q->Text("Recovered draft: ${q.text("projectName")}");Row{TextButton(onClick={vm.openQuote(q);vm.recoveredDrafts=vm.recoveredDrafts.filterNot{it.text("id")==q.text("id")}}){Text("Restore")};TextButton(onClick={vm.discardRecovery(q.text("id"))}){Text("Discard")}}}
 
@@ -100,9 +117,8 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
             }
         }
         item {Text("Your workshop, in focus.",style=MaterialTheme.typography.headlineMedium);Text(vm.library!!.getJSONObject("settings").text("businessName"))}
-        item {Text("${quotes.size} saved quotes · ${vm.entries("printers").size} printer profiles · ${vm.entries("filaments").size} saved materials")}
-        item {OutlinedButton(onClick={vm.screen="Inspect Model"},modifier=Modifier.fillMaxWidth()) {Text("Inspect STL / 3MF")}}
-        item {Button(onClick=vm::newQuote,modifier=Modifier.fillMaxWidth()) {Text("Create estimate")}}
+        item {BoxWithConstraints{val wide=maxWidth>=PQLayout.medium;if(wide)Row(horizontalArrangement=Arrangement.spacedBy(PQSpacing.md)){PQMetric("Saved quotes",quotes.size.toString(),Modifier.weight(1f));PQMetric("Printer profiles",vm.entries("printers").size.toString(),Modifier.weight(1f));PQMetric("Catalog spools",vm.catalogDiagnostics.stored.toString(),Modifier.weight(1f))}else Column(verticalArrangement=Arrangement.spacedBy(PQSpacing.md)){PQMetric("Saved quotes",quotes.size.toString(),Modifier.fillMaxWidth());PQMetric("Catalog spools",vm.catalogDiagnostics.stored.toString(),Modifier.fillMaxWidth())}}}
+        item {PQGlassSurface(Modifier.fillMaxWidth()){FlowRow(Modifier.padding(PQSpacing.md),horizontalArrangement=Arrangement.spacedBy(PQSpacing.sm)){Button(onClick=vm::newQuote){Text("Create estimate")};OutlinedButton(onClick={vm.screen="Inspect Model"}){Text("Inspect STL / 3MF")}}}}
         item {Text("Enter material, machine time and labor to build a complete pricing snapshot. Imported profiles require review of actual shop costs.")}
         item {Heading("Recent quotes")}
         if(quotes.isEmpty()) item {Text("Your first saved quote will appear here.")}

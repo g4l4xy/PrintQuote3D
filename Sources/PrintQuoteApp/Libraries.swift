@@ -6,7 +6,7 @@ struct PrinterLibrary: View {
     @State private var selection: UUID?
     @State private var showingCatalog = false
     @State private var search = ""
-    @AppStorage("v4.printers.layout") private var layout="Cards"
+    @AppStorage("v4.printers.layout") private var layout=PQLayout.defaultLibraryLayout
     @AppStorage("v4.printers.sort") private var sort="Favorite"
     private var filteredPrinters: [PrinterProfile] {
         state.library.printers.filter { search.isEmpty || $0.name.localizedCaseInsensitiveContains(search) }
