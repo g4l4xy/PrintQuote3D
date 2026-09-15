@@ -14,6 +14,9 @@ struct QuoteEditor: View {
     @State private var saveStatus=""
     @State private var saveFailure:String?
     @State private var confirmClose=false
+    @State private var reviewingModel=false
+    @Environment(\.dynamicTypeSize) private var typeSize
+    @Environment(\.colorScheme) private var scheme
     private let existing: Bool
     init(state: AppState, initial: Quote?) {
         self.state = state; existing = initial != nil
@@ -33,21 +36,26 @@ struct QuoteEditor: View {
     var body: some View {
         VStack(spacing:0) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(existing ? "Edit quote" : "New estimate").font(.title2.bold())
+                Text(existing ? quote.projectName : "New estimate").font(PQTypography.pageTitle)
                 HStack {
                     Text(quote.number).font(.caption).foregroundStyle(.secondary)
+                    Button("Model & source",systemImage:"cube.transparent"){reviewingModel=true}
                     Spacer()
                     Text(saveStatus.isEmpty ? (saved ? "Saved":"") : saveStatus).font(.caption).foregroundStyle(.secondary)
                     if existing { Button("Close") { close() } }
                     Button("Save quote") { save() }.keyboardShortcut("s",modifiers:.command).buttonStyle(.borderedProminent).disabled((try? result.get()) == nil)
                 }
-            }.padding(16)
+            }.padding(PQSpacing.lg).pqGlass(.toolbar).padding(PQSpacing.md)
             GeometryReader { geometry in
-                if geometry.size.width >= 760 {
+                if geometry.size.width >= PQLayout.expanded && !typeSize.isAccessibilitySize {
                     HStack(spacing: 0) {
-                        inputForm.frame(width: (geometry.size.width - 1) * 0.58)
+                        if geometry.size.width >= PQLayout.wide {
+                            modelContext.frame(width:220)
+                            Divider()
+                        }
+                        inputForm.frame(maxWidth:.infinity)
                         Divider()
-                        costBreakdown.frame(maxWidth: .infinity)
+                        costBreakdown.frame(width:320).background(PQColor.panel(scheme == .dark))
                     }
                 } else {
                     VStack(spacing: 0) {
@@ -60,6 +68,8 @@ struct QuoteEditor: View {
                 }
             }
         }
+        .pqWorkspace()
+        .sheet(isPresented:$reviewingModel){ModelInspectionView(state:state)}
         .task(id:editRevision){if editRevision>0{await autosave()}}
         .onDisappear{if saved{let id=quote.id;Task{try? await state.recovery.discard(id)}}}
         .interactiveDismissDisabled(!saved && editRevision>0)
@@ -73,6 +83,18 @@ struct QuoteEditor: View {
         .onChange(of:quote.printer) { _,_ in changed() }
         .onChange(of:quote.filament) { _,_ in changed() }
         .onChange(of:quote.preset) { _,_ in changed() }
+    }
+    private var modelContext:some View {
+        ScrollView {VStack(alignment:.leading,spacing:PQSpacing.lg){
+            Label("Model & source",systemImage:"cube.transparent").font(PQTypography.sectionTitle)
+            if let source=quote.manufacturingImport {Text(source.filename).font(.headline);Text("Accepted manufacturing data").foregroundStyle(.secondary);Text("Parser \(source.parserVersion)").font(.caption)}
+            else {Text("Manual estimate").font(.headline);Text("Inspect a source file to review geometry and manufacturing evidence.").foregroundStyle(.secondary)}
+            Button("Inspect STL / 3MF"){reviewingModel=true}.buttonStyle(.bordered)
+            Divider()
+            PQSectionHeader(title:"Equipment",subtitle:quote.printer?.name ?? "Choose a printer")
+            Text(quote.filament?.name ?? "Choose material").font(.subheadline)
+            Text("Source inspection does not silently replace this quote's values.").font(.caption).foregroundStyle(.secondary)
+        }.padding(PQSpacing.lg)}
     }
     private var inputForm: some View {
                 Form {
@@ -140,7 +162,7 @@ struct QuoteEditor: View {
                         DecimalField(title:"Labor minutes",value:$quote.input.laborMinutes)
                         DecimalField(title:"Labor hourly rate",value:$quote.input.laborRate)
                     }
-                    SwiftUI.Section("Drying & direct costs") {
+                    DisclosureGroup("Advanced · drying & direct costs") {
                         DecimalField(title:"Dryer watts",value:$quote.input.dryerWatts)
                         DecimalField(title:"Drying hours",value:$quote.input.dryingHours)
                         DecimalField(title:"Jobs sharing drying cycle",value:$quote.input.dryingSharedJobs)
@@ -166,15 +188,16 @@ struct QuoteEditor: View {
     private var costBreakdown: some View {
                 ScrollView {
                     VStack(alignment:.leading,spacing:16) {
-                        Text("COST BREAKDOWN").font(.headline).foregroundStyle(.secondary)
                         switch result {
                         case .success(let r):
+                            Text("CUSTOMER PRICE").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                            Text(money(r.total,currency:quote.currency)).font(PQTypography.display).monospacedDigit().foregroundStyle(PQColor.accent(scheme == .dark))
+                            Divider()
+                            PQSectionHeader(title:"Cost breakdown")
                             ForEach(r.components.filter {$0.amount != 0}) { c in row(c.name,c.amount) }
                             Divider(); row("Production cost",r.productionCost)
                             row("Overhead",r.overhead)
                             Divider()
-                            Text("CUSTOMER PRICE").font(.headline).foregroundStyle(.secondary)
-                            Text(money(r.total,currency:quote.currency)).font(.system(size:42,weight:.semibold,design:.rounded)).foregroundStyle(.blue)
                             row("Subtotal",r.subtotal); row("Discount", -r.discount); row("Tax",r.tax); row("Shipping",r.shipping)
                             if r.minimumApplied { Label("Minimum charge applied",systemImage:"info.circle").foregroundStyle(.orange) }
                             Divider()
@@ -188,7 +211,7 @@ struct QuoteEditor: View {
                             Text("Manual estimate · verify against slicer output. Print hours should include material changes. Labor should include setup, drying handling and finishing.").font(.caption).foregroundStyle(.secondary)
                         case .failure(let error): Label(error.localizedDescription,systemImage:"exclamationmark.triangle").foregroundStyle(.orange)
                         }
-                    }.padding(24)
+                    }.padding(PQSpacing.section)
                 }
     }
     func enableToolAssignments() {

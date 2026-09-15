@@ -12,6 +12,7 @@ private enum MaterialsTab: String, CaseIterable, Identifiable {
 /// Keeps shop-owned spools and the reference catalog in one workspace.
 struct MaterialsView: View {
     @Bindable var state: AppState
+    @FocusState private var searchFocused:Bool
     let onUse: ((FilamentProduct) -> Void)?
 
     @State private var tab: MaterialsTab = .catalog
@@ -99,8 +100,8 @@ struct MaterialsView: View {
 
 
             TextField(tab == .mine ? "Search your materials" : "Search brand, material or product", text:Binding(get:{query},set:{query=$0}))
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal)
+                .textFieldStyle(.roundedBorder).focused($searchFocused).onReceive(NotificationCenter.default.publisher(for:.pqFocusSearch)){_ in searchFocused=true}
+                .padding(PQSpacing.md).pqGlass().padding(.horizontal)
                 .padding(.top, 10)
 
             if onUse != nil {
@@ -163,7 +164,8 @@ struct MaterialsView: View {
         Task{do{try await state.filamentRepository?.favorite(row.id,enabled:!row.favorite);if state.v4Favorites.contains("filaments:"+row.id)==row.favorite{state.favorite("filaments",row.id)};await searchCatalog()}catch{state.error=error.localizedDescription}}
     }
     private var catalogList:some View {
-        VStack(alignment:.leading,spacing:8) {
+        VStack(alignment:.leading,spacing:PQSpacing.sm) {
+            DisclosureGroup("Filters & sorting") {
             HStack {
                 Menu("Material families") {ForEach(state.filamentFamilies,id:\.self){family in Toggle(family,isOn:Binding(get:{state.filamentQuery.families.contains(family)},set:{if $0{state.filamentQuery.families.insert(family)}else{state.filamentQuery.families.remove(family)};state.filamentQuery.offset=0}))}}
                 Menu("Manufacturers") {ForEach(state.filamentBrands,id:\.self){brand in Toggle(brand,isOn:Binding(get:{state.filamentQuery.manufacturers.contains(brand)},set:{if $0{state.filamentQuery.manufacturers.insert(brand)}else{state.filamentQuery.manufacturers.remove(brand)};state.filamentQuery.offset=0}))}}
@@ -174,6 +176,7 @@ struct MaterialsView: View {
             }.toggleStyle(.button)
             Picker("Sort",selection:$state.filamentQuery.sort){ForEach(["Name","Manufacturer","Material","Price / kg","Recently Used","Favorite","Difficulty","Drying Requirement"],id:\.self){Text($0)}}
             Text("Unknown values sort last. Price uses your saved inventory; difficulty and drying requirements are shown only when supplied.").font(.caption2).foregroundStyle(.secondary)
+            }
             Button("Reset Filters"){state.filamentQuery=FilamentQuery()}
             Text("\(page.matches.formatted()) of \(page.total.formatted()) spool options · \(state.filamentCounts.products.formatted()) products · \(state.filamentCounts.variants.formatted()) colors").font(.caption)
             if state.filamentLoading {ProgressView(state.filamentStatus);Button("Cancel refresh"){state.catalogTask?.cancel()}}

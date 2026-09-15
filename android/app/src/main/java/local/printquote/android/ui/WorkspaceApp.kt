@@ -1,5 +1,10 @@
 package local.printquote.android.ui
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.graphics.Color
@@ -53,7 +58,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
         val expanded=maxWidth>=PQLayout.expanded
         Scaffold(containerColor=MaterialTheme.colorScheme.background,bottomBar={
             if(compact && vm.editor==null && vm.product==null && vm.picker==null) NavigationBar {
-                listOf("Dashboard","Quotes","Materials","More").forEach { to -> NavigationBarItem(selected=vm.screen==to,onClick={if(to=="More")menu=true else navigate(to)},icon={Text(when(to){"Dashboard"->"⌂";"Quotes"->"≡";"Materials"->"◉";else->"•••"})},label={Text(to)}) }
+                listOf("Dashboard","Quotes","Materials","More").forEach { to -> NavigationBarItem(selected=vm.screen==to,onClick={if(to=="More")menu=true else navigate(to)},icon={Icon(when(to){"Dashboard"->Icons.Default.Home;"Quotes"->Icons.Default.List;"Materials"->Icons.Default.Build;else->Icons.Default.MoreVert},contentDescription=null)},label={Text(to)}) }
             }
         },snackbarHost={SnackbarHost(snackbar)},topBar={TopAppBar(title={Text(if(vm.editor!=null) "Edit ${when(vm.editorKind){"filaments"->"material";"printers"->"printer";"presets"->"preset";else->"settings"}}" else if(vm.product!=null) "Catalog material" else if(vm.picker!=null) "Choose ${vm.picker}" else vm.screen)},
             navigationIcon={TextButton(onClick={if(vm.editor!=null || vm.product!=null || vm.picker!=null) back() else menu=true}) {Text(if(vm.editor!=null || vm.product!=null || vm.picker!=null) "Back" else "Menu")}},actions={
@@ -66,13 +71,13 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
                 if(expanded) Column(Modifier.width(208.dp).fillMaxHeight().verticalScroll(rememberScrollState()).padding(PQSpacing.md),verticalArrangement=Arrangement.spacedBy(PQSpacing.xs)) {
                     Text("PrintQuote 3D",style=MaterialTheme.typography.titleMedium,modifier=Modifier.padding(PQSpacing.md))
                     destinations.forEach {to->NavigationDrawerItem(label={Text(to)},selected=vm.screen==to,onClick={navigate(to)},modifier=Modifier.fillMaxWidth())}
-                } else NavigationRail {listOf("Dashboard","Quotes","Materials","More").forEach{to->NavigationRailItem(selected=vm.screen==to,onClick={if(to=="More")menu=true else navigate(to)},icon={Text(when(to){"Dashboard"->"⌂";"Quotes"->"≡";"Materials"->"◉";else->"•••"})},label={Text(to)})}}
+                } else NavigationRail {listOf("Dashboard","Quotes","Materials","More").forEach{to->NavigationRailItem(selected=vm.screen==to,onClick={if(to=="More")menu=true else navigate(to)},icon={Icon(when(to){"Dashboard"->Icons.Default.Home;"Quotes"->Icons.Default.List;"Materials"->Icons.Default.Build;else->Icons.Default.MoreVert},contentDescription=null)},label={Text(to)})}}
                 VerticalDivider()
               }
               Column(Modifier.weight(1f).fillMaxHeight()) {
                 if(vm.busy) LinearProgressIndicator(Modifier.fillMaxWidth())
                 if(vm.library==null) {
-                    Column(Modifier.padding(24.dp)) {Text(if(vm.busy) "Loading your workshop…" else "Workspace unavailable");if(!vm.busy) Button(onClick=vm::reload) {Text("Retry")}}
+                    Column(Modifier.padding(PQSpacing.section)) {Text(if(vm.busy) "Loading your workshop…" else "Workspace unavailable");if(!vm.busy) Button(onClick=vm::reload) {Text("Retry")}}
                 } else when {
                     vm.editor!=null -> DocumentEditor(vm)
                     vm.product!=null -> ProductDetail(vm)
@@ -108,7 +113,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
         items(vm.recoveredDrafts,key={it.text("id")}){q->Text("Recovered draft: ${q.text("projectName")}");Row{TextButton(onClick={vm.openQuote(q);vm.recoveredDrafts=vm.recoveredDrafts.filterNot{it.text("id")==q.text("id")}}){Text("Restore")};TextButton(onClick={vm.discardRecovery(q.text("id"))}){Text("Discard")}}}
 
         item {
-            Row(verticalAlignment=androidx.compose.ui.Alignment.CenterVertically, horizontalArrangement=Arrangement.spacedBy(12.dp), modifier=Modifier.fillMaxWidth()) {
+            Row(verticalAlignment=androidx.compose.ui.Alignment.CenterVertically, horizontalArrangement=Arrangement.spacedBy(PQSpacing.md), modifier=Modifier.fillMaxWidth()) {
                 Image(painterResource(R.drawable.brand_mark), contentDescription=null, modifier=Modifier.size(40.dp), contentScale=androidx.compose.ui.layout.ContentScale.Fit)
                 Column(Modifier.weight(1f), verticalArrangement=Arrangement.spacedBy(4.dp)) {
                     Text("PrintQuote 3D", style=MaterialTheme.typography.titleLarge)
@@ -131,14 +136,14 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
     }
 }
 @Composable fun QuoteRow(q:JSONObject,click:()->Unit) {
-    OutlinedCard(onClick=click,modifier=Modifier.fillMaxWidth()) {Column(Modifier.padding(16.dp)) {
+    OutlinedCard(onClick=click,modifier=Modifier.fillMaxWidth()) {Column(Modifier.padding(PQSpacing.lg)) {
         Text(name(q,"quotes"),style=MaterialTheme.typography.titleMedium);Text(q.text("customer","No customer")+" · "+q.text("status"))
         Text(money(q.optJSONObject("result")?.decimal("total") ?: BigDecimal.ZERO,q.text("currency","USD")),style=MaterialTheme.typography.titleLarge)
     }}
 }
 @Composable fun QuoteList(vm:WorkspaceViewModel,customer:String?=null) {
     var search by rememberSaveable {mutableStateOf("")}
-    Column {OutlinedTextField(search,onValueChange={search=it},label={Text("Search quotes, customer or status")},modifier=Modifier.fillMaxWidth().padding(12.dp))
+    Column {OutlinedTextField(search,onValueChange={search=it},label={Text("Search quotes, customer or status")},modifier=Modifier.fillMaxWidth().padding(PQSpacing.md))
         LazyColumn(contentPadding=PaddingValues(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)) {
             val quotes=vm.entries("quotes").filter {(customer==null || it.text("customer")==customer) && listOf(it.text("number"),it.text("projectName"),it.text("customer"),it.text("status")).any {v->v.contains(search,true)}}
             if(quotes.isEmpty()) item {Text("No matching saved quotes.")}
@@ -159,16 +164,16 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
     var values by remember(kind){mutableStateOf<List<JSONObject>>(emptyList())}
     LaunchedEffect(vm.library,query,kind,sort,vm.entityFavorites,vm.entityRecent,vm.favoriteFilaments,vm.recentFilaments,vm.materialPickerGroup){delay(200);val rows=vm.entries(kind).filter{kind!="filaments" || onSelect==null || vm.materialPickerGroup=="all" || (vm.materialPickerGroup=="recent" && it.text("id") in vm.recentFilaments) || (vm.materialPickerGroup=="favorite" && it.text("id") in vm.favoriteFilaments) || (vm.materialPickerGroup=="recommended" && (it.text("id") in vm.favoriteFilaments || it.text("id") in vm.recentFilaments))};values=withContext(Dispatchers.Default){vm.sortedRecords(kind,rows.filter{name(it,kind).contains(query,true)},sort)}}
     Column {
-        OutlinedTextField(query,onValueChange={query=it},label={Text(if(kind=="printers") "Search manufacturer, model or nozzle" else "Search ${if(kind=="filaments") "materials" else "presets"}")},modifier=Modifier.fillMaxWidth().padding(12.dp))
+        OutlinedTextField(query,onValueChange={query=it},label={Text(if(kind=="printers") "Search manufacturer, model or nozzle" else "Search ${if(kind=="filaments") "materials" else "presets"}")},modifier=Modifier.fillMaxWidth().padding(PQSpacing.md))
         Row(Modifier.fillMaxWidth().padding(horizontal=16.dp),horizontalArrangement=Arrangement.SpaceBetween) {Text("${values.size} of ${vm.entries(kind).size}");TextButton(onClick={vm.edit(kind,when(kind){"printers"->Defaults.printer();"filaments"->Defaults.material();else->Defaults.preset()})}) {Text("Add ${when(kind){"printers"->"printer";"filaments"->"material";else->"preset"}}")}}
         val sorts=if(kind=="printers")listOf("Name","Manufacturer","Build Volume","Toolheads","Recently Used","Favorite")else if(kind=="filaments")listOf("Name","Manufacturer","Material","Price / kg","Recently Used","Favorite")else listOf("Name","Recently Used","Favorite")
         Select("Sort",sorts.map{it to it},sort){sort=it}
         if(kind=="filaments" && onSelect!=null)Text(when(vm.materialPickerGroup){"recent"->"Recently Used";"favorite"->"Favorites";"recommended"->"Recommended from your history";else->"My Inventory"})
         val table=if(kind in listOf("filaments","printers"))ComparisonMode(kind) else false
         if(table)ComparisonTable(kind,if(kind=="printers")listOf("Name","Manufacturer","Build volume","Toolheads")else listOf("Name","Material","Color","Price / kg","Stock (g)","Nickname","Notes"),values.map{comparisonRow(it,kind)},onOpen={id->values.firstOrNull{it.text("id")==id}?.let{if(onSelect!=null)onSelect(it)else vm.edit(kind,it)}},onEdit=if(kind=="filaments" && onSelect==null){id,column,value->values.firstOrNull{it.text("id")==id}?.let{original->runCatching{inlineMaterialEdit(original,column,value)}.onSuccess{vm.save(kind,it){vm.savedMessage="Inventory field saved"}}.onFailure{vm.error=it.message}}}else null)
-        else LazyColumn(contentPadding=PaddingValues(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {
+        else LazyColumn(contentPadding=PaddingValues(16.dp),verticalArrangement=Arrangement.spacedBy(PQSpacing.sm)) {
             if(values.isEmpty()) item {Text("No matches. Add a record or change the search.")}
-            items(values,key={it.text("id")}) {o->OutlinedCard(onClick={if(onSelect!=null) onSelect(o) else vm.edit(kind,o)},modifier=Modifier.fillMaxWidth()) {Column(Modifier.padding(12.dp)) {
+            items(values,key={it.text("id")}) {o->OutlinedCard(onClick={if(onSelect!=null) onSelect(o) else vm.edit(kind,o)},modifier=Modifier.fillMaxWidth()) {Column(Modifier.padding(PQSpacing.md)) {
                 var actions by remember{mutableStateOf(false)}
                 Row{Text(name(o,kind),style=MaterialTheme.typography.titleMedium,modifier=Modifier.weight(1f));Box{TextButton(onClick={actions=true}){Text("⋯")};DropdownMenu(actions,{actions=false}){if(kind=="printers"){DropdownMenuItem(text={Text("New Quote")},onClick={vm.quickQuoteFor(o);actions=false});DropdownMenuItem(text={Text("Maintenance settings")},onClick={vm.edit(kind,o);actions=false})};DropdownMenuItem(text={Text(if(vm.isFavorite(kind,o.text("id")))"Remove favorite" else "Favorite")},onClick={vm.favoriteEntity(kind,o.text("id"));actions=false});DropdownMenuItem(text={Text("Duplicate")},onClick={vm.duplicateEntity(kind,o);actions=false})}}}
 
@@ -182,7 +187,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
 @Composable fun DocumentEditor(vm:WorkspaceViewModel) {
     var settingsSearch by remember{mutableStateOf("")}
     val d=vm.editor!!;var confirmDelete by remember {mutableStateOf(false)}
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(PQSpacing.lg),verticalArrangement=Arrangement.spacedBy(10.dp)) {
         if(vm.editorKind=="settings") {
             OutlinedTextField(settingsSearch,{settingsSearch=it},label={Text("Search settings")},modifier=Modifier.fillMaxWidth())
             Text("PrintQuote 3D · 0.4.0 · Workspace schema 2")
@@ -200,16 +205,20 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
 }
 @Composable fun MaterialsWorkspace(vm:WorkspaceViewModel,picking:Boolean=false) {
     var catalog by rememberSaveable {mutableStateOf(!picking)}
+    var filters by rememberSaveable{mutableStateOf(false)}
     Column {
         if(picking)Column{Text("Suggestions use saved history; verify printer compatibility separately.",style=MaterialTheme.typography.bodySmall);TextButton(onClick={catalog=false;vm.materialPickerGroup="recommended"}){Text("Recommended from history")};Row{TextButton(onClick={catalog=false;vm.materialPickerGroup="recent"}){Text("Recently Used")};TextButton(onClick={catalog=false;vm.materialPickerGroup="favorite"}){Text("Favorites")}}}
         Row {FilterChip(!catalog,onClick={catalog=false;vm.materialPickerGroup="all"},label={Text("My Inventory")});FilterChip(catalog,onClick={catalog=true},label={Text("All Filaments")})}
         if(!catalog) EntityList(vm,"filaments",if(picking) vm::selectMaterial else null) else {
             val q=vm.catalogQuery;val page=vm.catalogPage
             OutlinedTextField(q.text,onValueChange={vm.searchCatalog(q.copy(text=it,offset=0))},label={Text("Search brand, product, color, SKU or tags")},modifier=Modifier.fillMaxWidth())
-            Row {CatalogFilter("Materials",vm.catalogFamilies,q.families){vm.searchCatalog(q.copy(families=it,offset=0))};CatalogFilter("Manufacturers",vm.catalogBrands,q.brands){vm.searchCatalog(q.copy(brands=it,offset=0))}}
+            TextButton(onClick={filters=!filters}){Text(if(filters)"Hide filters & sorting" else "Filters & sorting")}
+            if(filters){
+            FlowRow {CatalogFilter("Materials",vm.catalogFamilies,q.families){vm.searchCatalog(q.copy(families=it,offset=0))};CatalogFilter("Manufacturers",vm.catalogBrands,q.brands){vm.searchCatalog(q.copy(brands=it,offset=0))}}
             Row {FilterChip(q.favoritesOnly,onClick={vm.searchCatalog(q.copy(favoritesOnly=!q.favoritesOnly,offset=0))},label={Text("Favorites")});FilterChip(q.recentOnly,onClick={vm.searchCatalog(q.copy(recentOnly=!q.recentOnly,offset=0))},label={Text("Recent")});TextButton(onClick={vm.searchCatalog(CatalogQuery())}){Text("Reset")}}
             Select("Sort",listOf("Name","Manufacturer","Material","Price / kg","Favorite","Recently Used","Difficulty","Drying Requirement").map{it to it},q.sort){vm.searchCatalog(q.copy(sort=it,offset=0))}
             Text("Unknown values sort last. Prices use saved inventory; difficulty/drying require explicit source data.",style=MaterialTheme.typography.bodySmall)
+            }
             Text("${page.matches} of ${page.total} spool options · ${vm.catalogDiagnostics.products} products · ${vm.catalogDiagnostics.variants} colors")
             if(vm.catalogLoading)Row{Text(vm.catalogStage);TextButton(onClick={vm.cancelCatalogRefresh()}){Text("Cancel")}}
             if(vm.catalogSearching)LinearProgressIndicator(Modifier.fillMaxWidth())
@@ -217,7 +226,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
             Row {TextButton(enabled=q.offset>0,onClick={vm.searchCatalog(q.copy(offset=(q.offset-100).coerceAtLeast(0)))}){Text("Previous")};Text("Page ${q.offset/100+1}");TextButton(enabled=q.offset+100<page.matches,onClick={vm.searchCatalog(q.copy(offset=q.offset+100))}){Text("Next")}}
             val table=ComparisonMode("catalog")
             if(table)ComparisonTable("catalog",listOf("Name","Manufacturer","Material","Color","Spool"),page.rows.map{p->ComparisonRow(p.id,mapOf("Name" to p.name,"Manufacturer" to p.brand,"Material" to p.family,"Color" to p.color,"Spool" to p.spool))},onOpen={id->page.rows.firstOrNull{it.id==id}?.let{p->vm.selectedCatalogVariant=p.variantID;vm.selectedCatalogSize=p.id;vm.showProduct(p.productID)}})
-            else LazyColumn(contentPadding=PaddingValues(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {items(page.rows,key={it.id}) {entry->OutlinedCard(onClick={vm.selectedCatalogVariant=entry.variantID;vm.selectedCatalogSize=entry.id;vm.showProduct(entry.productID)},modifier=Modifier.fillMaxWidth()) {Column(Modifier.padding(12.dp)) {Text("${entry.brand} ${entry.name}");Text("${entry.family} · ${entry.color} · ${entry.spool}",style=MaterialTheme.typography.bodySmall);TextButton(onClick={vm.favoriteFilament(entry.id)}){Text(if(entry.id in vm.favoriteFilaments)"★ Favorite" else "☆ Favorite")}}}}}
+            else LazyColumn(contentPadding=PaddingValues(12.dp),verticalArrangement=Arrangement.spacedBy(PQSpacing.sm)) {items(page.rows,key={it.id}) {entry->OutlinedCard(onClick={vm.selectedCatalogVariant=entry.variantID;vm.selectedCatalogSize=entry.id;vm.showProduct(entry.productID)},modifier=Modifier.fillMaxWidth()) {Column(Modifier.padding(PQSpacing.md)) {Text("${entry.brand} ${entry.name}");Text("${entry.family} · ${entry.color} · ${entry.spool}",style=MaterialTheme.typography.bodySmall);TextButton(onClick={vm.favoriteFilament(entry.id)}){Text(if(entry.id in vm.favoriteFilaments)"★ Favorite" else "☆ Favorite")}}}}}
         }
     }
 }
@@ -240,7 +249,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
     var price by rememberSaveable(product.text("id")) {mutableStateOf("")}
     val size=sizes.firstOrNull {it.text("id")==sizeID}; val existing=vm.entries("filaments").firstOrNull {it.text("id")==sizeID}
     val uri=LocalUriHandler.current
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(12.dp)) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(PQSpacing.lg),verticalArrangement=Arrangement.spacedBy(PQSpacing.md)) {
         Text(product.text("name"),style=MaterialTheme.typography.headlineSmall);Text("${product.text("brand")} · ${product.text("materialFamily")}")
         Select("Color",variants.map {it.text("id") to it.text("name")},variantID) {variantID=it}
         Select("Spool",sizes.map {it.text("id") to "${it.text("diameterMM","?")} mm · ${it.text("netWeightGrams","?")} g"},sizeID) {sizeID=it}
@@ -282,7 +291,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
  TextButton(onClick={logs=true}){Text("Open Logs")}
         if(c.quarantine.isNotEmpty())Text(c.quarantine.take(10).joinToString("\n"){it.sourceID+": "+it.reason})
         Row {FilterChip(!technical,onClick={technical=false},label={Text("Source directory")});FilterChip(technical,onClick={technical=true},label={Text("Orca profiles")})}
-        OutlinedTextField(query,onValueChange={query=it},label={Text("Search sources and technical profiles")},modifier=Modifier.fillMaxWidth().padding(12.dp))
+        OutlinedTextField(query,onValueChange={query=it},label={Text("Search sources and technical profiles")},modifier=Modifier.fillMaxWidth().padding(PQSpacing.md))
         LazyColumn(contentPadding=PaddingValues(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)) {
             item {Text("${vm.catalogIndex.size} offline filament products · ${vm.technical.size} pinned technical profiles. Source listings do not imply live price feeds or implemented network adapters.")}
             items((if(technical) vm.technical else vm.sources).filter {it.text("name").contains(query,true)},key={it.text("id")}) {o->Fold(o.text("name")) {

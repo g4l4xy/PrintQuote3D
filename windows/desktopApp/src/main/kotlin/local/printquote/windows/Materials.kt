@@ -14,27 +14,31 @@ import local.printquote.android.data.supportJSON
 import java.awt.Desktop
 import java.net.URI
 
-@Composable fun Materials(w:Workspace){var tab by remember{mutableIntStateOf(1)};Column(Modifier.fillMaxSize()){
+@Composable fun Materials(w:Workspace){var tab by remember{mutableIntStateOf(1)};var filters by remember{mutableStateOf(false)};Column(Modifier.fillMaxSize()){
  Row{TextButton(onClick={tab=0}){Text("My Inventory")};TextButton(onClick={tab=1}){Text("All Filaments")}}
- if(tab==0)Library(w,"filaments") else Column(Modifier.padding(16.dp)){
+ if(tab==0)Library(w,"filaments") else Column(Modifier.padding(PQSpacing.lg)){
   val q=w.catalogQuery;val page=w.catalogPage
+  PQSectionHeader("Filaments","Search your offline catalog; save only the spools you own.")
+  Spacer(Modifier.height(PQSpacing.md))
   SearchField(q.text,{w.searchCatalog(q.copy(text=it,offset=0))},"Search brand, product, color, SKU or tags")
-  Row{CatalogFilter("Materials",w.catalogFamilies,q.families){w.searchCatalog(q.copy(families=it,offset=0))};CatalogFilter("Manufacturers",w.catalogBrands,q.brands){w.searchCatalog(q.copy(brands=it,offset=0))};FilterChip(q.favoritesOnly,onClick={w.searchCatalog(q.copy(favoritesOnly=!q.favoritesOnly,offset=0))},label={Text("Favorites")});FilterChip(q.recentOnly,onClick={w.searchCatalog(q.copy(recentOnly=!q.recentOnly,offset=0))},label={Text("Recent")});TextButton(onClick={w.searchCatalog(CatalogQuery())}){Text("Reset Filters")}}
+  TextButton(onClick={filters=!filters}){Text(if(filters)"Hide filters & sorting" else "Filters & sorting")}
+  if(filters){FlowRow{CatalogFilter("Materials",w.catalogFamilies,q.families){w.searchCatalog(q.copy(families=it,offset=0))};CatalogFilter("Manufacturers",w.catalogBrands,q.brands){w.searchCatalog(q.copy(brands=it,offset=0))};FilterChip(q.favoritesOnly,onClick={w.searchCatalog(q.copy(favoritesOnly=!q.favoritesOnly,offset=0))},label={Text("Favorites")});FilterChip(q.recentOnly,onClick={w.searchCatalog(q.copy(recentOnly=!q.recentOnly,offset=0))},label={Text("Recent")});TextButton(onClick={w.searchCatalog(CatalogQuery())}){Text("Reset Filters")}}
   val sorts=listOf("Name","Manufacturer","Material","Price / kg","Favorite","Recently Used","Difficulty","Drying Requirement");Select("Sort",sorts,sorts.indexOf(q.sort).coerceAtLeast(0)){w.searchCatalog(q.copy(sort=sorts[it],offset=0))}
   Text("Unknown values sort last. Prices use saved inventory; difficulty/drying require explicit source data.",style=MaterialTheme.typography.bodySmall)
+  }
   Text("${page.matches} of ${page.total} spool options · ${w.catalogDiagnostics.products} products · ${w.catalogDiagnostics.variants} colors",color=Muted)
   if(w.catalogLoading)Row{Text(w.catalogStage);TextButton(onClick={w.cancelCatalogRefresh()}){Text("Cancel")}}
   if(page.matches==0 && !w.catalogLoading)Text("No filaments match these filters. Clear manufacturer or reset all filters.")
   Row{TextButton(enabled=q.offset>0,onClick={w.searchCatalog(q.copy(offset=(q.offset-100).coerceAtLeast(0)))}){Text("Previous")};Text("Page ${q.offset/100+1}");TextButton(enabled=q.offset+100<page.matches,onClick={w.searchCatalog(q.copy(offset=q.offset+100))}){Text("Next")}}
   val table=ComparisonMode("catalog")
   if(table)ComparisonTable("catalog",listOf("Name","Manufacturer","Material","Color","Spool"),page.rows.map{p->ComparisonRow(p.id,mapOf("Name" to p.name,"Manufacturer" to p.brand,"Material" to p.family,"Color" to p.color,"Spool" to p.spool))},onOpen={id->page.rows.firstOrNull{it.id==id}?.let{p->w.selectedCatalogVariant=p.variantID;w.selectedCatalogSize=p.id;w.showProduct(p.productID)}})
-  else LazyColumn{items(page.rows,key={it.id}){p->Row(Modifier.fillMaxWidth().padding(12.dp)){Column(Modifier.weight(1f).clickable{w.selectedCatalogVariant=p.variantID;w.selectedCatalogSize=p.id;w.showProduct(p.productID)}){Text("${p.brand} ${p.name}");Text("${p.family} · ${p.color} · ${p.spool}",color=Muted,fontSize=12.sp)};TextButton(onClick={w.favoriteFilament(p.id)}){Text(if(p.id in w.favoriteFilaments)"★ Favorite" else "☆ Favorite")}};HorizontalDivider()}}
+  else LazyColumn{items(page.rows,key={it.id}){p->Row(Modifier.fillMaxWidth().padding(PQSpacing.md)){Column(Modifier.weight(1f).clickable{w.selectedCatalogVariant=p.variantID;w.selectedCatalogSize=p.id;w.showProduct(p.productID)}){Text("${p.brand} ${p.name}");Text("${p.family} · ${p.color} · ${p.spool}",color=Muted,fontSize=12.sp)};TextButton(onClick={w.favoriteFilament(p.id)}){Text(if(p.id in w.favoriteFilaments)"★ Favorite" else "☆ Favorite")}};HorizontalDivider()}}
  }
 }}
 @Composable fun CatalogFilter(title:String,options:List<String>,selected:Set<String>,onChange:(Set<String>)->Unit){var open by remember{mutableStateOf(false)};TextButton(onClick={open=true}){Text("$title (${selected.size})")};if(open)AlertDialog(onDismissRequest={open=false},title={Text(title)},text={LazyColumn(Modifier.heightIn(max=350.dp)){items(options){value->Row{Checkbox(value in selected,onCheckedChange={onChange(if(it)selected+value else selected-value)});Text(value)}}}},confirmButton={TextButton(onClick={open=false}){Text("Done")}})}
 @Composable fun Select(title:String,options:List<String>,selected:Int,onSelect:(Int)->Unit){var open by remember{mutableStateOf(false)};Box{OutlinedButton(onClick={open=true}){Text("$title: ${options.getOrNull(selected)?:"None"}")};DropdownMenu(open,{open=false},modifier=Modifier.heightIn(max=320.dp)){options.forEachIndexed{i,t->DropdownMenuItem(text={Text(t)},onClick={onSelect(i);open=false})}}}}
 @Composable fun ProductDialog(w:Workspace,pair:Pair<JSONObject,JSONObject>){val(product,metadata)=pair
- DialogWindow(onCloseRequest={w.product=null},onPreviewKeyEvent={dismissOnEscape(it){w.product=null}},title="Material catalog",state=rememberDialogState(width=700.dp,height=700.dp)){PQTheme{Surface{Column(Modifier.padding(24.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(12.dp)){
+ DialogWindow(onCloseRequest={w.product=null},onPreviewKeyEvent={dismissOnEscape(it){w.product=null}},title="Material catalog",state=rememberDialogState(width=700.dp,height=700.dp)){PQTheme{Surface{Column(Modifier.padding(PQSpacing.section).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(PQSpacing.md)){
   w.error?.let{Text(it,color=MaterialTheme.colorScheme.error)}
   Text("${product.text("brand")} ${product.text("name")}",fontSize=24.sp)
   Text("${product.text("materialFamily")} · ${metadata.text("sourceName")}",color=Muted)
@@ -61,7 +65,7 @@ import java.net.URI
   TextButton(onClick={w.product=null}){Text("Cancel")}
  }}}}
 }
-@Composable fun Sources(w:Workspace){Column(Modifier.fillMaxSize().padding(24.dp)){
+@Composable fun Sources(w:Workspace){Column(Modifier.fillMaxSize().padding(PQSpacing.section)){
  Text("Data & Pricing Sources",fontSize=28.sp)
  var logs by remember{mutableStateOf(false)}
  if(logs)AlertDialog(onDismissRequest={logs=false},title={Text("Local database log")},text={Column(Modifier.heightIn(max=420.dp).verticalScroll(rememberScrollState())){Text(w.catalogStage);Text(w.printerStatus);Text("Indexed: ${w.catalogDiagnostics.stored} · Rejected: ${w.catalogDiagnostics.rejected} · Duplicates: ${w.catalogDiagnostics.duplicates}\n"+w.catalogDiagnostics.quarantine.take(200).joinToString("\n"){it.sourceID+": "+it.reason}+"\nExport a support bundle for all diagnostics.")}},confirmButton={TextButton(onClick={logs=false}){Text("Done")}})
@@ -92,7 +96,7 @@ import java.net.URI
 @Composable fun CommandPalette(w:Workspace){
  var query by remember{mutableStateOf("")};var hits by remember{mutableStateOf<List<Pair<String,JSONObject>>>(emptyList())}
  LaunchedEffect(query,w.library){kotlinx.coroutines.delay(200);val snapshot=listOf("quotes","printers","filaments","presets").flatMap{k->w.entries(k).map{k to it.copy()}};hits=kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default){snapshot.filter{(k,o)->query.isNotBlank() && (title(o,k)+" "+o.text("customer")).contains(query,true)}.take(40)}}
- DialogWindow(onCloseRequest={w.commandPalette=false},title="Search & Commands",state=rememberDialogState(width=720.dp,height=620.dp)){PQTheme{Surface{Column(Modifier.padding(20.dp)){
+ DialogWindow(onCloseRequest={w.commandPalette=false},title="Search & Commands",state=rememberDialogState(width=720.dp,height=620.dp)){PQTheme{Surface{Column(Modifier.padding(PQSpacing.xl)){
   SearchField(query,{query=it},"Search commands, quotes, customers, printers or materials")
   LazyColumn {
    items(listOf("New Quote","Import 3MF","Search Filaments","Search Printers","Settings","Refresh Data").filter{query.isBlank() || it.contains(query,true)}){command->TextButton(onClick={w.commandPalette=false;when(command){"New Quote"->w.newQuote();"Import 3MF"->w.screen="Inspect Model";"Search Filaments"->w.screen="Materials";"Search Printers"->w.screen="Printers";"Settings"->w.screen="Settings";else->w.refreshFilaments()}}){Text(command)}}

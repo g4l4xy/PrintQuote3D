@@ -101,3 +101,14 @@ struct PQDesignPreview:View {
 #Preview("Settings · Opaque fallback"){PQDesignPreview(screen:"Settings").environment(\.pqOpaquePreview,true).frame(width:700,height:700)}
 
 extension Notification.Name {static let pqFocusSearch=Notification.Name("pq.focusLocalSearch")}
+
+enum PQTechnicalHelp {
+    static func explanation(_ label:String)->String {
+        let text=label.lowercased()
+        if text.contains("profit") || text.contains("margin"){return "Target margin is profit divided by selling price. Markup is profit divided by cost. Enter decimal rates: 0.40 means 40%."}
+        if text.contains("failure"){return "Reserve for failed production attempts. A probability is a decimal from zero up to, but not including, one."}
+        if text.contains("purge") || text.contains("tower"){return "Material consumed during transitions or priming. Count it separately from the finished part and avoid including it twice."}
+        if text.contains("maintenance"){return "Your maintenance cost allocated per printing hour. This is separate from machine depreciation and electricity."}
+        return label
+    }
+}

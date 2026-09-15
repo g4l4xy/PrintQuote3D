@@ -53,6 +53,8 @@ struct RootView: View {
     @State private var editingQuote: Quote?
     @State private var draftID = UUID()
     @State private var inspectingModel = false
+    @State private var quoteSearch = ""
+    @FocusState private var quoteSearchFocused: Bool
     @State private var compactColumn: NavigationSplitViewColumn = .detail
     #if os(iOS)
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -110,7 +112,7 @@ struct RootView: View {
             }}
             #endif
         }
-        .overlay(alignment:.bottom){if let toast=state.toast{Text(toast).padding(12).background(.regularMaterial,in:Capsule()).padding()}}
+        .overlay(alignment:.bottom){if let toast=state.toast{Text(toast).padding(PQSpacing.md).background(.regularMaterial,in:Capsule()).padding()}}
         .task(id:state.toast){if state.toast != nil{do{try await Task.sleep(for:.seconds(3));state.toast=nil}catch{}}}
         .sheet(isPresented:$state.commandRequested){V4CommandPalette(state:state){kind,id in
             state.commandRequested=false
@@ -173,16 +175,18 @@ struct RootView: View {
     }
     func metric(_ title:String, _ value:String, _ icon:String)->some View {PQMetric(title:title,value:value,icon:icon)}
     var quotes: some View {
+        VStack(spacing:PQSpacing.md) {
+        TextField("Search quotes, customers or status",text:$quoteSearch).textFieldStyle(.roundedBorder).focused($quoteSearchFocused).onReceive(NotificationCenter.default.publisher(for:.pqFocusSearch)){_ in quoteSearchFocused=true}.padding(PQSpacing.md).pqGlass().padding(.horizontal)
         List {
             if state.library.quotes.isEmpty { Text("No saved quotes yet. Create a new estimate to get started.") }
-            ForEach(state.library.quotes) { q in
+            ForEach(state.library.quotes.filter{quoteSearch.isEmpty || ($0.projectName+" "+$0.customer+" "+$0.number+" "+$0.status).localizedCaseInsensitiveContains(quoteSearch)}) { q in
                 Button { editingQuote = q;state.used("quotes",q.id.uuidString);state.used("customers",q.customer) } label: { HStack { VStack(alignment:.leading) { Text(q.number + " · " + q.projectName).font(.headline); Text(q.customer.isEmpty ? "No customer" : q.customer).foregroundStyle(.secondary) }; Spacer(); Text(q.status.capitalized); Text(money(q.result?.total ?? 0,currency:q.currency)).bold() }.padding(6).contentShape(Rectangle()) }.buttonStyle(.plain)
                 .contextMenu {
                     Button("Duplicate"){var copy=q;copy.id=UUID();copy.number="PQ-"+String(UUID().uuidString.prefix(8));copy.projectName+=" copy";copy.status="draft";copy.createdAt=Date();copy.expiresAt=Date().addingTimeInterval(Double(state.library.settings.expirationDays)*86400);editingQuote=copy}
                     Button(state.v4Favorites.contains("quotes:"+q.id.uuidString) ? "Remove favorite":"Favorite"){state.favorite("quotes",q.id.uuidString)}
                 }
             }
-        }.navigationTitle("Quotes")
+        }}.navigationTitle("Quotes")
     }
 }
 struct DecimalField: View {
@@ -191,7 +195,7 @@ struct DecimalField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title).font(.caption).foregroundStyle(.secondary)
-            TextField(title,value:$value,format:.number).textFieldStyle(.roundedBorder)
+            TextField(title,value:$value,format:.number).textFieldStyle(.roundedBorder).help(PQTechnicalHelp.explanation(title))
                 #if os(iOS)
                 .keyboardType(.decimalPad)
                 #endif

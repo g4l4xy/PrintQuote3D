@@ -19,7 +19,7 @@ import javax.swing.filechooser.FileNameExtensionFilter
  var report by remember{mutableStateOf<ModelReport?>(null)};var error by remember{mutableStateOf<String?>(null)};var busy by remember{mutableStateOf(false)}
  var search by remember{mutableStateOf("")};var category by remember{mutableStateOf("All")}
  DisposableEffect(Unit){onDispose{cancelled.set(true)}}
- Column(Modifier.fillMaxSize().padding(24.dp),verticalArrangement=Arrangement.spacedBy(10.dp)) {
+ Column(Modifier.fillMaxSize().padding(PQSpacing.section),verticalArrangement=Arrangement.spacedBy(10.dp)) {
   Text("Inspect STL / 3MF",style=MaterialTheme.typography.headlineMedium)
   Text("Review geometry and OrcaSlicer / Bambu Studio metadata. Your quotes stay unchanged.")
   Row {
@@ -42,7 +42,7 @@ import javax.swing.filechooser.FileNameExtensionFilter
    var menu by remember{mutableStateOf(false)};Box{TextButton(onClick={menu=true}){Text("Category: $category")};DropdownMenu(menu,{menu=false}){listOf("All","Geometry","Project settings","Sliced results","Metadata","Package").forEach{c->DropdownMenuItem(text={Text(c)},onClick={category=c;menu=false})}}}
    val rows=remember(r,search,category){r.fields.filter{(category=="All" || it.category==category) && (it.source+" "+it.key+" "+it.value).contains(search,true)}}
    Text("${rows.size} of ${r.fields.size} fields",style=MaterialTheme.typography.bodySmall)
-   LazyColumn(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(12.dp)){items(rows){f->SelectionContainer{Column{Text(f.key,style=MaterialTheme.typography.titleSmall);Text(f.value.ifEmpty{"(empty)"});Text("${f.category} · ${f.source}",style=MaterialTheme.typography.bodySmall);HorizontalDivider()}}}}
+   LazyColumn(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(PQSpacing.md)){items(rows){f->SelectionContainer{Column{Text(f.key,style=MaterialTheme.typography.titleSmall);Text(f.value.ifEmpty{"(empty)"});Text("${f.category} · ${f.source}",style=MaterialTheme.typography.bodySmall);HorizontalDivider()}}}}
   }
  }
 }

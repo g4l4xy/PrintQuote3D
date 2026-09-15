@@ -24,7 +24,7 @@ class HomeScreenTest {
     }
     @Test fun createsReopensAndPersistsQuote() {
         ready()
-        compose.onNodeWithText("Create estimate").performClick()
+        compose.onNodeWithText("Create estimate").performScrollTo().performClick()
         compose.onNodeWithText("Project name").performTextReplacement("Android workflow test")
         compose.onNodeWithText("Customer").performTextReplacement("Emulator customer")
         compose.onNodeWithText("Price breakdown").performClick()
@@ -53,7 +53,7 @@ class HomeScreenTest {
         compose.onNodeWithText("Back").performClick()
         compose.onNodeWithText("Leave").performClick()
         go("Settings")
-        compose.onNodeWithText("Business Name").performTextReplacement("Android workshop")
+        compose.onNodeWithText("Business Name").performScrollTo().performTextReplacement("Android workshop")
         compose.onNodeWithText("Save").performClick()
         compose.waitUntil(20_000) {compose.onAllNodesWithText("Create estimate").fetchSemanticsNodes().isNotEmpty()}
         compose.onNodeWithText("Android workshop").assertExists()

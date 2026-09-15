@@ -23,6 +23,6 @@ struct PrinterPicker: View {
                     }.frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle()).padding(.vertical, 4)
                 }.buttonStyle(.plain)
             }
-        }.padding(20).desktopSheet(width: 580, height: 560)
+        }.padding(PQSpacing.xl).desktopSheet(width: 580, height: 560)
     }
 }

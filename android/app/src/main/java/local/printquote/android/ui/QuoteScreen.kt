@@ -7,6 +7,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.unit.dp
 import local.printquote.android.model.*
 import local.printquote.android.pricing.*
@@ -21,14 +23,22 @@ import java.math.BigDecimal
     LaunchedEffect(d.revision){if(d.revision>0)vm.autosave(d.json.toString())}
     var tab by rememberSaveable(d.json.text("id")) {mutableStateOf("Details")}
     val result=remember(d.revision) {runCatching {PricingEngine.calculate(d.json.getJSONObject("input"))}}
-    BoxWithConstraints(Modifier.fillMaxSize()) {
-        if(maxWidth>=800.dp) Row {Column(Modifier.weight(1f)) {QuoteDetails(vm,d)};Column(Modifier.weight(0.8f)) {Breakdown(d,result)}}
+    var modelReview by remember{mutableStateOf(false)}
+    if(modelReview)Dialog(onDismissRequest={modelReview=false},properties=DialogProperties(usePlatformDefaultWidth=false)){Surface(Modifier.fillMaxSize()){Column{TextButton(onClick={modelReview=false}){Text("Back to quote")};ModelInspectionScreen()}}}
+    Column(Modifier.fillMaxSize()) {
+      PQGlassSurface(Modifier.fillMaxWidth().padding(PQSpacing.md)){Row(Modifier.padding(PQSpacing.sm)){TextButton(onClick={modelReview=true}){Text("Model & source")};Text(vm.autosaveStatus,Modifier.padding(PQSpacing.sm),style=MaterialTheme.typography.labelLarge)}}
+      BoxWithConstraints(Modifier.weight(1f)) {
+        val wideWorkspace=maxWidth>=PQLayout.wide
+        if(maxWidth>=PQLayout.expanded && androidx.compose.ui.platform.LocalDensity.current.fontScale<1.5f) Row {
+            if(wideWorkspace)Column(Modifier.width(220.dp).padding(PQSpacing.lg)){PQSectionHeader("Model & source",d.json.optJSONObject("manufacturingImport")?.text("filename") ?: "Manual estimate");Text("Inspect source evidence before changing quote values.",color=MaterialTheme.colorScheme.onSurfaceVariant)}
+            Column(Modifier.weight(1f)) {QuoteDetails(vm,d)};VerticalDivider();Surface(Modifier.width(320.dp)) {Breakdown(d,result)}}
         else Column {Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceEvenly) {listOf("Details","Price breakdown").forEach {FilterChip(tab==it,onClick={tab=it},label={Text(it)})}};if(tab=="Details") QuoteDetails(vm,d) else Breakdown(d,result)}
+      }
     }
 }
 @Composable fun QuoteDetails(vm:WorkspaceViewModel,d:Draft) {
     val q=d.json;val i=q.getJSONObject("input");d.revision
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(PQSpacing.lg),verticalArrangement=Arrangement.spacedBy(10.dp)) {
         Text(q.text("number"),style=MaterialTheme.typography.titleLarge)
         Text(vm.autosaveStatus,style=MaterialTheme.typography.bodySmall)
         Heading("Project")
@@ -72,12 +82,11 @@ import java.math.BigDecimal
 }
 @Composable fun Breakdown(d:Draft,result:Result<JSONObject>) {
     val currency=d.json.text("currency","USD")
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),verticalArrangement=Arrangement.spacedBy(12.dp)) {
-        Heading("Cost breakdown")
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(PQSpacing.xl),verticalArrangement=Arrangement.spacedBy(PQSpacing.md)) {
         result.fold(onSuccess={r->
+            Text("CUSTOMER PRICE",style=MaterialTheme.typography.labelLarge);Text(money(r.decimal("total"),currency),style=MaterialTheme.typography.headlineLarge.copy(fontFeatureSettings="tnum"),color=MaterialTheme.colorScheme.primary);HorizontalDivider();Heading("Cost breakdown")
             r.array("components").filter {it.decimal("amount").signum()!=0}.forEach {c->CostRow(c.text("name"),c.decimal("amount"),currency)}
             HorizontalDivider();CostRow("Production cost",r.decimal("productionCost"),currency);CostRow("Overhead",r.decimal("overhead"),currency)
-            Heading("Customer price");Text(money(r.decimal("total"),currency),style=MaterialTheme.typography.displaySmall,color=MaterialTheme.colorScheme.primary)
             listOf("subtotal","discount","tax","shipping").forEach {CostRow(label(it),r.decimal(it)*(if(it=="discount") BigDecimal(-1) else BigDecimal.ONE),currency)}
             if(r.optBoolean("minimumApplied")) Text("Minimum charge applied")
             Text("Consumed: ${r.decimal("totalGrams").stripTrailingZeros().toPlainString()} g")
@@ -89,4 +98,4 @@ import java.math.BigDecimal
         },onFailure={Text(it.message ?: "Invalid pricing inputs",color=MaterialTheme.colorScheme.error)})
     }
 }
-@Composable fun CostRow(title:String,value:BigDecimal,currency:String) {Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(12.dp)) {Text(title,modifier=Modifier.weight(1f));Text(money(value,currency))}}
+@Composable fun CostRow(title:String,value:BigDecimal,currency:String) {Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(PQSpacing.md)) {Text(title,modifier=Modifier.weight(1f));Text(money(value,currency))}}

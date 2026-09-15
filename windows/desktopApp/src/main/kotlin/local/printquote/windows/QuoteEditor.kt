@@ -7,6 +7,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.*
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.window.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
@@ -18,23 +23,28 @@ import java.time.*
 
 @Composable fun FormRow(d:Draft,o:JSONObject,key:String,name:String,numeric:Boolean=false){
  d.revision
+ var fieldFocused by remember{mutableStateOf(false)}
  Row(Modifier.fillMaxWidth().heightIn(min=42.dp).padding(vertical=9.dp),verticalAlignment=Alignment.CenterVertically){
   Text(name,Modifier.weight(1f),fontSize=14.sp)
-  BasicTextField(o.text(key),onValueChange={v->d.change{o.put(key,if(numeric)v.toBigDecimalOrNull()?:v else v)}},textStyle=TextStyle(color=MaterialTheme.colorScheme.onSurface,fontSize=14.sp,textAlign=TextAlign.End),cursorBrush=SolidColor(Blue),singleLine=key!="notes",modifier=Modifier.weight(1f).padding(start=12.dp))
+  BasicTextField(o.text(key),onValueChange={v->d.change{o.put(key,if(numeric)v.toBigDecimalOrNull()?:v else v)}},textStyle=TextStyle(color=MaterialTheme.colorScheme.onSurface,fontSize=14.sp,textAlign=TextAlign.End,fontFeatureSettings="tnum"),cursorBrush=SolidColor(Blue),singleLine=key!="notes",modifier=Modifier.weight(1f).padding(start=PQSpacing.md).onFocusChanged{fieldFocused=it.isFocused}.semantics{contentDescription=name}.border(if(fieldFocused)PQBorder.emphasized else PQBorder.normal,if(fieldFocused)Blue else MaterialTheme.colorScheme.outline,RoundedCornerShape(PQRadius.control)).padding(PQSpacing.sm))
  };HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
 }
 @Composable fun QuoteEditor(w:Workspace,d:Draft){
+ var modelReview by remember{mutableStateOf(false)}
+ if(modelReview)DialogWindow(onCloseRequest={modelReview=false},title="Model & source",state=rememberDialogState(width=800.dp,height=700.dp)){PQTheme{Surface{ModelInspection()}}}
  LaunchedEffect(d.revision){if(d.revision>0)w.autosave(d.json.toString())}
  d.revision;val q=d.json;val i=q.getJSONObject("input");val calculation=runCatching{PricingEngine.calculate(i)}
- Column(Modifier.fillMaxSize().padding(24.dp)){
-  Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){Column(Modifier.weight(1f)){Text("New estimate",fontSize=28.sp,fontWeight=FontWeight.Bold);Text(q.text("number"),color=Muted)};Action("Save quote"){w.saveQuote()}}
+ Column(Modifier.fillMaxSize().padding(PQSpacing.section)){
+  PQGlassSurface(Modifier.fillMaxWidth()){Row(Modifier.fillMaxWidth().padding(PQSpacing.md),verticalAlignment=Alignment.CenterVertically){Column(Modifier.weight(1f)){Text("New estimate",fontSize=28.sp,fontWeight=FontWeight.Bold);Text(q.text("number"),color=Muted)};TextButton(onClick={modelReview=true}){Text("Model & source")};Action("Save quote"){w.saveQuote()}}}
   Text(w.autosaveStatus,color=Muted)
   Spacer(Modifier.height(24.dp))
   BoxWithConstraints(Modifier.weight(1f)){
-   if(maxWidth>=710.dp)Row(Modifier.fillMaxSize(),horizontalArrangement=Arrangement.spacedBy(20.dp)){
+   val wideWorkspace=maxWidth>=PQLayout.wide
+   if(maxWidth>=PQLayout.expanded)Row(Modifier.fillMaxSize(),horizontalArrangement=Arrangement.spacedBy(PQSpacing.lg)){
+    if(wideWorkspace)Column(Modifier.width(220.dp).fillMaxHeight().padding(PQSpacing.md)){PQSectionHeader("Model & source",q.optJSONObject("manufacturingImport")?.text("filename") ?: "Manual estimate");Spacer(Modifier.height(PQSpacing.lg));OutlinedButton(onClick={modelReview=true}){Text("Inspect STL / 3MF")};Text("Review source evidence before changing quote values.",color=Muted);Spacer(Modifier.height(PQSpacing.section));PQSectionHeader("Equipment",q.optJSONObject("printer")?.let{title(it,"printers")} ?: "Choose printer")}
     ScrollColumn(Modifier.weight(1.4f).fillMaxHeight()){QuoteFields(w,d)}
     VerticalDivider(color=MaterialTheme.colorScheme.outlineVariant)
-    ScrollColumn(Modifier.weight(1f).fillMaxHeight()){Breakdown(calculation,q.text("currency","USD"))}
+    Surface(Modifier.width(300.dp).fillMaxHeight(),shape=RoundedCornerShape(PQRadius.panel)){ScrollColumn(Modifier.padding(PQSpacing.lg)){Breakdown(calculation,q.text("currency","USD"))}}
    }else ScrollColumn(Modifier.fillMaxSize()){QuoteFields(w,d);Breakdown(calculation,q.text("currency","USD"))}
   }
  }
@@ -75,7 +85,7 @@ import java.time.*
  Block("Time & operating costs"){
   listOf("printHours" to "Print time (hours)","averageWatts" to "Average power (W)","electricityRate" to "Electricity / kWh","machineRate" to "Machine / hour","maintenanceRate" to "Maintenance / hour","wearCost" to "Nozzle / consumable wear","laborMinutes" to "Labor (minutes)","laborRate" to "Labor / hour","dryerWatts" to "Dryer power (W)","dryingHours" to "Drying (hours)","dryingSharedJobs" to "Jobs sharing dryer").forEach{(k,t)->FormRow(d,i,k,t,true)}
  }
- Block("Direct costs & risk"){
+ Fold("Advanced · direct costs & risk"){
   listOf("packaging" to "Packaging","outsideServices" to "Outside services","otherCosts" to "Other direct costs","failureProbability" to "Failure reserve (0–1)","overheadRate" to "Overhead rate (0–1)").forEach{(k,t)->FormRow(d,i,k,t,true)}
  }
  Block("Pricing"){
@@ -86,17 +96,17 @@ import java.time.*
 @Composable fun Breakdown(result:Result<JSONObject>,currency:String){
  if(result.isFailure){Text("Check estimate inputs",fontWeight=FontWeight.Bold,color=MaterialTheme.colorScheme.error);Text(result.exceptionOrNull()?.message?:"Invalid values",Modifier.padding(top=12.dp));return}
  val r=result.getOrThrow()
+ Text("CUSTOMER PRICE",style=MaterialTheme.typography.labelLarge,color=Muted);Text(money(r,"total",currency),style=MaterialTheme.typography.headlineLarge.copy(fontFeatureSettings="tnum"),color=Blue);Spacer(Modifier.height(PQSpacing.section))
  Text("COST BREAKDOWN",color=Muted,fontSize=13.sp,fontWeight=FontWeight.Bold,modifier=Modifier.padding(bottom=14.dp))
  fun value(key:String)=money(r,key,currency)
  r.array("components").filter{it.decimal("amount").signum()!=0}.forEach{c->Amount(c.text("name"),money(c,"amount",currency))}
  HorizontalDivider(Modifier.padding(vertical=12.dp));Amount("Production cost",value("productionCost"));Amount("Overhead",value("overhead"))
- HorizontalDivider(Modifier.padding(vertical=12.dp));Text("CUSTOMER PRICE",color=Muted,fontWeight=FontWeight.Bold,fontSize=13.sp);Text(value("total"),fontSize=42.sp,fontWeight=FontWeight.Bold,color=Blue,modifier=Modifier.padding(vertical=18.dp))
  listOf("subtotal","discount","tax","shipping").forEach{Amount(it.replaceFirstChar{it.uppercase()},value(it))}
  HorizontalDivider(Modifier.padding(vertical=12.dp));Text("Consumed: ${rounded(r.decimal("totalGrams"))} g",color=Muted)
  Text("Material efficiency: ${r.decimal("materialEfficiency").multiply(100.toBigDecimal()).setScale(1,java.math.RoundingMode.HALF_UP)}%",color=Muted,modifier=Modifier.padding(top=8.dp))
  val warnings=r.optJSONArray("warnings");if(warnings!=null)(0 until warnings.length()).forEach{Text(warnings.getString(it),color=MaterialTheme.colorScheme.error,fontSize=12.sp,modifier=Modifier.padding(top=12.dp))}
 }
-@Composable fun Amount(name:String,value:String){Row(Modifier.fillMaxWidth().padding(vertical=8.dp),horizontalArrangement=Arrangement.spacedBy(12.dp)){Text(name,Modifier.weight(1f),fontSize=14.sp);Text(value,fontSize=14.sp)}}
+@Composable fun Amount(name:String,value:String){Row(Modifier.fillMaxWidth().padding(vertical=8.dp),horizontalArrangement=Arrangement.spacedBy(PQSpacing.md)){Text(name,Modifier.weight(1f),fontSize=14.sp);Text(value,fontSize=14.sp,style=MaterialTheme.typography.bodyMedium.copy(fontFeatureSettings="tnum"))}}
 
 @Composable fun ScrollColumn(modifier:Modifier=Modifier,content:@Composable ColumnScope.()->Unit){
  val scroll=rememberScrollState()

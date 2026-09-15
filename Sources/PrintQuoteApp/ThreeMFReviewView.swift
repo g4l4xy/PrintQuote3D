@@ -42,7 +42,7 @@ struct ThreeMFReviewView: View {
                 VStack(alignment:.leading,spacing:16) {
                     Text("3MF manufacturing import").font(.title2.bold())
                     Text("Review source evidence, matched profiles and manufacturing quantities before accepting selected updates.").foregroundStyle(.secondary)
-                    HStack {Button("Choose 3MF"){choosing=true}.disabled(busy);Button("STL / legacy inspector",action:legacy).disabled(busy)}
+                    ViewThatFits(in:.horizontal){HStack {Button("Choose 3MF"){choosing=true}.disabled(busy);Button("STL / legacy inspector",action:legacy).disabled(busy)};VStack(alignment:.leading){Button("Choose 3MF"){choosing=true}.disabled(busy);Button("STL / legacy inspector",action:legacy).disabled(busy)}}.padding(PQSpacing.md).pqGlass(.toolbar)
                     if busy {ProgressView(value:progress.fraction);HStack{Text(progress.stage);Button("Cancel"){operation?.cancel()}}}
                     if let failure {Text(failure).foregroundStyle(.red)}
                     if let project=result?.project {summary(project);reviewControls(project);evidence(project)}

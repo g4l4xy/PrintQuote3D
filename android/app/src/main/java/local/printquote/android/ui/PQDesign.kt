@@ -31,7 +31,7 @@ val PQTypography=Typography().let{it.copy(headlineLarge=it.headlineLarge.copy(fo
 val PQShapes=Shapes(extraSmall=RoundedCornerShape(PQRadius.control),small=RoundedCornerShape(PQRadius.control),medium=RoundedCornerShape(PQRadius.panel),large=RoundedCornerShape(PQRadius.panel),extraLarge=RoundedCornerShape(PQRadius.floating))
 @Composable fun PQGlassSurface(modifier:Modifier=Modifier,role:PQGlassMaterial=PQGlassMaterial.Toolbar,content:@Composable ()->Unit) {
  // Tonal hierarchy is deliberate: no expensive backdrop blur over data rows.
- Surface(modifier,shape=RoundedCornerShape(if(role==PQGlassMaterial.Toolbar)PQRadius.panel else PQRadius.floating),color=MaterialTheme.colorScheme.surfaceContainerHigh,tonalElevation=PQElevation.tools,content=content)
+ Surface(modifier,shape=RoundedCornerShape(if(role==PQGlassMaterial.Toolbar)PQRadius.panel else PQRadius.floating),color=MaterialTheme.colorScheme.surfaceContainerHigh,tonalElevation=if(PQAppearance.reduced || PQAppearance.highContrast)0.dp else PQElevation.tools,content=content)
 }
 @Composable fun PQSectionHeader(title:String,subtitle:String="") {
  Column(Modifier.fillMaxWidth(),verticalArrangement=Arrangement.spacedBy(PQSpacing.xs)){Text(title,style=MaterialTheme.typography.titleLarge);if(subtitle.isNotEmpty())Text(subtitle,style=MaterialTheme.typography.bodyMedium,color=MaterialTheme.colorScheme.onSurfaceVariant)}
@@ -59,5 +59,9 @@ object PQAppearance {
  val context=androidx.compose.ui.platform.LocalContext.current
  remember(context){PQAppearance.load(context);true}
  val dark=when(PQAppearance.mode){"Dark"->true;"Light"->false;else->isSystemInDarkTheme()}
+ val view=androidx.compose.ui.platform.LocalView.current
+ SideEffect { (context as? android.app.Activity)?.window?.let { window ->
+  androidx.core.view.WindowCompat.getInsetsController(window,view).apply {isAppearanceLightStatusBars=!dark;isAppearanceLightNavigationBars=!dark}
+ }}
  MaterialTheme(colorScheme=pqColors(dark,PQAppearance.highContrast),typography=PQTypography,shapes=PQShapes,content=content)
 }

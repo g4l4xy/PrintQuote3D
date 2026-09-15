@@ -3,6 +3,7 @@ import QuoteDomain
 
 struct PrinterLibrary: View {
     @Bindable var state: AppState
+    @FocusState private var searchFocused:Bool
     @State private var selection: UUID?
     @State private var showingCatalog = false
     @State private var search = ""
@@ -24,7 +25,7 @@ struct PrinterLibrary: View {
     var body: some View {
         AdaptiveLibrary(selection: $selection, backTitle: "All printers") {
             VStack(alignment: .leading) {
-                TextField("Search manufacturer, model or nozzle", text: $search).textFieldStyle(.roundedBorder).padding([.horizontal, .top])
+                TextField("Search manufacturer, model or nozzle", text: $search).textFieldStyle(.roundedBorder).focused($searchFocused).onReceive(NotificationCenter.default.publisher(for:.pqFocusSearch)){_ in searchFocused=true}.padding(PQSpacing.md).pqGlass().padding(.horizontal)
                 Text("\(filteredPrinters.count) of \(state.library.printers.count) printer profiles").font(.caption).foregroundStyle(.secondary).padding(.horizontal)
                 Picker("Sort",selection:$sort){ForEach(["Name","Manufacturer","Build Volume","Toolheads","Recently Used","Favorite"],id:\.self){Text($0)}}.padding(.horizontal)
                 Picker("Layout",selection:$layout){Text("Cards").tag("Cards");Text("Table").tag("Table")}.pickerStyle(.segmented).padding(.horizontal)
@@ -36,6 +37,8 @@ struct PrinterLibrary: View {
         } detail: {
             if let index = state.library.printers.firstIndex(where: {$0.id == selection}) {
                 Form {
+                    PQSectionHeader(title:state.library.printers[index].name,subtitle:"Printer configuration · your operating costs")
+                    SwiftUI.Section("Overview") {
                     if let source = state.library.printers[index].externalProfile {
                         Text(source.userOverride ? "Your configuration" : "Imported profile · review tool setup and enter operating costs").font(.caption).foregroundStyle(.secondary)
                     }
@@ -44,6 +47,8 @@ struct PrinterLibrary: View {
                     TextField("Build X (mm)",value:$state.library.printers[index].buildVolumeXMM,format:.number)
                     TextField("Build Y (mm)",value:$state.library.printers[index].buildVolumeYMM,format:.number)
                     TextField("Build Z (mm)",value:$state.library.printers[index].buildVolumeZMM,format:.number)
+                    }
+                    DisclosureGroup("Advanced · operating costs & capabilities") {
                     DecimalField(title:"Average watts",value:$state.library.printers[index].typicalPowerWatts)
                     DecimalField(title:"Machine rate / hour",value:$state.library.printers[index].machineRate)
                     DecimalField(title:"Maintenance / hour",value:$state.library.printers[index].maintenanceRate)
@@ -51,6 +56,7 @@ struct PrinterLibrary: View {
                     Text(state.library.printers[index].source.notes).font(.caption).foregroundStyle(.secondary)
                     PrinterHardwareEditor(hardware: Binding(get: {state.library.printers[index].hardware ?? PrinterHardwareDetails()},set:{state.library.printers[index].hardware=$0}))
                     ToolSystemEditor(system: Binding(get: { state.library.printers[index].toolSystem ?? PrinterToolSystem() }, set: { state.library.printers[index].toolSystem = $0 }))
+                    }
                     Button("Save printer") { state.library.printers[index].externalProfile?.userOverride = true; state.persist() }.buttonStyle(.borderedProminent)
                 }.formStyle(.grouped)
             } else { ContentUnavailableView("Select a printer",systemImage:"printer",description:Text("Add your equipment and set its operating costs.")) }
