@@ -62,10 +62,11 @@ fun main()=application {
   }
   VerticalDivider(color=Color(0xff414546))
   Column(Modifier.weight(1f).fillMaxHeight()) {
-   Row(Modifier.fillMaxWidth().height(48.dp).padding(horizontal=24.dp),verticalAlignment=Alignment.CenterVertically){Text("PrintQuote 3D",fontWeight=FontWeight.SemiBold);Spacer(Modifier.weight(1f));if(w.busy)Text("Working…",color=Muted);w.message?.let{Text(it,color=Blue)}}
+   Row(Modifier.fillMaxWidth().height(48.dp).padding(horizontal=24.dp),verticalAlignment=Alignment.CenterVertically){Text("PrintQuote 3D",fontWeight=FontWeight.SemiBold);TextButton(onClick={w.screen="Inspect Model"}){Text("Inspect STL / 3MF")};Spacer(Modifier.weight(1f));if(w.busy)Text("Working…",color=Muted);w.message?.let{Text(it,color=Blue)}}
    HorizontalDivider(color=Color(0xff363b3c))
    if(w.library==null)Box(Modifier.fillMaxSize(),contentAlignment=Alignment.Center){Column(horizontalAlignment=Alignment.CenterHorizontally){Text(if(!w.loadFailed)"Loading your workshop…" else "Workspace could not be loaded. Your existing data has been preserved.");if(w.loadFailed)TextButton(onClick={w.openRecoveryFolder()}){Text("Open recovery folder")}}}
    else when(w.screen){
+    "Inspect Model"->ModelInspection()
     "Dashboard"->Dashboard(w)
     "New Estimate"->w.draft?.let{QuoteEditor(w,it)}
     "Quotes"->Library(w,"quotes")

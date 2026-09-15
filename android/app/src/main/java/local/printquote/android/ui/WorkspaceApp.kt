@@ -55,6 +55,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
                     vm.picker=="printer" -> EntityList(vm,"printers",onSelect=vm::selectPrinter)
                     vm.picker=="material" -> MaterialsWorkspace(vm,true)
                     vm.picker=="preset" -> EntityList(vm,"presets",onSelect=vm::preset)
+                    vm.screen=="Inspect Model" -> ModelInspectionScreen()
                     vm.screen=="New Estimate" -> QuoteScreen(vm)
                     vm.screen=="Printers" -> EntityList(vm,"printers")
                     vm.screen=="Materials" -> MaterialsWorkspace(vm)
@@ -86,6 +87,7 @@ val destinations=listOf("Dashboard","New Estimate","Quotes","Customers","Materia
         }
         item {Text("Your workshop, in focus.",style=MaterialTheme.typography.headlineMedium);Text(vm.library!!.getJSONObject("settings").text("businessName"))}
         item {Text("${quotes.size} saved quotes · ${vm.entries("printers").size} printer profiles · ${vm.entries("filaments").size} saved materials")}
+        item {OutlinedButton(onClick={vm.screen="Inspect Model"},modifier=Modifier.fillMaxWidth()) {Text("Inspect STL / 3MF")}}
         item {Button(onClick=vm::newQuote,modifier=Modifier.fillMaxWidth()) {Text("Create estimate")}}
         item {Text("Enter material, machine time and labor to build a complete pricing snapshot. Imported profiles require review of actual shop costs.")}
         item {Heading("Recent quotes")}

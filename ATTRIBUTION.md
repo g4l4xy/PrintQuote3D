@@ -11,3 +11,7 @@ Open Filament Database (https://github.com/OpenFilamentCollective/open-filament-
 The 1,004 Orca-derived records (1,001 printer and three filament profiles) identify commit `8500fcdccaa10b5099ac20d252af3a7c560046f1` in each source record. A copy of the upstream license is included at `ThirdParty/OrcaSlicer-LICENSE.txt`.
 
 Manufacturer supplement: factual geometry and tool configuration for Prusa XL two-tool and Raise3D Pro3 HS / Pro3 Plus HS, checked 2026-09-13. Each record links to the official product page or manual. No manufacturer prose, images or branding assets are reproduced.
+
+## ZIPFoundation
+
+Apple STL/3MF inspection uses [ZIPFoundation 0.9.20](https://github.com/weichsel/ZIPFoundation), copyright Thomas Zoechling, under the MIT license. See `ThirdParty/ZIPFoundation-LICENSE.txt`.

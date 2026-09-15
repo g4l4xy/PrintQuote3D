@@ -1,0 +1,19 @@
+name: Apple build and domain tests
+on:
+  push:
+    branches: [main, 'codex/model-import']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  apple:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test Swift packages
+        run: swift test
+      - name: Build macOS application
+        run: xcodebuild -project PrintQuote3D.xcodeproj -scheme 'PrintQuote3D App' -destination 'generic/platform=macOS' -derivedDataPath .workflow/apple CODE_SIGNING_ALLOWED=NO build
+      - name: Build iPhone and iPad application
+        run: xcodebuild -project PrintQuote3D.xcodeproj -scheme 'PrintQuote3D App' -destination 'generic/platform=iOS Simulator' -derivedDataPath .workflow/apple CODE_SIGNING_ALLOWED=NO build

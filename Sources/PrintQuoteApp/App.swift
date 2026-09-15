@@ -41,6 +41,7 @@ struct RootView: View {
     @State private var selection: Section? = .dashboard
     @State private var editingQuote: Quote?
     @State private var draftID = UUID()
+    @State private var inspectingModel = false
     @State private var compactColumn: NavigationSplitViewColumn = .sidebar
     var body: some View {
         NavigationSplitView(preferredCompactColumn: $compactColumn) {
@@ -77,6 +78,7 @@ struct RootView: View {
             }
         }
         .onChange(of: selection) { _, _ in compactColumn = .detail }
+        .sheet(isPresented: $inspectingModel) { ModelInspectionView() }
         .sheet(item:$editingQuote) { q in QuoteEditor(state:state, initial:q).desktopSheet(width:1050,height:760) }
     }
     var dashboard: some View {
@@ -93,6 +95,7 @@ struct RootView: View {
                     VStack(alignment:.leading, spacing:14) {
                         Label("Start with the production cost", systemImage:"plus.circle.fill").font(.title2.bold())
                         Text("Enter print data manually, compare margin and markup, then save a complete pricing snapshot.")
+                        Button("Inspect STL / 3MF") { inspectingModel = true }.buttonStyle(.bordered)
                         Button("Create estimate") { draftID = UUID(); selection = .estimate }.buttonStyle(.borderedProminent)
                     }.frame(maxWidth:.infinity, alignment:.leading).padding(16)
                 }
