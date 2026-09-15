@@ -1,4 +1,5 @@
 import Foundation
+import CoreFoundation
 import QuoteDomain
 import ZIPFoundation
 #if canImport(FoundationXML)
@@ -101,6 +102,8 @@ private final class InspectionReader {
         } else if let array = value as? [Any] {
             if array.isEmpty { try add(category, source, path, "[]") }
             for (index, item) in array.enumerated() { try json(item, path: path + "[\(index)]", source: source, category: category, depth: depth + 1) }
+        } else if let number = value as? NSNumber, CFGetTypeID(number) == CFBooleanGetTypeID() {
+            try add(category, source, path, number.boolValue ? "true" : "false")
         } else { try add(category, source, path, value is NSNull ? "null" : String(describing: value)) }
     }
     func stl(_ data: Data, source: String) throws {
@@ -178,6 +181,10 @@ private final class InspectionXML: NSObject, XMLParserDelegate {
     }
     func parser(_ parser: XMLParser, foundCharacters text: String) {
         run(parser) { if !bodies.isEmpty && !(model && ["vertices", "triangles"].contains(stack.last?.components(separatedBy: "[").first?.components(separatedBy: ":").last ?? "")) { try requireImport(bodies[bodies.count - 1].utf8.count + text.utf8.count <= 65_536, "XML text exceeds limit."); bodies[bodies.count - 1] += text } }
+    }
+    func parser(_ parser: XMLParser, foundCDATA data: Data) {
+        guard let text = String(data: data, encoding: .utf8) else { error = ModelImportError.invalid("Invalid CDATA text."); parser.abortParsing(); return }
+        self.parser(parser, foundCharacters: text)
     }
     func parser(_ parser: XMLParser, didEndElement name: String, namespaceURI: String?, qualifiedName qName: String?) {
         run(parser) {
