@@ -78,7 +78,7 @@ struct RootView: View {
             }
         }
         .onChange(of: selection) { _, _ in compactColumn = .detail }
-        .sheet(isPresented: $inspectingModel) { ModelInspectionView() }
+        .sheet(isPresented: $inspectingModel) { ModelInspectionView(state: state) }
         .sheet(item:$editingQuote) { q in QuoteEditor(state:state, initial:q).desktopSheet(width:1050,height:760) }
     }
     var dashboard: some View {

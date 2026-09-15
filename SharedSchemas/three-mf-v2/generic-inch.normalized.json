@@ -1,0 +1,235 @@
+{
+  "cacheHit": false,
+  "diagnostics": [],
+  "differences": [],
+  "materialMatches": {},
+  "printerMatches": [],
+  "project": {
+    "assignments": [],
+    "estimates": [],
+    "fileSize": 635,
+    "filename": "generic-inch.3mf",
+    "importedAt": "2026-09-15T00:00:00Z",
+    "materials": [],
+    "objects": [
+      {
+        "children": [],
+        "id": "Models/root.model#1",
+        "instanceCount": 1,
+        "name": "Tetra",
+        "resourceID": "Models/root.model#1",
+        "role": "model",
+        "sourcePath": "Models/root.model",
+        "triangleCount": 4,
+        "unit": "inch"
+      },
+      {
+        "boundsMM": {
+          "confidence": "high",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": {
+            "maximum": [
+              304.8,
+              558.8,
+              812.8
+            ],
+            "minimum": [
+              254,
+              508,
+              762
+            ]
+          }
+        },
+        "children": [],
+        "enclosedVolumeMM3": {
+          "confidence": "medium",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": 21849.418666666632
+        },
+        "id": "instance:1",
+        "instanceCount": 1,
+        "mirrored": false,
+        "name": "Tetra",
+        "resourceID": "Models/root.model#1",
+        "role": "model",
+        "sourcePath": "Models/root.model",
+        "sourceTransform": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          254,
+          508,
+          762
+        ],
+        "surfaceAreaMM2": {
+          "confidence": "high",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": 6105.859798022268
+        },
+        "triangleCount": 4,
+        "unit": "inch"
+      }
+    ],
+    "plates": [
+      {
+        "estimates": [],
+        "id": "default-build",
+        "objectIDs": [
+          "instance:1"
+        ],
+        "settings": []
+      }
+    ],
+    "printer": {},
+    "processSettings": {
+      "purgeSettings": [],
+      "settings": []
+    },
+    "schemaVersion": 2,
+    "sha256": "b8d5aa161488aa6b80f8fc7de83b60b5d80771c3b33a3335b65028e12a3f95fd",
+    "slicer": {
+      "capabilities": {
+        "materials": "standard only",
+        "printer": "unmapped",
+        "process": "unmapped",
+        "standard3MF": "supported",
+        "unknownMetadata": "preserved"
+      },
+      "confidence": "unknown",
+      "evidence": [],
+      "family": "generic",
+      "name": "Unknown"
+    },
+    "slicerMetadata": [],
+    "standardMetadata": [
+      {
+        "key": "unit",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "inch"
+      },
+      {
+        "key": "xmlns",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Application"
+      },
+      {
+        "key": "Application",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": ""
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Tetra"
+      },
+      {
+        "key": "id",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "objectid",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "transform",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "2 0 0 0 2 0 0 0 2 10 20 30"
+      },
+      {
+        "key": "http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel",
+        "scope": "relationship",
+        "sourcePath": "",
+        "value": "Models/root.model"
+      }
+    ],
+    "threeMFImporterVersion": "2.0.0",
+    "toolSystem": {
+      "needsReview": true,
+      "tools": []
+    },
+    "unmappedMetadata": [
+      {
+        "key": "unit",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "inch"
+      },
+      {
+        "key": "xmlns",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Application"
+      },
+      {
+        "key": "Application",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": ""
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Tetra"
+      },
+      {
+        "key": "id",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "objectid",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "transform",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "2 0 0 0 2 0 0 0 2 10 20 30"
+      }
+    ]
+  },
+  "stageStatus": {
+    "container": "success",
+    "geometry": "success",
+    "metadata": "success",
+    "slicer": "needsReview",
+    "thumbnail": "validated where present"
+  }
+}

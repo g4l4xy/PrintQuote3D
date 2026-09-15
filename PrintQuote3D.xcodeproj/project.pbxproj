@@ -33,6 +33,8 @@
 		FC1FC07B805C32194C28BDB2 /* ATTRIBUTION.md in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7553D0AC61F74068599BF /* ATTRIBUTION.md */; };
 		A3181F1159D24222AC000002 /* ModelInspectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000001; };
 		A3181F1159D24222AC000004 /* ModelInspectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000003; };
+		A3181F1159D24222AC000006 /* ThreeMFReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000005; };
+		A3181F1159D24222AC000008 /* ThreeMFManufacturingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3181F1159D24222AC000007; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +62,8 @@
 		FBDF5D0AE77D1800F874AC4E /* MaterialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialsView.swift; sourceTree = "<group>"; };
 		A3181F1159D24222AC000001 /* ModelInspectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInspectionView.swift; sourceTree = "<group>"; };
 		A3181F1159D24222AC000003 /* ModelInspectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInspectionTests.swift; sourceTree = "<group>"; };
+		A3181F1159D24222AC000005 /* ThreeMFReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeMFReviewView.swift; sourceTree = "<group>"; };
+		A3181F1159D24222AC000007 /* ThreeMFManufacturingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeMFManufacturingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				27ED3134650FE59CBB86084C /* ImportTests.swift */,
+				A3181F1159D24222AC000007 /* ThreeMFManufacturingTests.swift */,
 				A3181F1159D24222AC000003 /* ModelInspectionTests.swift */,
 				19DB3D188EB925BED3C89698 /* MaterialsTests.swift */,
 				CA0FA9043E14D81720549B1C /* PricingTests.swift */,
@@ -128,6 +133,7 @@
 			children = (
 				B864906FD28B0C9A90AD153D /* AdaptiveViews.swift */,
 				760D332188C13C0F99BC5E72 /* App.swift */,
+				A3181F1159D24222AC000005 /* ThreeMFReviewView.swift */,
 				A3181F1159D24222AC000001 /* ModelInspectionView.swift */,
 				08EEEC30C6FC304E7B1DC81D /* AppState.swift */,
 				C97D42CD3A2C31165B156A28 /* CatalogViews.swift */,
@@ -263,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9666B315ED9FBF71178F286D /* ImportTests.swift in Sources */,
+				A3181F1159D24222AC000008 /* ThreeMFManufacturingTests.swift in Sources */,
 				A3181F1159D24222AC000004 /* ModelInspectionTests.swift in Sources */,
 				B494F4E9F0367F2158909480 /* MaterialsTests.swift in Sources */,
 				134C16D856180A573F3AC03D /* PricingTests.swift in Sources */,
@@ -277,6 +284,7 @@
 			files = (
 				A39264BB6CC5E34C043CAF9D /* AdaptiveViews.swift in Sources */,
 				0C7A5F6F2DC6DF01D382CEDC /* App.swift in Sources */,
+				A3181F1159D24222AC000006 /* ThreeMFReviewView.swift in Sources */,
 				A3181F1159D24222AC000002 /* ModelInspectionView.swift in Sources */,
 				6F97B29798CA6DDBA2A92513 /* AppState.swift in Sources */,
 				DC120C85515BF0609CC69B9A /* CatalogViews.swift in Sources */,

@@ -332,24 +332,27 @@ Combined build logs go to `.workflow/apple.log` and `.workflow/android.log`.
 
 ## 🔎 Inspect a model before quoting
 
-Choose **Inspect STL / 3MF** on the Apple or Android Dashboard, or in the Windows header. Select a local `.stl`, `.3mf`, or `.gcode.3mf` file, then search the report or filter by Geometry, Project settings, Sliced results, Metadata, or Package.
+Choose **Inspect STL / 3MF** on the Dashboard. On **macOS, iPhone and iPad**, 3MF now opens a manufacturing review: choose a project, inspect its printer, materials, tool evidence, plates, quantities and warnings, then accept selected fields into a quote draft. Save the draft in the quote editor when ready.
 
-- **STL:** ASCII and binary detection, triangle count, coordinate bounds and binary header/attribute information. STL does not define standard units, printer settings or filament usage.
-- **3MF:** package inventory, mesh resource bounds/counts, objects, component/build transforms, material/color properties, and scoped metadata.
-- **OrcaSlicer / Bambu Studio:** printer and nozzle settings, filament types/colors/mapping, object roles, support and prime-tower settings, plate/filament usage from slice information, and metadata comments from embedded G-code. Unknown fields remain searchable with their source paths.
+- **Geometry with context:** core resources and component/build instances remain separate. Units and affine transforms are applied before bounds and surface-area calculations. Volume is reported only within the mesh validation budget, with its confidence and limitations attached.
+- **Slicer-aware evidence:** OrcaSlicer, Bambu Studio, PrusaSlicer, Anycubic and Creality families have known-key adapters. Unknown versions keep a conservative fallback; Cura and FlashPrint retain standard geometry and raw metadata. Family support does not imply every exporter version has been verified.
+- **Tools are not feeder slots:** physical toolhead counts, nozzle entries, filament inputs and feeder slots remain separate. Ambiguous hardware requires review. Saved printer modifications and material prices are not silently overwritten.
+- **Manufacturing quantities:** separate source estimates for time, model, support, interface, purge, flush and tower information are retained when explicitly present. Select one source per pricing field and one plate per quote. Total consumption is not automatically relabeled as model-only weight.
+- **Recover useful work:** an invalid optional image or metadata section can produce a partial result. Sliced `.gcode.3mf` packages can retain manufacturing data even without mesh resources. Security-limit violations remain fatal.
+- **Reimport safely:** SHA-256 fingerprints, parser/schema versions, a bounded cache, duplicate detection, reanalysis and selected-update drafts preserve user control. Exportable support diagnostics omit geometry and metadata values.
 
-**An enabled support or prime-tower setting is not a gram estimate.** The report keeps project settings separate from slicer-reported results. It never sums duplicate statistics or changes a quote automatically. Mesh bounds use local resource coordinates; assembled dimensions, a 3D preview, toolpath-derived quantities and quote input mapping remain future work. The selected file is read locally and remains unchanged. Reports currently last for the inspection session.
+**An enabled support or prime-tower setting is not a gram estimate.** The importer does not invent toolpath-derived quantities or support-removal labor. Source files remain unchanged.
 
-The import backend now verifies checksums for every archived file, streams binary assets without retaining their payloads, limits expanded report text to 16 MiB, and checks cancellation throughout processing. Entry errors name the affected file. UTF-8 BOMs are supported, and literal punctuation in metadata keys cannot collide with nested paths. See [backend hardening and regression results](docs/features/import-hardening.md).
+The **STL / legacy inspector** remains available on Apple. Android and Windows retain their existing inspection report while native parity for this new subsystem is deferred, as requested in the manufacturing brief. The shared JSON schemas and synthetic fixtures define that next implementation's contract.
 
-See the [model inspection contract and limits](docs/features/model-import.md). Tests use shared synthetic fixtures; private user models are not committed.
+See [manufacturing import architecture, safety limits and validation](docs/features/three-mf-manufacturing.md), [portable schemas and fixtures](SharedSchemas/three-mf-v2/README.md), and the [legacy inspection contract](docs/features/model-import.md). Customer files are never included in the fixture library.
 
 ## 🚧 What isn't finished yet?
 
 The app already estimates and saves quotes, but the workshop still has room to grow:
 
 - Jobs, full inventory workflows, and Analytics are unfinished; Apple has placeholder destinations. Material stock fields are implemented separately.
-- STL/3MF inspection is implemented. A 3D viewer, transformed assembly calculations, toolpath-derived support/tower quantities, and applying imported values to quote inputs remain unfinished.
+- A 3D viewer and toolpath-derived support/tower quantities remain unfinished. Apple has transformed geometry and selected quote updates; Android/Windows manufacturing-review parity is deferred.
 - PDF quote export is not implemented.
 - Live material prices, web scraping, and cloud/iCloud synchronization are not implemented.
 - Listing a source does not mean its network importer exists. Cura, PrusaSlicer, Klipper, OpenPrintTag, and manufacturer TDS adapters remain future work.

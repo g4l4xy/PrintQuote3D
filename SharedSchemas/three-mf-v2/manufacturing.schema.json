@@ -1,0 +1,883 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/g4l4xy/PrintQuote3D/raw/refs/heads/codex/model-import/SharedSchemas/three-mf-v2/manufacturing.schema.json",
+  "title": "PrintQuote 3MF manufacturing import v2",
+  "$comment": "Portable exports use ISO-8601 dates and JSON decimal numbers; implementations must use Decimal for monetary fields. Optional fields are omitted. Internal Swift caches are not this interchange representation. sourceTransform is the composed canonical-mm affine transform, not the unscaled source attribute. Raw source attributes are retained in standardMetadata.",
+  "$ref": "#/$defs/ThreeMFImportResult",
+  "$defs": {
+    "DetectedSlicer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/ImportConfidence"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ValueString"
+          }
+        },
+        "capabilities": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "family",
+        "confidence",
+        "evidence",
+        "capabilities"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedPrinterConfiguration": {
+      "type": "object",
+      "properties": {
+        "manufacturer": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "model": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "variant": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "presetName": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "presetID": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "profileVersion": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "operatingMode": {
+          "$ref": "#/$defs/ValueString"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ImportedToolhead": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer"
+        },
+        "nozzleDiameterMM": {
+          "$ref": "#/$defs/ValueNumber"
+        },
+        "nozzleMaterial": {
+          "$ref": "#/$defs/ValueString"
+        }
+      },
+      "required": [
+        "index"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedToolSystem": {
+      "type": "object",
+      "properties": {
+        "physicalToolheads": {
+          "$ref": "#/$defs/ValueInt"
+        },
+        "extruderCount": {
+          "$ref": "#/$defs/ValueInt"
+        },
+        "nozzleCount": {
+          "$ref": "#/$defs/ValueInt"
+        },
+        "filamentInputs": {
+          "$ref": "#/$defs/ValueInt"
+        },
+        "feederSlots": {
+          "$ref": "#/$defs/ValueInt"
+        },
+        "feederType": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "architecture": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedToolhead"
+          }
+        },
+        "needsReview": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "tools",
+        "needsReview"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedMaterial": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "family": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "preset": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "manufacturer": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "productName": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "sourceColorHex": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "normalizedColorHex": {
+          "type": "string"
+        },
+        "manufacturerColorName": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "densityGramsPerCM3": {
+          "$ref": "#/$defs/ValueNumber"
+        },
+        "diameterMM": {
+          "$ref": "#/$defs/ValueNumber"
+        },
+        "embeddedSlicerCost": {
+          "$ref": "#/$defs/ValueDecimal"
+        },
+        "temperatures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ValueNumber"
+          }
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedSetting"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "temperatures",
+        "properties"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedAssignment": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "materialID": {
+          "type": "string"
+        },
+        "toolIndex": {
+          "type": "integer"
+        },
+        "source": {
+          "$ref": "#/$defs/ValueString"
+        }
+      },
+      "required": [
+        "scope",
+        "role",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedSetting": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/ValueString"
+        }
+      },
+      "required": [
+        "name",
+        "scope",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedProcessSettings": {
+      "type": "object",
+      "properties": {
+        "settings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedSetting"
+          }
+        },
+        "purgeSettings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedSetting"
+          }
+        }
+      },
+      "required": [
+        "settings",
+        "purgeSettings"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedQuantity": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "plateID": {
+          "type": "string"
+        },
+        "objectID": {
+          "type": "string"
+        },
+        "materialID": {
+          "type": "string"
+        },
+        "amount": {
+          "$ref": "#/$defs/ValueNumber"
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "amount",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedPlate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/$defs/ValueString"
+        },
+        "objectIDs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "settings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedSetting"
+          }
+        },
+        "estimates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedQuantity"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "objectIDs",
+        "settings",
+        "estimates"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedBounds": {
+      "type": "object",
+      "properties": {
+        "minimum": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "maximum": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "required": [
+        "minimum",
+        "maximum"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedObject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "resourceID": {
+          "type": "string"
+        },
+        "parentID": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "sourcePath": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "triangleCount": {
+          "type": "integer"
+        },
+        "instanceCount": {
+          "type": "integer"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "sourceTransform": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 12,
+          "maxItems": 12
+        },
+        "boundsMM": {
+          "$ref": "#/$defs/ValueBounds"
+        },
+        "surfaceAreaMM2": {
+          "$ref": "#/$defs/ValueNumber"
+        },
+        "enclosedVolumeMM3": {
+          "$ref": "#/$defs/ValueNumber"
+        },
+        "mirrored": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "resourceID",
+        "role",
+        "sourcePath",
+        "children",
+        "triangleCount",
+        "instanceCount",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "ImportedPrintProject": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "fileSize": {
+          "type": "integer"
+        },
+        "importedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "threeMFImporterVersion": {
+          "type": "string"
+        },
+        "schemaVersion": {
+          "const": 2
+        },
+        "slicer": {
+          "$ref": "#/$defs/DetectedSlicer"
+        },
+        "printer": {
+          "$ref": "#/$defs/ImportedPrinterConfiguration"
+        },
+        "toolSystem": {
+          "$ref": "#/$defs/ImportedToolSystem"
+        },
+        "materials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedMaterial"
+          }
+        },
+        "assignments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedAssignment"
+          }
+        },
+        "plates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedPlate"
+          }
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedObject"
+          }
+        },
+        "processSettings": {
+          "$ref": "#/$defs/ImportedProcessSettings"
+        },
+        "estimates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportedQuantity"
+          }
+        },
+        "standardMetadata": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UnmappedMetadata"
+          }
+        },
+        "slicerMetadata": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UnmappedMetadata"
+          }
+        },
+        "unmappedMetadata": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UnmappedMetadata"
+          }
+        }
+      },
+      "required": [
+        "filename",
+        "sha256",
+        "fileSize",
+        "importedAt",
+        "threeMFImporterVersion",
+        "schemaVersion",
+        "slicer",
+        "printer",
+        "toolSystem",
+        "materials",
+        "assignments",
+        "plates",
+        "objects",
+        "processSettings",
+        "estimates",
+        "standardMetadata",
+        "slicerMetadata",
+        "unmappedMetadata"
+      ],
+      "additionalProperties": false
+    },
+    "ImportDiagnostic": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "severity": {
+          "$ref": "#/$defs/ImportSeverity"
+        },
+        "category": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "sourcePath": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "severity",
+        "category",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "UnmappedMetadata": {
+      "type": "object",
+      "properties": {
+        "sourcePath": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "rawXMLSnippet": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sourcePath",
+        "scope",
+        "key"
+      ],
+      "additionalProperties": false
+    },
+    "ImportMatch": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "quality": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "quality",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationDifference": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "imported": {
+          "type": "string"
+        },
+        "current": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "imported",
+        "current"
+      ],
+      "additionalProperties": false
+    },
+    "ThreeMFImportResult": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "$ref": "#/$defs/ImportedPrintProject"
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportDiagnostic"
+          }
+        },
+        "printerMatches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImportMatch"
+          }
+        },
+        "materialMatches": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/ImportMatch"
+            }
+          }
+        },
+        "differences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConfigurationDifference"
+          }
+        },
+        "cacheHit": {
+          "type": "boolean"
+        },
+        "stageStatus": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "diagnostics",
+        "printerMatches",
+        "materialMatches",
+        "differences",
+        "cacheHit",
+        "stageStatus"
+      ],
+      "additionalProperties": false
+    },
+    "ThreeMFImportReference": {
+      "type": "object",
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "parserVersion": {
+          "type": "string"
+        },
+        "importedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "acceptedFields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "sha256",
+        "filename",
+        "parserVersion",
+        "importedAt",
+        "acceptedFields"
+      ],
+      "additionalProperties": false
+    },
+    "ValueString": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "sourcePath": {
+          "type": "string"
+        },
+        "metadataKey": {
+          "type": "string"
+        },
+        "sourceType": {
+          "$ref": "#/$defs/ImportSourceType"
+        },
+        "confidence": {
+          "$ref": "#/$defs/ImportConfidence"
+        }
+      },
+      "required": [
+        "value",
+        "sourcePath",
+        "metadataKey",
+        "sourceType",
+        "confidence"
+      ],
+      "additionalProperties": false
+    },
+    "ValueNumber": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "sourcePath": {
+          "type": "string"
+        },
+        "metadataKey": {
+          "type": "string"
+        },
+        "sourceType": {
+          "$ref": "#/$defs/ImportSourceType"
+        },
+        "confidence": {
+          "$ref": "#/$defs/ImportConfidence"
+        }
+      },
+      "required": [
+        "value",
+        "sourcePath",
+        "metadataKey",
+        "sourceType",
+        "confidence"
+      ],
+      "additionalProperties": false
+    },
+    "ValueInt": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer"
+        },
+        "sourcePath": {
+          "type": "string"
+        },
+        "metadataKey": {
+          "type": "string"
+        },
+        "sourceType": {
+          "$ref": "#/$defs/ImportSourceType"
+        },
+        "confidence": {
+          "$ref": "#/$defs/ImportConfidence"
+        }
+      },
+      "required": [
+        "value",
+        "sourcePath",
+        "metadataKey",
+        "sourceType",
+        "confidence"
+      ],
+      "additionalProperties": false
+    },
+    "ValueDecimal": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "sourcePath": {
+          "type": "string"
+        },
+        "metadataKey": {
+          "type": "string"
+        },
+        "sourceType": {
+          "$ref": "#/$defs/ImportSourceType"
+        },
+        "confidence": {
+          "$ref": "#/$defs/ImportConfidence"
+        }
+      },
+      "required": [
+        "value",
+        "sourcePath",
+        "metadataKey",
+        "sourceType",
+        "confidence"
+      ],
+      "additionalProperties": false
+    },
+    "ValueBounds": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/ImportedBounds"
+        },
+        "sourcePath": {
+          "type": "string"
+        },
+        "metadataKey": {
+          "type": "string"
+        },
+        "sourceType": {
+          "$ref": "#/$defs/ImportSourceType"
+        },
+        "confidence": {
+          "$ref": "#/$defs/ImportConfidence"
+        }
+      },
+      "required": [
+        "value",
+        "sourcePath",
+        "metadataKey",
+        "sourceType",
+        "confidence"
+      ],
+      "additionalProperties": false
+    },
+    "ImportConfidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "unknown"
+      ]
+    },
+    "ImportSourceType": {
+      "type": "string",
+      "enum": [
+        "standard3MF",
+        "slicerMetadata",
+        "printerProfile",
+        "filamentProfile",
+        "derived",
+        "userOverride"
+      ]
+    },
+    "ImportSeverity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "recoverableError",
+        "fatalError"
+      ]
+    }
+  }
+}

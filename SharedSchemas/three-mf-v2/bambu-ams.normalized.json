@@ -1,0 +1,863 @@
+{
+  "cacheHit": false,
+  "diagnostics": [
+    {
+      "category": "3MF.Printer",
+      "code": "baselineArchitecture",
+      "id": "00000000-0000-0000-0000-000000000000",
+      "message": "Physical toolhead count matched an acceptance baseline configuration; modified hardware still requires review.",
+      "severity": "info"
+    },
+    {
+      "category": "3MF.Metadata",
+      "code": "unmappedPreserved",
+      "id": "00000000-0000-0000-0000-000000000001",
+      "message": "11 unmapped metadata records preserved.",
+      "severity": "info"
+    }
+  ],
+  "differences": [],
+  "materialMatches": {},
+  "printerMatches": [],
+  "project": {
+    "assignments": [],
+    "estimates": [
+      {
+        "amount": {
+          "confidence": "high",
+          "metadataKey": "config[1]/plate[1]/metadata[2]/prediction",
+          "sourcePath": "Metadata/slice_info.config",
+          "sourceType": "slicerMetadata",
+          "value": 31320
+        },
+        "plateID": "1",
+        "role": "printTime",
+        "unit": "seconds"
+      },
+      {
+        "amount": {
+          "confidence": "high",
+          "metadataKey": "config[1]/plate[1]/metadata[3]/model_material_g",
+          "sourcePath": "Metadata/slice_info.config",
+          "sourceType": "slicerMetadata",
+          "value": 183
+        },
+        "plateID": "1",
+        "role": "model",
+        "unit": "grams"
+      },
+      {
+        "amount": {
+          "confidence": "high",
+          "metadataKey": "config[1]/plate[1]/metadata[4]/support_material_g",
+          "sourcePath": "Metadata/slice_info.config",
+          "sourceType": "slicerMetadata",
+          "value": 22
+        },
+        "plateID": "1",
+        "role": "support",
+        "unit": "grams"
+      },
+      {
+        "amount": {
+          "confidence": "high",
+          "metadataKey": "config[1]/plate[1]/metadata[5]/purge_material_g",
+          "sourcePath": "Metadata/slice_info.config",
+          "sourceType": "slicerMetadata",
+          "value": 71
+        },
+        "plateID": "1",
+        "role": "purge",
+        "unit": "grams"
+      },
+      {
+        "amount": {
+          "confidence": "high",
+          "metadataKey": "config[1]/plate[1]/metadata[6]/prime_tower_g",
+          "sourcePath": "Metadata/slice_info.config",
+          "sourceType": "slicerMetadata",
+          "value": 18
+        },
+        "plateID": "1",
+        "role": "primeTower",
+        "unit": "grams"
+      },
+      {
+        "amount": {
+          "confidence": "high",
+          "metadataKey": "config[1]/plate[1]/filament[1]/used_g",
+          "sourcePath": "Metadata/slice_info.config",
+          "sourceType": "slicerMetadata",
+          "value": 294
+        },
+        "materialID": "filament:1",
+        "plateID": "1",
+        "role": "total",
+        "unit": "grams"
+      },
+      {
+        "amount": {
+          "confidence": "high",
+          "metadataKey": "config[1]/plate[2]/metadata[2]/prediction",
+          "sourcePath": "Metadata/slice_info.config",
+          "sourceType": "slicerMetadata",
+          "value": 600
+        },
+        "plateID": "2",
+        "role": "printTime",
+        "unit": "seconds"
+      }
+    ],
+    "fileSize": 1246,
+    "filename": "bambu-ams.3mf",
+    "importedAt": "2026-09-15T00:00:00Z",
+    "materials": [
+      {
+        "family": {
+          "confidence": "high",
+          "metadataKey": "project/filament_type",
+          "sourcePath": "Metadata/project_settings.config",
+          "sourceType": "slicerMetadata",
+          "value": "PLA"
+        },
+        "id": "filament:1",
+        "normalizedColorHex": "#000000",
+        "properties": [
+          {
+            "name": "filament_colour",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_colour",
+              "sourcePath": "Metadata/project_settings.config",
+              "sourceType": "slicerMetadata",
+              "value": "#000000"
+            }
+          },
+          {
+            "name": "filament_type",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_type",
+              "sourcePath": "Metadata/project_settings.config",
+              "sourceType": "slicerMetadata",
+              "value": "PLA"
+            }
+          }
+        ],
+        "sourceColorHex": {
+          "confidence": "high",
+          "metadataKey": "project/filament_colour",
+          "sourcePath": "Metadata/project_settings.config",
+          "sourceType": "slicerMetadata",
+          "value": "#000000"
+        },
+        "temperatures": []
+      },
+      {
+        "family": {
+          "confidence": "high",
+          "metadataKey": "project/filament_type",
+          "sourcePath": "Metadata/project_settings.config",
+          "sourceType": "slicerMetadata",
+          "value": "PLA"
+        },
+        "id": "filament:2",
+        "normalizedColorHex": "#FFFFFF",
+        "properties": [
+          {
+            "name": "filament_colour",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_colour",
+              "sourcePath": "Metadata/project_settings.config",
+              "sourceType": "slicerMetadata",
+              "value": "#FFFFFF"
+            }
+          },
+          {
+            "name": "filament_type",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_type",
+              "sourcePath": "Metadata/project_settings.config",
+              "sourceType": "slicerMetadata",
+              "value": "PLA"
+            }
+          }
+        ],
+        "sourceColorHex": {
+          "confidence": "high",
+          "metadataKey": "project/filament_colour",
+          "sourcePath": "Metadata/project_settings.config",
+          "sourceType": "slicerMetadata",
+          "value": "#FFFFFF"
+        },
+        "temperatures": []
+      },
+      {
+        "family": {
+          "confidence": "high",
+          "metadataKey": "project/filament_type",
+          "sourcePath": "Metadata/project_settings.config",
+          "sourceType": "slicerMetadata",
+          "value": "PLA"
+        },
+        "id": "filament:3",
+        "normalizedColorHex": "#FF0000",
+        "properties": [
+          {
+            "name": "filament_colour",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_colour",
+              "sourcePath": "Metadata/project_settings.config",
+              "sourceType": "slicerMetadata",
+              "value": "#FF0000"
+            }
+          },
+          {
+            "name": "filament_type",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_type",
+              "sourcePath": "Metadata/project_settings.config",
+              "sourceType": "slicerMetadata",
+              "value": "PLA"
+            }
+          }
+        ],
+        "sourceColorHex": {
+          "confidence": "high",
+          "metadataKey": "project/filament_colour",
+          "sourcePath": "Metadata/project_settings.config",
+          "sourceType": "slicerMetadata",
+          "value": "#FF0000"
+        },
+        "temperatures": []
+      },
+      {
+        "family": {
+          "confidence": "high",
+          "metadataKey": "project/filament_type",
+          "sourcePath": "Metadata/project_settings.config",
+          "sourceType": "slicerMetadata",
+          "value": "PLA"
+        },
+        "id": "filament:4",
+        "normalizedColorHex": "#0000FF",
+        "properties": [
+          {
+            "name": "filament_colour",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_colour",
+              "sourcePath": "Metadata/project_settings.config",
+              "sourceType": "slicerMetadata",
+              "value": "#0000FF"
+            }
+          },
+          {
+            "name": "filament_type",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_type",
+              "sourcePath": "Metadata/project_settings.config",
+              "sourceType": "slicerMetadata",
+              "value": "PLA"
+            }
+          }
+        ],
+        "sourceColorHex": {
+          "confidence": "high",
+          "metadataKey": "project/filament_colour",
+          "sourcePath": "Metadata/project_settings.config",
+          "sourceType": "slicerMetadata",
+          "value": "#0000FF"
+        },
+        "temperatures": []
+      }
+    ],
+    "objects": [
+      {
+        "children": [],
+        "id": "Models/root.model#1",
+        "instanceCount": 1,
+        "name": "Tetra",
+        "resourceID": "Models/root.model#1",
+        "role": "model",
+        "sourcePath": "Models/root.model",
+        "triangleCount": 4,
+        "unit": "millimeter"
+      },
+      {
+        "boundsMM": {
+          "confidence": "high",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": {
+            "maximum": [
+              1,
+              1,
+              1
+            ],
+            "minimum": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "children": [],
+        "enclosedVolumeMM3": {
+          "confidence": "medium",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": 0.16666666666666666
+        },
+        "id": "instance:1",
+        "instanceCount": 1,
+        "mirrored": false,
+        "name": "Tetra",
+        "resourceID": "Models/root.model#1",
+        "role": "model",
+        "sourcePath": "Models/root.model",
+        "sourceTransform": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "surfaceAreaMM2": {
+          "confidence": "high",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": 2.3660254037844384
+        },
+        "triangleCount": 4,
+        "unit": "millimeter"
+      }
+    ],
+    "plates": [
+      {
+        "estimates": [
+          {
+            "amount": {
+              "confidence": "high",
+              "metadataKey": "config[1]/plate[1]/metadata[2]/prediction",
+              "sourcePath": "Metadata/slice_info.config",
+              "sourceType": "slicerMetadata",
+              "value": 31320
+            },
+            "plateID": "1",
+            "role": "printTime",
+            "unit": "seconds"
+          },
+          {
+            "amount": {
+              "confidence": "high",
+              "metadataKey": "config[1]/plate[1]/metadata[3]/model_material_g",
+              "sourcePath": "Metadata/slice_info.config",
+              "sourceType": "slicerMetadata",
+              "value": 183
+            },
+            "plateID": "1",
+            "role": "model",
+            "unit": "grams"
+          },
+          {
+            "amount": {
+              "confidence": "high",
+              "metadataKey": "config[1]/plate[1]/metadata[4]/support_material_g",
+              "sourcePath": "Metadata/slice_info.config",
+              "sourceType": "slicerMetadata",
+              "value": 22
+            },
+            "plateID": "1",
+            "role": "support",
+            "unit": "grams"
+          },
+          {
+            "amount": {
+              "confidence": "high",
+              "metadataKey": "config[1]/plate[1]/metadata[5]/purge_material_g",
+              "sourcePath": "Metadata/slice_info.config",
+              "sourceType": "slicerMetadata",
+              "value": 71
+            },
+            "plateID": "1",
+            "role": "purge",
+            "unit": "grams"
+          },
+          {
+            "amount": {
+              "confidence": "high",
+              "metadataKey": "config[1]/plate[1]/metadata[6]/prime_tower_g",
+              "sourcePath": "Metadata/slice_info.config",
+              "sourceType": "slicerMetadata",
+              "value": 18
+            },
+            "plateID": "1",
+            "role": "primeTower",
+            "unit": "grams"
+          },
+          {
+            "amount": {
+              "confidence": "high",
+              "metadataKey": "config[1]/plate[1]/filament[1]/used_g",
+              "sourcePath": "Metadata/slice_info.config",
+              "sourceType": "slicerMetadata",
+              "value": 294
+            },
+            "materialID": "filament:1",
+            "plateID": "1",
+            "role": "total",
+            "unit": "grams"
+          }
+        ],
+        "id": "1",
+        "objectIDs": [],
+        "settings": [
+          {
+            "name": "purge_material_g",
+            "scope": "config[1]/plate[1]/metadata[5]",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "config[1]/plate[1]/metadata[5]/purge_material_g",
+              "sourcePath": "Metadata/slice_info.config",
+              "sourceType": "slicerMetadata",
+              "value": "71"
+            }
+          },
+          {
+            "name": "prime_tower_g",
+            "scope": "config[1]/plate[1]/metadata[6]",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "config[1]/plate[1]/metadata[6]/prime_tower_g",
+              "sourcePath": "Metadata/slice_info.config",
+              "sourceType": "slicerMetadata",
+              "value": "18"
+            }
+          }
+        ]
+      },
+      {
+        "estimates": [
+          {
+            "amount": {
+              "confidence": "high",
+              "metadataKey": "config[1]/plate[2]/metadata[2]/prediction",
+              "sourcePath": "Metadata/slice_info.config",
+              "sourceType": "slicerMetadata",
+              "value": 600
+            },
+            "plateID": "2",
+            "role": "printTime",
+            "unit": "seconds"
+          }
+        ],
+        "id": "2",
+        "objectIDs": [],
+        "settings": []
+      }
+    ],
+    "printer": {
+      "model": {
+        "confidence": "high",
+        "metadataKey": "project/printer_model",
+        "sourcePath": "Metadata/project_settings.config",
+        "sourceType": "slicerMetadata",
+        "value": "Bambu Lab P1S"
+      }
+    },
+    "processSettings": {
+      "purgeSettings": [
+        {
+          "name": "enable_prime_tower",
+          "scope": "project",
+          "source": {
+            "confidence": "high",
+            "metadataKey": "project/enable_prime_tower",
+            "sourcePath": "Metadata/project_settings.config",
+            "sourceType": "slicerMetadata",
+            "value": "1"
+          }
+        },
+        {
+          "name": "purge_material_g",
+          "scope": "config[1]/plate[1]/metadata[5]",
+          "source": {
+            "confidence": "high",
+            "metadataKey": "config[1]/plate[1]/metadata[5]/purge_material_g",
+            "sourcePath": "Metadata/slice_info.config",
+            "sourceType": "slicerMetadata",
+            "value": "71"
+          }
+        },
+        {
+          "name": "prime_tower_g",
+          "scope": "config[1]/plate[1]/metadata[6]",
+          "source": {
+            "confidence": "high",
+            "metadataKey": "config[1]/plate[1]/metadata[6]/prime_tower_g",
+            "sourcePath": "Metadata/slice_info.config",
+            "sourceType": "slicerMetadata",
+            "value": "18"
+          }
+        }
+      ],
+      "settings": [
+        {
+          "name": "enable_support",
+          "scope": "project",
+          "source": {
+            "confidence": "high",
+            "metadataKey": "project/enable_support",
+            "sourcePath": "Metadata/project_settings.config",
+            "sourceType": "slicerMetadata",
+            "value": "1"
+          }
+        }
+      ]
+    },
+    "schemaVersion": 2,
+    "sha256": "dcf22ab9cf7edcbfc874515fbdb45bae2216df4d56a57d36d2aaadd758296cbb",
+    "slicer": {
+      "capabilities": {
+        "materials": "known keys",
+        "paint": "raw evidence only",
+        "plates": "partial",
+        "printer": "known keys",
+        "process": "known keys",
+        "purge": "settings and explicit quantities",
+        "thumbnail": "CRC and image-header validation; no pixel decode",
+        "versionPolicy": "fixture-covered family; known keys only",
+        "versions": "family fallback; unknown keys preserved"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "confidence": "high",
+          "metadataKey": "model[1]/metadata[1]/Application",
+          "sourcePath": "Models/root.model",
+          "sourceType": "standard3MF",
+          "value": "BambuStudio 2.3.0"
+        }
+      ],
+      "family": "bambu",
+      "name": "Bambu Studio",
+      "version": "2.3.0"
+    },
+    "slicerMetadata": [
+      {
+        "key": "ams_slots",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "4"
+      },
+      {
+        "key": "enable_prime_tower",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "1"
+      },
+      {
+        "key": "enable_support",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "1"
+      },
+      {
+        "key": "filament_colour",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "[\"#000000\",\"#FFFFFF\",\"#FF0000\",\"#0000FF\"]"
+      },
+      {
+        "key": "filament_input_count",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "4"
+      },
+      {
+        "key": "filament_type",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "[\"PLA\",\"PLA\",\"PLA\",\"PLA\"]"
+      },
+      {
+        "key": "nozzle_diameter",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "[\"0.4\"]"
+      },
+      {
+        "key": "printer_model",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "Bambu Lab P1S"
+      },
+      {
+        "key": "unknown_new_vendor_key",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "keep me"
+      },
+      {
+        "key": "index",
+        "scope": "config[1]/plate[1]/metadata[1]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "1"
+      },
+      {
+        "key": "prediction",
+        "scope": "config[1]/plate[1]/metadata[2]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "31320"
+      },
+      {
+        "key": "model_material_g",
+        "scope": "config[1]/plate[1]/metadata[3]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "183"
+      },
+      {
+        "key": "support_material_g",
+        "scope": "config[1]/plate[1]/metadata[4]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "22"
+      },
+      {
+        "key": "purge_material_g",
+        "scope": "config[1]/plate[1]/metadata[5]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "71"
+      },
+      {
+        "key": "prime_tower_g",
+        "scope": "config[1]/plate[1]/metadata[6]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "18"
+      },
+      {
+        "key": "id",
+        "scope": "config[1]/plate[1]/filament[1]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "1"
+      },
+      {
+        "key": "used_g",
+        "scope": "config[1]/plate[1]/filament[1]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "294"
+      },
+      {
+        "key": "index",
+        "scope": "config[1]/plate[2]/metadata[1]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "2"
+      },
+      {
+        "key": "prediction",
+        "scope": "config[1]/plate[2]/metadata[2]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "600"
+      }
+    ],
+    "standardMetadata": [
+      {
+        "key": "unit",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "millimeter"
+      },
+      {
+        "key": "xmlns",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Application"
+      },
+      {
+        "key": "Application",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "BambuStudio 2.3.0"
+      },
+      {
+        "key": "id",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Tetra"
+      },
+      {
+        "key": "objectid",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel",
+        "scope": "relationship",
+        "sourcePath": "",
+        "value": "Models/root.model"
+      }
+    ],
+    "threeMFImporterVersion": "2.0.0",
+    "toolSystem": {
+      "architecture": {
+        "confidence": "medium",
+        "metadataKey": "Bambu Lab P1S",
+        "sourcePath": "three_mf_printer_aliases_v2.json",
+        "sourceType": "printerProfile",
+        "value": "singleNozzleSwitcher"
+      },
+      "feederSlots": {
+        "confidence": "high",
+        "metadataKey": "ams_slots",
+        "sourcePath": "Metadata/project_settings.config",
+        "sourceType": "slicerMetadata",
+        "value": 4
+      },
+      "feederType": {
+        "confidence": "high",
+        "metadataKey": "project/ams_slots",
+        "sourcePath": "Metadata/project_settings.config",
+        "sourceType": "slicerMetadata",
+        "value": "ams"
+      },
+      "filamentInputs": {
+        "confidence": "high",
+        "metadataKey": "filament_input_count",
+        "sourcePath": "Metadata/project_settings.config",
+        "sourceType": "slicerMetadata",
+        "value": 4
+      },
+      "needsReview": true,
+      "physicalToolheads": {
+        "confidence": "medium",
+        "metadataKey": "Bambu Lab P1S",
+        "sourcePath": "three_mf_printer_aliases_v2.json",
+        "sourceType": "printerProfile",
+        "value": 1
+      },
+      "tools": [
+        {
+          "index": 1,
+          "nozzleDiameterMM": {
+            "confidence": "high",
+            "metadataKey": "nozzle_diameter[0]",
+            "sourcePath": "Metadata/project_settings.config",
+            "sourceType": "slicerMetadata",
+            "value": 0.4
+          }
+        }
+      ]
+    },
+    "unmappedMetadata": [
+      {
+        "key": "unit",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "millimeter"
+      },
+      {
+        "key": "xmlns",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Application"
+      },
+      {
+        "key": "Application",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "BambuStudio 2.3.0"
+      },
+      {
+        "key": "id",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Tetra"
+      },
+      {
+        "key": "objectid",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "unknown_new_vendor_key",
+        "scope": "project",
+        "sourcePath": "Metadata/project_settings.config",
+        "value": "keep me"
+      },
+      {
+        "key": "index",
+        "scope": "config[1]/plate[1]/metadata[1]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "1"
+      },
+      {
+        "key": "id",
+        "scope": "config[1]/plate[1]/filament[1]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "1"
+      },
+      {
+        "key": "index",
+        "scope": "config[1]/plate[2]/metadata[1]",
+        "sourcePath": "Metadata/slice_info.config",
+        "value": "2"
+      }
+    ]
+  },
+  "stageStatus": {
+    "container": "success",
+    "geometry": "success",
+    "metadata": "success",
+    "slicer": "identified",
+    "thumbnail": "validated where present"
+  }
+}

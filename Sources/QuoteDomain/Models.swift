@@ -120,6 +120,7 @@ public struct PricingResult: Codable, Sendable, Equatable {
     public var total: Decimal
 }
 public struct Quote: Identifiable, Codable, Sendable {
+    public var manufacturingImport: ThreeMFImportReference? = nil
     public var id: UUID = UUID()
     public var number = ""
     public var customer = ""

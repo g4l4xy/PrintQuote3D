@@ -1,0 +1,490 @@
+{
+  "cacheHit": false,
+  "diagnostics": [
+    {
+      "category": "3MF.Printer",
+      "code": "baselineArchitecture",
+      "id": "00000000-0000-0000-0000-000000000000",
+      "message": "Physical toolhead count matched an acceptance baseline configuration; modified hardware still requires review.",
+      "severity": "info"
+    },
+    {
+      "category": "3MF.Metadata",
+      "code": "unmappedPreserved",
+      "id": "00000000-0000-0000-0000-000000000001",
+      "message": "7 unmapped metadata records preserved.",
+      "severity": "info"
+    }
+  ],
+  "differences": [],
+  "materialMatches": {},
+  "printerMatches": [],
+  "project": {
+    "assignments": [],
+    "estimates": [],
+    "fileSize": 901,
+    "filename": "prusa-xl5.3mf",
+    "importedAt": "2026-09-15T00:00:00Z",
+    "materials": [
+      {
+        "family": {
+          "confidence": "high",
+          "metadataKey": "project/filament_type",
+          "sourcePath": "Metadata/Slic3r_PE.config",
+          "sourceType": "slicerMetadata",
+          "value": "PLA"
+        },
+        "id": "filament:1",
+        "properties": [
+          {
+            "name": "filament_type",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_type",
+              "sourcePath": "Metadata/Slic3r_PE.config",
+              "sourceType": "slicerMetadata",
+              "value": "PLA"
+            }
+          }
+        ],
+        "temperatures": []
+      },
+      {
+        "family": {
+          "confidence": "high",
+          "metadataKey": "project/filament_type",
+          "sourcePath": "Metadata/Slic3r_PE.config",
+          "sourceType": "slicerMetadata",
+          "value": "PETG"
+        },
+        "id": "filament:2",
+        "properties": [
+          {
+            "name": "filament_type",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_type",
+              "sourcePath": "Metadata/Slic3r_PE.config",
+              "sourceType": "slicerMetadata",
+              "value": "PETG"
+            }
+          }
+        ],
+        "temperatures": []
+      },
+      {
+        "family": {
+          "confidence": "high",
+          "metadataKey": "project/filament_type",
+          "sourcePath": "Metadata/Slic3r_PE.config",
+          "sourceType": "slicerMetadata",
+          "value": "ABS"
+        },
+        "id": "filament:3",
+        "properties": [
+          {
+            "name": "filament_type",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_type",
+              "sourcePath": "Metadata/Slic3r_PE.config",
+              "sourceType": "slicerMetadata",
+              "value": "ABS"
+            }
+          }
+        ],
+        "temperatures": []
+      },
+      {
+        "family": {
+          "confidence": "high",
+          "metadataKey": "project/filament_type",
+          "sourcePath": "Metadata/Slic3r_PE.config",
+          "sourceType": "slicerMetadata",
+          "value": "ASA"
+        },
+        "id": "filament:4",
+        "properties": [
+          {
+            "name": "filament_type",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_type",
+              "sourcePath": "Metadata/Slic3r_PE.config",
+              "sourceType": "slicerMetadata",
+              "value": "ASA"
+            }
+          }
+        ],
+        "temperatures": []
+      },
+      {
+        "family": {
+          "confidence": "high",
+          "metadataKey": "project/filament_type",
+          "sourcePath": "Metadata/Slic3r_PE.config",
+          "sourceType": "slicerMetadata",
+          "value": "TPU"
+        },
+        "id": "filament:5",
+        "properties": [
+          {
+            "name": "filament_type",
+            "scope": "project",
+            "source": {
+              "confidence": "high",
+              "metadataKey": "project/filament_type",
+              "sourcePath": "Metadata/Slic3r_PE.config",
+              "sourceType": "slicerMetadata",
+              "value": "TPU"
+            }
+          }
+        ],
+        "temperatures": []
+      }
+    ],
+    "objects": [
+      {
+        "children": [],
+        "id": "Models/root.model#1",
+        "instanceCount": 1,
+        "name": "Tetra",
+        "resourceID": "Models/root.model#1",
+        "role": "model",
+        "sourcePath": "Models/root.model",
+        "triangleCount": 4,
+        "unit": "millimeter"
+      },
+      {
+        "boundsMM": {
+          "confidence": "high",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": {
+            "maximum": [
+              1,
+              1,
+              1
+            ],
+            "minimum": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "children": [],
+        "enclosedVolumeMM3": {
+          "confidence": "medium",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": 0.16666666666666666
+        },
+        "id": "instance:1",
+        "instanceCount": 1,
+        "mirrored": false,
+        "name": "Tetra",
+        "resourceID": "Models/root.model#1",
+        "role": "model",
+        "sourcePath": "Models/root.model",
+        "sourceTransform": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "surfaceAreaMM2": {
+          "confidence": "high",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": 2.3660254037844384
+        },
+        "triangleCount": 4,
+        "unit": "millimeter"
+      }
+    ],
+    "plates": [
+      {
+        "estimates": [],
+        "id": "default-build",
+        "objectIDs": [
+          "instance:1"
+        ],
+        "settings": []
+      }
+    ],
+    "printer": {
+      "model": {
+        "confidence": "high",
+        "metadataKey": "project/printer_model",
+        "sourcePath": "Metadata/Slic3r_PE.config",
+        "sourceType": "slicerMetadata",
+        "value": "XL5"
+      },
+      "presetName": {
+        "confidence": "high",
+        "metadataKey": "project/printer_settings_id",
+        "sourcePath": "Metadata/Slic3r_PE.config",
+        "sourceType": "slicerMetadata",
+        "value": "Original Prusa XL 5-tool"
+      }
+    },
+    "processSettings": {
+      "purgeSettings": [],
+      "settings": []
+    },
+    "schemaVersion": 2,
+    "sha256": "1d70dcbd4d3ed45f9f6abd044abb922c0dc151f2d3913b29c96915325e88a6e8",
+    "slicer": {
+      "capabilities": {
+        "materials": "known keys",
+        "paint": "raw evidence only",
+        "plates": "partial",
+        "printer": "known keys",
+        "process": "known keys",
+        "purge": "settings and explicit quantities",
+        "thumbnail": "CRC and image-header validation; no pixel decode",
+        "versionPolicy": "fixture-covered family; known keys only",
+        "versions": "family fallback; unknown keys preserved"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "confidence": "high",
+          "metadataKey": "model[1]/metadata[1]/Application",
+          "sourcePath": "Models/root.model",
+          "sourceType": "standard3MF",
+          "value": "PrusaSlicer 2.9.0"
+        }
+      ],
+      "family": "prusa",
+      "name": "PrusaSlicer",
+      "version": "2.9.0"
+    },
+    "slicerMetadata": [
+      {
+        "key": "printer_model",
+        "scope": "project",
+        "sourcePath": "Metadata/Slic3r_PE.config",
+        "value": "XL5"
+      },
+      {
+        "key": "nozzle_diameter",
+        "scope": "project",
+        "sourcePath": "Metadata/Slic3r_PE.config",
+        "value": "0.4,0.4,0.4,0.4,0.4"
+      },
+      {
+        "key": "filament_type",
+        "scope": "project",
+        "sourcePath": "Metadata/Slic3r_PE.config",
+        "value": "PLA;PETG;ABS;ASA;TPU"
+      },
+      {
+        "key": "filament_input_count",
+        "scope": "project",
+        "sourcePath": "Metadata/Slic3r_PE.config",
+        "value": "5"
+      },
+      {
+        "key": "printer_settings_id",
+        "scope": "project",
+        "sourcePath": "Metadata/Slic3r_PE.config",
+        "value": "Original Prusa XL 5-tool"
+      }
+    ],
+    "standardMetadata": [
+      {
+        "key": "xmlns",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+      },
+      {
+        "key": "unit",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "millimeter"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Application"
+      },
+      {
+        "key": "Application",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "PrusaSlicer 2.9.0"
+      },
+      {
+        "key": "id",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Tetra"
+      },
+      {
+        "key": "objectid",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel",
+        "scope": "relationship",
+        "sourcePath": "",
+        "value": "Models/root.model"
+      }
+    ],
+    "threeMFImporterVersion": "2.0.0",
+    "toolSystem": {
+      "architecture": {
+        "confidence": "medium",
+        "metadataKey": "Prusa XL 5-tool",
+        "sourcePath": "three_mf_printer_aliases_v2.json",
+        "sourceType": "printerProfile",
+        "value": "toolChanger"
+      },
+      "filamentInputs": {
+        "confidence": "high",
+        "metadataKey": "filament_input_count",
+        "sourcePath": "Metadata/Slic3r_PE.config",
+        "sourceType": "slicerMetadata",
+        "value": 5
+      },
+      "needsReview": true,
+      "physicalToolheads": {
+        "confidence": "medium",
+        "metadataKey": "Prusa XL 5-tool",
+        "sourcePath": "three_mf_printer_aliases_v2.json",
+        "sourceType": "printerProfile",
+        "value": 5
+      },
+      "tools": [
+        {
+          "index": 1,
+          "nozzleDiameterMM": {
+            "confidence": "high",
+            "metadataKey": "nozzle_diameter[0]",
+            "sourcePath": "Metadata/Slic3r_PE.config",
+            "sourceType": "slicerMetadata",
+            "value": 0.4
+          }
+        },
+        {
+          "index": 2,
+          "nozzleDiameterMM": {
+            "confidence": "high",
+            "metadataKey": "nozzle_diameter[1]",
+            "sourcePath": "Metadata/Slic3r_PE.config",
+            "sourceType": "slicerMetadata",
+            "value": 0.4
+          }
+        },
+        {
+          "index": 3,
+          "nozzleDiameterMM": {
+            "confidence": "high",
+            "metadataKey": "nozzle_diameter[2]",
+            "sourcePath": "Metadata/Slic3r_PE.config",
+            "sourceType": "slicerMetadata",
+            "value": 0.4
+          }
+        },
+        {
+          "index": 4,
+          "nozzleDiameterMM": {
+            "confidence": "high",
+            "metadataKey": "nozzle_diameter[3]",
+            "sourcePath": "Metadata/Slic3r_PE.config",
+            "sourceType": "slicerMetadata",
+            "value": 0.4
+          }
+        },
+        {
+          "index": 5,
+          "nozzleDiameterMM": {
+            "confidence": "high",
+            "metadataKey": "nozzle_diameter[4]",
+            "sourcePath": "Metadata/Slic3r_PE.config",
+            "sourceType": "slicerMetadata",
+            "value": 0.4
+          }
+        }
+      ]
+    },
+    "unmappedMetadata": [
+      {
+        "key": "xmlns",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+      },
+      {
+        "key": "unit",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "millimeter"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Application"
+      },
+      {
+        "key": "Application",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "PrusaSlicer 2.9.0"
+      },
+      {
+        "key": "id",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Tetra"
+      },
+      {
+        "key": "objectid",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      }
+    ]
+  },
+  "stageStatus": {
+    "container": "success",
+    "geometry": "success",
+    "metadata": "success",
+    "slicer": "identified",
+    "thumbnail": "validated where present"
+  }
+}

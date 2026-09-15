@@ -3,7 +3,7 @@ import UniformTypeIdentifiers
 import QuoteDomain
 import QuoteData
 
-struct ModelInspectionView: View {
+struct LegacyModelInspectionView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var choosing = false
     @State private var busy = false

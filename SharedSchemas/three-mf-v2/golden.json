@@ -1,0 +1,28 @@
+{
+  "bambu-ams": {
+    "slicer": "Bambu Studio",
+    "physicalToolheads": 1,
+    "filamentInputs": 4,
+    "materials": 4,
+    "plates": 2
+  },
+  "prusa-xl5": {
+    "slicer": "PrusaSlicer",
+    "physicalToolheads": 5,
+    "filamentInputs": 5,
+    "materials": 5
+  },
+  "generic-inch": {
+    "boundsMinMM": [
+      254,
+      508,
+      762
+    ],
+    "dimensionsMM": [
+      50.8,
+      50.8,
+      50.8
+    ],
+    "volumeMM3": 21849.418666666665
+  }
+}

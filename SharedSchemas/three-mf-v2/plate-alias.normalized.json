@@ -1,0 +1,288 @@
+{
+  "cacheHit": false,
+  "diagnostics": [
+    {
+      "category": "3MF.Toolheads",
+      "code": "ambiguousPhysicalCount",
+      "id": "00000000-0000-0000-0000-000000000000",
+      "message": "No explicit physical toolhead count. Nozzle entries and material inputs remain evidence requiring review.",
+      "severity": "warning"
+    },
+    {
+      "category": "3MF.Metadata",
+      "code": "unmappedPreserved",
+      "id": "00000000-0000-0000-0000-000000000001",
+      "message": "10 unmapped metadata records preserved.",
+      "severity": "info"
+    }
+  ],
+  "differences": [],
+  "materialMatches": {},
+  "printerMatches": [],
+  "project": {
+    "assignments": [],
+    "estimates": [],
+    "fileSize": 1057,
+    "filename": "plate-alias.3mf",
+    "importedAt": "2026-09-15T00:00:00Z",
+    "materials": [],
+    "objects": [
+      {
+        "children": [],
+        "id": "Models/root.model#1",
+        "instanceCount": 1,
+        "name": "Tetra",
+        "resourceID": "Models/root.model#1",
+        "role": "model",
+        "sourcePath": "Models/root.model",
+        "triangleCount": 4,
+        "unit": "millimeter"
+      },
+      {
+        "boundsMM": {
+          "confidence": "high",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": {
+            "maximum": [
+              1,
+              1,
+              1
+            ],
+            "minimum": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "children": [],
+        "enclosedVolumeMM3": {
+          "confidence": "medium",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": 0.16666666666666666
+        },
+        "id": "instance:1",
+        "instanceCount": 1,
+        "mirrored": false,
+        "name": "Tetra",
+        "resourceID": "Models/root.model#1",
+        "role": "model",
+        "sourcePath": "Models/root.model",
+        "sourceTransform": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "surfaceAreaMM2": {
+          "confidence": "high",
+          "metadataKey": "Models/root.model#1",
+          "sourcePath": "Models/root.model",
+          "sourceType": "derived",
+          "value": 2.3660254037844384
+        },
+        "triangleCount": 4,
+        "unit": "millimeter"
+      }
+    ],
+    "plates": [
+      {
+        "estimates": [],
+        "id": "1",
+        "objectIDs": [
+          "1"
+        ],
+        "settings": []
+      }
+    ],
+    "printer": {},
+    "processSettings": {
+      "purgeSettings": [],
+      "settings": []
+    },
+    "schemaVersion": 2,
+    "sha256": "f01dd1a990d96bd00b99c219edf6dad8ac0d5bf1f6b88a58cfca519d51e12fa7",
+    "slicer": {
+      "capabilities": {
+        "materials": "known keys",
+        "paint": "raw evidence only",
+        "plates": "partial",
+        "printer": "known keys",
+        "process": "known keys",
+        "purge": "settings and explicit quantities",
+        "thumbnail": "CRC and image-header validation; no pixel decode",
+        "versionPolicy": "fixture-covered family; known keys only",
+        "versions": "family fallback; unknown keys preserved"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "confidence": "high",
+          "metadataKey": "model[1]/metadata[1]/Application",
+          "sourcePath": "Models/root.model",
+          "sourceType": "standard3MF",
+          "value": "BambuStudio 2.3.0"
+        }
+      ],
+      "family": "bambu",
+      "name": "Bambu Studio",
+      "version": "2.3.0"
+    },
+    "slicerMetadata": [
+      {
+        "key": "plater_id",
+        "scope": "config[1]/plate[1]/metadata[1]",
+        "sourcePath": "Metadata/model_settings.config",
+        "value": "1"
+      },
+      {
+        "key": "object_id",
+        "scope": "config[1]/plate[1]/model_instance[1]/metadata[1]",
+        "sourcePath": "Metadata/model_settings.config",
+        "value": "1"
+      },
+      {
+        "key": "id",
+        "scope": "custom_gcodes_per_layer[1]/plate[1]/plate_info[1]",
+        "sourcePath": "Metadata/custom_gcode_per_layer.xml",
+        "value": "1"
+      }
+    ],
+    "standardMetadata": [
+      {
+        "key": "unit",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "millimeter"
+      },
+      {
+        "key": "xmlns",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Application"
+      },
+      {
+        "key": "Application",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "BambuStudio 2.3.0"
+      },
+      {
+        "key": "id",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Tetra"
+      },
+      {
+        "key": "objectid",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel",
+        "scope": "relationship",
+        "sourcePath": "",
+        "value": "Models/root.model"
+      }
+    ],
+    "threeMFImporterVersion": "2.0.0",
+    "toolSystem": {
+      "needsReview": true,
+      "tools": []
+    },
+    "unmappedMetadata": [
+      {
+        "key": "unit",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "millimeter"
+      },
+      {
+        "key": "xmlns",
+        "scope": "model[1]",
+        "sourcePath": "Models/root.model",
+        "value": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Application"
+      },
+      {
+        "key": "Application",
+        "scope": "model[1]/metadata[1]",
+        "sourcePath": "Models/root.model",
+        "value": "BambuStudio 2.3.0"
+      },
+      {
+        "key": "id",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "name",
+        "scope": "model[1]/resources[1]/object[1]",
+        "sourcePath": "Models/root.model",
+        "value": "Tetra"
+      },
+      {
+        "key": "objectid",
+        "scope": "model[1]/build[1]/item[1]",
+        "sourcePath": "Models/root.model",
+        "value": "1"
+      },
+      {
+        "key": "plater_id",
+        "scope": "config[1]/plate[1]/metadata[1]",
+        "sourcePath": "Metadata/model_settings.config",
+        "value": "1"
+      },
+      {
+        "key": "object_id",
+        "scope": "config[1]/plate[1]/model_instance[1]/metadata[1]",
+        "sourcePath": "Metadata/model_settings.config",
+        "value": "1"
+      },
+      {
+        "key": "id",
+        "scope": "custom_gcodes_per_layer[1]/plate[1]/plate_info[1]",
+        "sourcePath": "Metadata/custom_gcode_per_layer.xml",
+        "value": "1"
+      }
+    ]
+  },
+  "stageStatus": {
+    "container": "success",
+    "geometry": "success",
+    "metadata": "success",
+    "slicer": "identified",
+    "thumbnail": "validated where present"
+  }
+}
