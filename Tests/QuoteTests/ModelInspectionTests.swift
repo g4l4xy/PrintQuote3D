@@ -34,4 +34,40 @@ final class ModelInspectionTests: XCTestCase {
     func testCancellation() throws {
         XCTAssertThrowsError(try ModelImportService.inspect(url: fixture("orca-sliced.3mf"), cancelled: { true })) { XCTAssertTrue($0 is CancellationError) }
     }
+    func testRejectsCorruptOpaqueAssetWithSource() throws {
+        XCTAssertThrowsError(try ModelImportService.inspect(url: fixture("bad-asset-crc.3mf"))) {
+            XCTAssertTrue($0.localizedDescription.contains("Metadata/thumbnail.png"))
+        }
+    }
+    func testAggregateReportAndMetadataBudgets() throws {
+        for (file, expected) in [("report-expansion.3mf", "report exceeds"), ("metadata-limit.3mf", "metadata exceeds")] {
+            XCTAssertThrowsError(try ModelImportService.inspect(url: fixture(file))) { XCTAssertTrue($0.localizedDescription.contains(expected)) }
+        }
+    }
+    func testBOMMetadataAndSTL() throws {
+        let report = try ModelImportService.inspect(url: fixture("bom.3mf"))
+        XCTAssertTrue(report.fields.contains { $0.key == "printer_model" && $0.value == "BOM printer" })
+        XCTAssertEqual(try ModelImportService.inspect(url: fixture("bom.stl")).fields.first { $0.key == "triangles" }?.value, "1")
+    }
+    func testInvalidPathsEncodingAndModelPayload() throws {
+        for name in ["control-path.3mf", "empty-path.3mf", "invalid-model.3mf", "invalid-utf8.stl"] {
+            XCTAssertThrowsError(try ModelImportService.inspect(url: fixture(name)), name)
+        }
+    }
+    func testCancellationWhileStreamingAsset() throws {
+        var checks = 0
+        XCTAssertThrowsError(try ModelImportService.inspect(url: fixture("cancellable.3mf"), cancelled: { checks += 1; return checks >= 12 })) {
+            XCTAssertTrue($0 is CancellationError)
+        }
+        XCTAssertEqual(checks, 12)
+    }
+
+    func testDistinctJSONPaths() throws {
+        let r = try ModelImportService.inspect(url: fixture("ambiguous-keys.3mf"))
+        let fields = r.fields.filter { $0.category == "Project settings" }
+        XCTAssertEqual(Set(fields.map(\.key)).count, 4)
+        XCTAssertEqual(fields.first { $0.key == "a.b" }?.value, "2")
+        XCTAssertEqual(fields.first { $0.key == "arr[0]" }?.value, "4")
+    }
+
 }

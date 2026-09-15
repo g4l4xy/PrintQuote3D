@@ -23,21 +23,38 @@ public enum ModelImportService {
 private final class InspectionReader {
     let cancelled: () -> Bool
     var fields = [ModelInspectionField]()
+    let started = ContinuousClock.now
+    var reportBytes = 0
     let entryLimit = 128 * 1024 * 1024
     init(cancelled: @escaping () -> Bool) { self.cancelled = cancelled }
-    func check() throws { if cancelled() { throw CancellationError() } }
+    func check() throws {
+        if cancelled() { throw CancellationError() }
+        try requireImport(started.duration(to: .now) < .seconds(120), "Import exceeded the two-minute processing budget.")
+    }
     func add(_ category: String, _ source: String, _ key: String, _ value: String) throws {
         try check()
         try requireImport(fields.count < 30_000 && value.utf8.count <= 65_536 && key.utf8.count <= 65_536, "Metadata exceeds inspection limits.")
+        reportBytes += category.utf8.count + source.utf8.count + key.utf8.count + value.utf8.count
+        try requireImport(reportBytes <= 16 * 1024 * 1024, "Expanded report exceeds the 16 MiB text budget.")
         fields.append(.init(category: category, source: source, key: key, value: value))
     }
     func read(_ url: URL) throws -> ModelInspectionReport {
+        try check()
         let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
         try requireImport(size > 0 && size <= 512 * 1024 * 1024, "File is empty or exceeds 512 MiB.")
         let ext = url.pathExtension.lowercased(); var warnings = [String]()
         if ext == "stl" {
             try requireImport(size <= entryLimit, "STL exceeds the 128 MiB inspection limit.")
-            try stl(Data(contentsOf: url), source: url.lastPathComponent)
+            let file = try FileHandle(forReadingFrom: url)
+            defer { try? file.close() }
+            var data = Data()
+            while true {
+                try check()
+                guard let chunk = try file.read(upToCount: 65_536), !chunk.isEmpty else { break }
+                try requireImport(data.count + chunk.count <= entryLimit, "STL exceeds the 128 MiB inspection limit.")
+                data.append(chunk)
+            }
+            try stl(data, source: url.lastPathComponent)
             warnings = ["STL has no standard unit, printer, toolhead or filament settings. Bounds use file coordinates. No material usage, supports or prime-tower estimate is inferred.", "STL attribute bytes and header are retained for inspection; vendor color conventions are not decoded. Topology and printable volume are not validated."]
         } else if ext == "3mf" {
             let archive = try Archive(url: url, accessMode: .read)
@@ -45,7 +62,7 @@ private final class InspectionReader {
             for entry in archive {
                 try check()
                 let name = entry.path
-                try requireImport(entries.count < 4096 && name.utf8.count <= 4096 && !name.hasPrefix("/") && !name.contains("\\") && !name.contains(":") && !name.split(separator: "/").contains(where: { $0 == ".." || $0 == "." }) && names.insert(name).inserted, "Unsafe, duplicate or excessive archive entries.")
+                try requireImport(entries.count < 4096 && name.utf8.count <= 4096 && !name.unicodeScalars.contains(where: { $0.value < 32 || $0.value == 127 }) && !name.contains("//") && !name.hasPrefix("/") && !name.contains("\\") && !name.contains(":") && !name.split(separator: "/").contains(where: { $0 == ".." || $0 == "." }) && names.insert(name).inserted, "Unsafe, duplicate or excessive archive entries.")
                 try requireImport(entry.uncompressedSize <= UInt64(entryLimit), "Archive entry exceeds 128 MiB.")
                 total += entry.uncompressedSize
                 try requireImport(total <= 512 * 1024 * 1024, "Expanded archive exceeds 512 MiB.")
@@ -55,15 +72,23 @@ private final class InspectionReader {
             for entry in entries where entry.type != .directory {
                 try add("Package", entry.path, "uncompressed bytes", String(entry.uncompressedSize))
                 let suffix = (entry.path as NSString).pathExtension.lowercased()
-                guard ["model", "xml", "rels", "config", "json", "gcode"].contains(suffix) else { continue }
+                let textual = ["model", "xml", "rels", "config", "json", "gcode"].contains(suffix)
+                let limit = textual && !["model", "gcode"].contains(suffix) ? 16 * 1024 * 1024 : entryLimit
+                try requireImport(entry.uncompressedSize <= UInt64(limit), "\(entry.path): metadata exceeds the 16 MiB entry budget.")
+                do {
+                var expanded = 0
                 var data = Data()
                 let crc = try archive.extract(entry, bufferSize: 65_536) { chunk in
                     try self.check()
-                    try requireImport(data.count + chunk.count <= self.entryLimit && UInt64(data.count + chunk.count) <= entry.uncompressedSize, "Expanded entry exceeds declared size.")
-                    data.append(chunk)
+                    expanded += chunk.count
+                    try requireImport(expanded <= limit && UInt64(expanded) <= entry.uncompressedSize, "Expanded entry exceeds declared size.")
+                    if textual { data.append(chunk) }
                 }
-                try requireImport(UInt64(data.count) == entry.uncompressedSize && crc == entry.checksum, "Archive entry is damaged.")
-                guard let text = String(data: data, encoding: .utf8), !text.contains("\0") else { throw ModelImportError.invalid("Metadata must use UTF-8 text.") }
+                try requireImport(UInt64(expanded) == entry.uncompressedSize && crc == entry.checksum, "Archive entry is damaged.")
+                guard textual else { continue }
+                guard var text = String(data: data, encoding: .utf8), !text.contains("\0") else { throw ModelImportError.invalid("Metadata must use UTF-8 text.") }
+                if text.hasPrefix("\u{FEFF}") { text.removeFirst() }
+                try requireImport(suffix != "model" || text.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("<"), "3MF model must contain XML.")
                 let category = entry.path.hasSuffix("slice_info.config") || suffix == "gcode" ? "Sliced results" : entry.path.hasSuffix("project_settings.config") ? "Project settings" : "Metadata"
                 if suffix == "gcode" {
                     var last = ""
@@ -85,20 +110,26 @@ private final class InspectionReader {
                     if let error = delegate.error { throw error }
                     try requireImport(success, "Malformed XML in \(entry.path): \(parser.parserError?.localizedDescription ?? "unknown error")")
                 } else { try add("Metadata", entry.path, "unrecognized text", text) }
+                } catch is CancellationError { throw CancellationError() }
+                  catch { throw ModelImportError.invalid("\(entry.path): \(error.localizedDescription)") }
             }
             warnings = ["Project settings are not sliced usage. Sliced results are exporter estimates, not actual printer measurements. Missing values remain unknown; duplicate statistics are not summed.", "Mesh bounds are local resource coordinates. Build/component transforms, object roles and material assignments are retained as metadata. No assembled dimensions, toolpath-derived support/tower grams, texture or paint decoding is performed."]
         } else { throw ModelImportError.invalid("Choose an STL or 3MF file.") }
+        try check()
         return .init(fileName: url.lastPathComponent, format: ext.uppercased(), fields: fields, warnings: warnings)
     }
     func validateJSONDepth(_ text: String) throws {
         var depth = 0; var quoted = false; var escaped = false
-        for c in text { if escaped { escaped = false; continue }; if quoted && c == "\\" { escaped = true; continue }; if c == "\"" { quoted.toggle() }; if !quoted { if c == "{" || c == "[" { depth += 1; try requireImport(depth <= 64, "JSON nesting limit exceeded.") }; if c == "}" || c == "]" { depth -= 1 } } }
+        for (index, c) in text.enumerated() { if index % 4096 == 0 { try check() }; if escaped { escaped = false; continue }; if quoted && c == "\\" { escaped = true; continue }; if c == "\"" { quoted.toggle() }; if !quoted { if c == "{" || c == "[" { depth += 1; try requireImport(depth <= 64, "JSON nesting limit exceeded.") }; if c == "}" || c == "]" { depth -= 1 } } }
+    }
+    func escapedJSONKey(_ key: String) -> String {
+        key.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: ".", with: "\\.").replacingOccurrences(of: "[", with: "\\[").replacingOccurrences(of: "]", with: "\\]")
     }
     func json(_ value: Any, path: String, source: String, category: String, depth: Int) throws {
         try requireImport(depth <= 64, "JSON nesting limit exceeded.")
         if let object = value as? [String: Any] {
             if object.isEmpty { try add(category, source, path, "{}") }
-            for key in object.keys.sorted() { try json(object[key]!, path: path.isEmpty ? key : path + "." + key, source: source, category: category, depth: depth + 1) }
+            for key in object.keys.sorted() { try json(object[key]!, path: path.isEmpty ? escapedJSONKey(key) : path + "." + escapedJSONKey(key), source: source, category: category, depth: depth + 1) }
         } else if let array = value as? [Any] {
             if array.isEmpty { try add(category, source, path, "[]") }
             for (index, item) in array.enumerated() { try json(item, path: path + "[\(index)]", source: source, category: category, depth: depth + 1) }
@@ -123,7 +154,8 @@ private final class InspectionReader {
             try add("Metadata", source, "header", String(data: data.prefix(80), encoding: .isoLatin1)?.trimmingCharacters(in: CharacterSet(charactersIn: "\0")) ?? "")
             try add("Metadata", source, "facets with attribute bytes", String(attributes))
         } else {
-            guard let text = String(data: data, encoding: .utf8) else { throw ModelImportError.invalid("Invalid or truncated STL.") }
+            guard var text = String(data: data, encoding: .utf8) else { throw ModelImportError.invalid("Invalid or truncated STL.") }
+            if text.hasPrefix("\u{FEFF}") { text.removeFirst() }
             var stage = 0; var vertices = 0; var solid = false; var ended = false
             for line in text.split(whereSeparator: \.isNewline) {
                 try check(); let t = line.split(whereSeparator: \.isWhitespace).map(String.init); guard let token = t.first else { continue }

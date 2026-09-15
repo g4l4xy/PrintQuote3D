@@ -30,7 +30,7 @@ struct ModelInspectionView: View {
                     Picker("Category", selection: $category) { ForEach(categories, id: \.self) { Text($0) } }.pickerStyle(.menu)
                     let rows = report.fields.filter { (category == "All" || $0.category == category) && (search.isEmpty || ($0.source + " " + $0.key + " " + $0.value).localizedCaseInsensitiveContains(search)) }
                     Text("\(rows.count) of \(report.fields.count) fields").font(.caption).foregroundStyle(.secondary)
-                    List(rows) { field in
+                    List(Array(rows.enumerated()), id: \.offset) { _, field in
                         VStack(alignment: .leading, spacing: 5) {
                             Text(field.key).font(.subheadline.bold()).textSelection(.enabled)
                             Text(field.value.isEmpty ? "(empty)" : field.value).textSelection(.enabled)
