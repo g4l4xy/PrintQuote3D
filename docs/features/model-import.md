@@ -6,7 +6,7 @@ The first milestone reads ASCII/binary STL geometry and inventories 3MF packages
 
 Do not infer support/tower grams from enable flags, infer filament from STL, sum duplicate project/G-code statistics, or execute embedded G-code. This milestone does not slice, render meshes, repair topology, resolve transformed assembly bounds, decode proprietary painting/texture payloads, or apply values to quote inputs. Binary assets are inventoried, not decoded. Reports are temporary; original files remain unchanged.
 
-Limits: source 512 MiB, total expanded 512 MiB, individual ZIP entry 128 MiB, 4,096 entries, 30,000 report fields, 64 KiB per field, XML/JSON nesting 64. Reject unsafe paths, duplicate names, DTD/entity declarations, nonfinite STL coordinates, malformed STL and limit violations. Corrupt metadata fails the import with an error rather than producing a misleading complete report. No archive member is extracted to a filesystem path.
+Limits: source 512 MiB, total expanded 512 MiB, individual ZIP entry 128 MiB (16 MiB for other text metadata), total report text 16 MiB, 4,096 entries, 30,000 report fields, 64 KiB per field, XML/JSON nesting 64. Reject unsafe paths, duplicate names, DTD/entity declarations, nonfinite STL coordinates, malformed STL and limit violations. Corrupt metadata fails the import with an error rather than producing a misleading complete report. No archive member is extracted to a filesystem path.
 
 Verification and remaining work are recorded at delivery. Interaction testing must remain separate from compilation; do not launch the user's Xcode app automatically.
 
@@ -22,3 +22,5 @@ Sources: [3MF Core](https://github.com/3MFConsortium/spec_core/blob/master/3MF%2
 - New screen interactions and actual iPhone/iPad device runs remain unverified. The app and simulator were not launched by this work.
 
 Use `PrintQuote3D App` in Xcode, not the similarly named package scheme. The native application scheme correction is included on this branch. This milestone is an inspector, not a slicer or an automatic quote-population feature.
+
+See [backend hardening](import-hardening.md) for the September 15 validation, complete archive checksums, report budget, cancellation and metadata-path improvements.

@@ -300,14 +300,14 @@ Common JSON contracts and fixtures keep the native implementations aligned. Andr
 
 ## ✅ What has been checked?
 
-The latest shared workflow validation was recorded on **September 14, 2026**:
+The latest shared workflow validation was recorded on **September 15, 2026**:
 
 | Check | Result / scope |
 | --- | --- |
-| Swift tests | **32 passed** in GitHub Apple CI |
+| Swift tests | **38 passed** locally |
 | Apple builds | macOS and iOS Simulator builds passed; iOS target includes iPhone and iPad |
-| Android JVM tests | **18 passed**, including the opt-in local model check |
-| Windows logic, importer and SQLite/catalog tests | **25 passed**, one optional local-model test skipped |
+| Android JVM tests | **24 passed**, including the opt-in local model check |
+| Windows logic, importer and SQLite/catalog tests | **31 passed**, one optional local-model test skipped |
 | Windows MSI / EXE | Import build packaged successfully; installation/launch not repeated (prior release was installed and launched) |
 | Windows upgrade persistence | Complete workspace retained after upgrade |
 | Android build and lint | Passed; dependency-update notices remain |
@@ -339,6 +339,8 @@ Choose **Inspect STL / 3MF** on the Apple or Android Dashboard, or in the Window
 - **OrcaSlicer / Bambu Studio:** printer and nozzle settings, filament types/colors/mapping, object roles, support and prime-tower settings, plate/filament usage from slice information, and metadata comments from embedded G-code. Unknown fields remain searchable with their source paths.
 
 **An enabled support or prime-tower setting is not a gram estimate.** The report keeps project settings separate from slicer-reported results. It never sums duplicate statistics or changes a quote automatically. Mesh bounds use local resource coordinates; assembled dimensions, a 3D preview, toolpath-derived quantities and quote input mapping remain future work. The selected file is read locally and remains unchanged. Reports currently last for the inspection session.
+
+The import backend now verifies checksums for every archived file, streams binary assets without retaining their payloads, limits expanded report text to 16 MiB, and checks cancellation throughout processing. Entry errors name the affected file. UTF-8 BOMs are supported, and literal punctuation in metadata keys cannot collide with nested paths. See [backend hardening and regression results](docs/features/import-hardening.md).
 
 See the [model inspection contract and limits](docs/features/model-import.md). Tests use shared synthetic fixtures; private user models are not committed.
 

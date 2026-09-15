@@ -13,4 +13,12 @@ Strengthen the existing native inspection backend without changing saved quotes 
 
 Regression fixtures are shared, synthetic and mirrored in the Apple fixture bundle. Include corrupted opaque entries, report expansion, BOM input, invalid model content and mid-read cancellation. No app/simulator launches are part of this backend change.
 
-Validation: pending.
+Validation — September 15, 2026, implementation commit `9672157`:
+
+- Local `./pq check`: Apple and Android PASS. Swift: 38 tests passed; macOS and iOS Simulator native application builds passed. Android: 24 tests passed, APK assembled, lint passed. The local-model test was explicitly enabled; the private sample remains outside the repository.
+- Windows 11, JDK 21: 31 tests passed and one opt-in local-model test skipped. Shared logic and desktop compiled; MSI/EXE packaging passed. The same Kotlin importer source is compiled into Android and Windows.
+- Six added regression tests per implementation exercise eleven new synthetic files. Shared and Apple fixture copies match byte-for-byte.
+- App/simulator interaction checks and MSI installation were not repeated, respecting the existing request to leave running the application to the user.
+- Initial local dependency fetching stalled, then completed. The ZIPFoundation 0.9.20 revision is recorded in `Package.resolved`. No dependency version upgrade was introduced.
+
+No quote persistence or pricing behavior changed. Import failure still produces no partial report. The budgets constrain inspection, not every allocation inside a ZIP/XML/JSON library; the two-minute budget is cooperative rather than a forcibly interrupted library call.
