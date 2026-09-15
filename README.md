@@ -14,7 +14,7 @@
 
 Turn filament, machine time, tool changes, labor, and the little costs that love to hide into a price you can explain.
 
-**[Get started](#-pick-your-platform)** · **[Explore the features](#-meet-your-workshop)** · **[Understand the math](#-what-goes-into-a-quote)** · **[Build both apps](#-one-repository-both-apps)** · **[Current limits](#-what-isnt-finished-yet)**
+**[Get started](#-pick-your-platform)** · **[Explore the features](#-meet-your-workshop)** · **[Understand the math](#-what-goes-into-a-quote)** · **[PQ Design 0.5.0](#-pq-design-the-same-workshop-at-home-on-every-screen)** · **[Build all platforms](#-one-repository-all-platforms)** · **[Current limits](#-what-isnt-finished-yet)**
 
 </div>
 
@@ -30,7 +30,7 @@ There are supports that become trash, purge that never becomes a part, electrici
 
 The project includes native Apple, Android and Windows desktop apps, a shared data contract, bundled reference catalogs, and matching pricing fixtures. Your workshop data is stored locally on each device.
 
-> **Project status:** working development apps with automated pricing and persistence tests. This repository is the source-and-build distribution; signed app-store releases and automatic installed-app updates are not implemented.
+> **Current development version: 0.5.0 — PQ Design.** The redesign is on **[`codex/model-import`](https://github.com/g4l4xy/PrintQuote3D/tree/codex/model-import)**. It has passed local builds and automated checks; native visual, accessibility and performance acceptance remains open. This is a source-and-build distribution, with no signed app-store release or automatic installed-app updater.
 
 ## ✨ The short tour
 
@@ -42,15 +42,37 @@ The project includes native Apple, Android and Windows desktop apps, a shared da
 | 🔧 1–12 physical tools | Model toolheads, feeders, switching waste, heater costs, and wear separately. |
 | 📚 Saved quote snapshots | Reopen quotes with their original inputs, equipment, material, and calculated prices. |
 | 🎛️ Reusable presets | Keep common pricing settings ready for the next estimate. |
-| 📱 Native interfaces | SwiftUI on Apple; Kotlin/Compose on Android and Windows desktop. |
-| 🛠️ One development workflow | Pull, check, and push both implementations from the same repository. |
+| 📱 Platform-aware interfaces | SwiftUI on Apple; Kotlin/Compose on Android and Windows desktop, with a shared PrintQuote design language. |
+| 🌓 Your preferred workspace | System, Light and Dark themes; selective Apple Liquid Glass and tonal tool surfaces elsewhere. |
+| 🛠️ One development workflow | Pull, check, and push Apple, Android and Windows source from the same repository. |
+
+## 🎛️ PQ Design: the same workshop, at home on every screen
+
+PrintQuote now has a shared design language: graphite dark and porcelain light workspaces, precise blue accents, clear technical numbers and selective depth around navigation and tools. Choose **System, Light or Dark** in Settings. Forms and large tables stay opaque and readable.
+
+Apple uses native **Liquid Glass on supported systems**, with native-material and opaque accessibility fallbacks on older systems. Android adapts from bottom navigation to a rail and sidebar. Windows keeps desktop tables, keyboard search and a wide-window record inspector. Quote builders reveal more simultaneous information as space grows, and library filters collapse when you need room for results.
+
+| Area | What changed in 0.5.0 |
+| --- | --- |
+| Dashboard | Workshop metrics, recent work and a focused quick-action surface. |
+| Quote Builder | Prominent customer-price summary, manufacturing fields and an optional source/equipment pane on wide layouts; toolbar actions wrap when space is tight. |
+| Filament Library | Collapsible filters leave more room for results; saved table/card preferences stay intact. |
+| Printer details | Clear identity and overview, with advanced configuration behind progressive disclosure. |
+| Desktop editing | Local search shortcuts and an optional Windows right-hand inspector, with confirmation before discarding edited values. |
+| Appearance | Persistent System/Light/Dark selection, opaque data panels and reduced-effects options. |
+
+**Glass belongs around the work, not on top of the numbers.** Apple uses native Liquid Glass on OS 26+ where supported, without raising the macOS 14 / iOS 17 minimum. Windows uses Fluent-inspired tonal layers in Compose Desktop, not native DWM Mica/Acrylic. Android uses Material 3 surfaces and interaction states.
+
+The source/equipment pane opens the existing inspection tools. It does **not** introduce an interactive 3D renderer or working camera/measurement controls.
+
+Explore the [PrintQuote Design Language](docs/design/PRINTQUOTE_DESIGN_LANGUAGE.md), [platform adaptation matrix](docs/design/platform-adaptation.md), [seven-screen concept preview](docs/design/preview.html) and [verification record](docs/design/verification.md). The HTML preview is illustrative; download/open it locally to use its controls. **Native visual, accessibility and performance acceptance is still pending**, so this is not a claim that every target device has been interaction-tested.
 
 ## 🚀 Pick your platform
 
-Clone the **whole repository** so the shared schemas and bundled catalogs stay with the apps:
+Clone the **whole repository and the current development branch** so PQ Design, shared schemas and bundled catalogs stay together:
 
 ```sh
-git clone https://github.com/g4l4xy/PrintQuote3D.git
+git clone --branch codex/model-import https://github.com/g4l4xy/PrintQuote3D.git
 cd PrintQuote3D
 ```
 
@@ -61,6 +83,8 @@ cd PrintQuote3D
 | iPad | iPadOS 17 | The same Xcode project; choose an iPad destination |
 | Android | Android 8 / API 26 | The **`android/` folder** in Android Studio |
 | Windows | Windows 11, x64 app (also runs under Windows ARM emulation) | **`windows/`** in VS Code or IntelliJ; install the MSI to use the app |
+
+Already have a clone? Commit or stash your own edits, then use `git fetch origin` and `git switch codex/model-import`. Run `./pq pull` from a clean checkout to get later updates. Pushing this feature branch does not merge it into `main`.
 
 Minimum deployment targets describe intended compatibility. They do not mean every OS version or device has been interaction-tested.
 
@@ -114,9 +138,11 @@ android/app/build/outputs/apk/debug/app-debug.apk
 
 ### 🪟 Windows 11
 
-Install the MSI from the **Windows desktop** GitHub Actions artifact, or open `windows/` in VS Code with JDK 21 and run `.\gradlew.bat :desktopApp:run`. Double-click `windows/PrintQuote-Windows.cmd` for run, build, install and safe pull shortcuts. The MSI bundles Java.
+For a packaged build, open the [Windows desktop workflow](https://github.com/g4l4xy/PrintQuote3D/actions/workflows/windows-build.yml), choose a successful run for the branch you need, and download its **PrintQuote3D-Windows** artifact. Extract the archive and install its MSI. A branch push alone does not trigger that workflow: it runs for `main`, pull requests or a manual dispatch.
 
-Windows uses the Mac-style graphite sidebar, grouped estimate fields and live cost breakdown, with local SQLite storage and the same 1,007 printer profiles and 2,089-product material catalog.
+To build locally, open `windows/` in VS Code with JDK 21 and run `.\gradlew.bat :desktopApp:run`. Double-click `windows/PrintQuote-Windows.cmd` for run, build, install and safe pull shortcuts. The MSI bundles Java.
+
+Windows uses the shared PQ Design light/dark palette, desktop sidebar, grouped estimate fields and live cost breakdown, with local SQLite storage and the same 1,007 printer profiles and 2,089-product material catalog.
 
 → [Windows setup, installer build, shortcuts and storage](windows/README.md)
 
@@ -155,9 +181,9 @@ Material editors preserve imported values alongside separate user overrides. Per
 
 Purchase links are references, not live prices. Catalog records retain source metadata and provenance. Saving a quote does **not** automatically subtract filament from stock.
 
-### ⌨️ V4: fewer clicks, more confidence
+### ⌨️ Fewer clicks, more confidence
 
-Open **Search & Commands** with **⌘K** on Mac, **Ctrl+K** on Windows, or the Search action on mobile. Find saved workshop records, jump to the full filament search, create an estimate, import STL/3MF, open settings or rebuild catalog data. Desktop shortcuts also cover new quotes, save, import and search.
+Open **Search & Commands** with **⌘K** on Mac, **Ctrl+K** on Windows, or the Search action on mobile. Find saved workshop records, jump to the full filament search, create an estimate, import STL/3MF, open settings or rebuild catalog data. Use **⌘F** on supported Apple library/quote screens or **Ctrl+F** on Windows to focus local search. Desktop shortcuts also cover new quotes, save and import.
 
 Quotes now show **Saving… / Saved / Save failed**, with an 800 ms debounce and separate atomic recovery journals. Relaunch offers **Restore** or **Discard** for recovered drafts. A failed save is visible; existing quotes are not silently replaced by a recovered draft. Favorites and recent selections help bring familiar library records forward. Desktop context menus include open, favorite and duplicate actions.
 
@@ -249,9 +275,9 @@ Swift uses Decimal arithmetic; Kotlin uses BigDecimal. Shared fixtures check exp
 5. **Review the breakdown.** Check labor, waste, pricing rules, and any tool warnings.
 6. **Save the quote.** Reopen it from Quotes with its recorded inputs and price snapshot.
 
-Wide windows can show estimate details and costs together. Narrow layouts use **Details** and **Price breakdown** tabs so the numbers remain usable on smaller screens.
+Wide windows can show estimate details and costs together. Narrow Apple and Android layouts use **Details** and **Price breakdown** tabs; narrow Windows layouts stack the form and breakdown in a scrollable workspace.
 
-## 🔄 One repository, both apps
+## 🔄 One repository, all platforms
 
 A feature should not disappear just because you picked up a different device.
 
@@ -261,14 +287,17 @@ Double-click **`PrintQuote Workflow.command`** on a Mac for a menu with status, 
 # Inspect branch and local edits
 ./pq status
 
-# Download updates for both apps
+# Download source updates for every platform
 ./pq pull
 
 # Build and test Apple and Android concurrently
 ./pq check
 
+# Check Windows with JDK 21 available
+./pq check --platform windows
+
 # Commit and upload explicitly selected paths
-./pq push -m "Improve estimates on both platforms" -- Sources android SharedSchemas docs
+./pq push -m "Improve estimates across platforms" -- Sources android windows SharedSchemas docs
 
 # Or deliberately include all non-ignored edits
 ./pq push --all -m "Describe the update"
@@ -286,9 +315,9 @@ Pull requires a clean checkout and uses fast-forward updates. Push preserves pre
 
 This example creates a branch and specification; it does **not** implement PDF export.
 
-The feature template tracks shared behavior, data compatibility, Swift/SwiftUI work, Kotlin/Compose work, matching tests, and interaction verification. Keep both implementations on the same feature branch, run the combined check, and publish the completed change for review.
+The feature template tracks shared behavior, data compatibility, Swift/SwiftUI work, Kotlin/Compose work, matching tests, and interaction verification. Keep Apple, Android and Windows implementations on the same feature branch, run the Apple/Android and Windows checks, and publish the completed change for review.
 
-For coding assistants, [AGENTS.md](AGENTS.md) establishes the cross-platform conventions. GitHub feature-issue and pull-request templates keep both platforms visible during review.
+For coding assistants, [AGENTS.md](AGENTS.md) establishes the cross-platform conventions. GitHub feature-issue and pull-request templates and the repository guidance track cross-platform behavior during review.
 
 → [Complete development workflow](docs/development-workflow.md)
 
@@ -301,12 +330,14 @@ PrintQuote3D/
 │   ├── QuoteData/            # Apple persistence and bundled catalogs
 │   ├── PrintQuoteApp/        # SwiftUI application
 │   └── OrcaProfiles/         # Upstream profile normalization
-├── android/                 # Native Kotlin/Compose application
+├── android/                 # Android Kotlin/Compose application
+├── windows/                 # Compose Desktop app and shared Kotlin logic
 ├── SharedSchemas/           # Shared contracts, catalogs and pricing fixtures
 ├── Tests/                   # Swift and workflow tests
 ├── tools/                   # Importers and development workflow
 ├── Scripts/                 # Mac app packaging
 ├── docs/                    # Specifications and implementation guides
+│   └── design/              # PQ Design rules, previews and acceptance record
 └── ThirdParty/              # Upstream license notices
 ```
 
@@ -314,17 +345,9 @@ Apple uses local SwiftData persistence. Android writes its workspace atomically 
 
 Common JSON contracts and fixtures keep the native implementations aligned. Android packages the existing shared files and OFD catalog as build assets; it does not maintain a second checked-in catalog. Source records retain upstream paths, versions, and attribution where provided.
 
-## 🎛️ PQ Design: the same workshop, at home on every screen
-
-PrintQuote now has a shared design language: graphite dark and porcelain light workspaces, precise blue accents, clear technical numbers and selective depth around navigation and tools. Choose **System, Light or Dark** in Settings. Forms and large tables stay opaque and readable.
-
-Apple uses native **Liquid Glass on supported systems**, with native-material and opaque accessibility fallbacks on older systems. Android adapts from bottom navigation to a rail and sidebar. Windows keeps desktop tables, keyboard search and a wide-window record inspector. Quote builders reveal more simultaneous information as space grows, and library filters collapse when you need room for results.
-
-Explore the [PrintQuote Design Language](docs/design/PRINTQUOTE_DESIGN_LANGUAGE.md), [platform adaptation matrix](docs/design/platform-adaptation.md), [seven-screen concept preview](docs/design/preview.html) and [verification record](docs/design/verification.md). The HTML preview is illustrative; download/open it locally to use its controls. **Native visual, accessibility and performance acceptance is still pending**, so this is not a claim that every target device has been interaction-tested.
-
 ## ✅ What has been checked?
 
-The latest shared workflow validation was recorded on **September 15, 2026**:
+The **0.5.0** checks below were recorded locally on **September 15, 2026**. They are not a claim that a GitHub Actions run or native-device review passed:
 
 | Check | Result / scope |
 | --- | --- |
@@ -335,10 +358,12 @@ The latest shared workflow validation was recorded on **September 15, 2026**:
 | Windows PQ Design MSI | 0.5.0 packaged and installed (exit 0); installed process remained running; installed classpath hashes match the package. Visual interaction check blocked by locked host. EXE packaging not repeated. |
 | Windows upgrade persistence | Existing database backed up; its hash unchanged by the PQ Design MSI installation |
 | Android build and lint | Passed; dependency-update notices remain |
+| PQ Design tokens | Light/dark content text and accent contrast meet 4.5:1; breakpoint and touch-target token checks pass |
+| Design previews | Seven illustrative HTML screens reviewed; native SwiftUI previews compile but were not rendered in Xcode |
 | Git workflow tests | **6 passed**, using temporary repositories |
 | Android interaction tests | **2 passed in an earlier release**; updated test source compiles, not rerun for this build |
 
-Tests cover pricing fixtures, validation, tool limits, persistence, source handling, and workflow behavior. Android interaction coverage includes creating/reopening a quote, searching libraries, saving a catalog spool, and changing business settings. Prior native Mac checks covered catalog search/detail, printer selection, and the tool-count picker.
+Tests cover pricing fixtures, validation, tool limits, persistence, source handling, and workflow behavior. The earlier Android interaction run covered creating/reopening a quote, searching libraries, saving a catalog spool, and changing business settings. Earlier native Mac checks covered catalog search/detail, printer selection, and the tool-count picker.
 
 **Build success and interaction coverage are different things.** Physical Android devices and iPhone/iPad interactions remain unverified. The combined check does not substitute for exercising layouts and workflows on real target devices.
 
@@ -346,13 +371,15 @@ Repeat the checks:
 
 ```sh
 ./pq check
+./pq check --platform windows
+python3 tools/design/validate_tokens.py
 python3 -m unittest discover -s Tests/Workflow
 
 # With an Android emulator/device running:
 ./android/gradlew -p android :app:connectedDebugAndroidTest
 ```
 
-Combined build logs go to `.workflow/apple.log` and `.workflow/android.log`.
+Build logs go to `.workflow/apple.log`, `.workflow/android.log` and `.workflow/windows.log`. See the [PQ Design verification record](docs/design/verification.md) for the full remaining acceptance checklist.
 
 ## 🔎 Inspect a model before quoting
 
@@ -375,19 +402,23 @@ See [manufacturing import architecture, safety limits and validation](docs/featu
 
 The app already estimates and saves quotes, but the workshop still has room to grow:
 
-- Jobs, full inventory workflows, and Analytics are unfinished; Apple has placeholder destinations. Material stock fields are implemented separately.
+- Native visual, keyboard/pointer, screen-reader and performance acceptance for PQ Design remains open. The locked host blocked the latest native visual review.
+- Jobs, full inventory workflows, and Analytics are unfinished; some destinations remain placeholders across platforms. Material stock fields are implemented separately.
 - A 3D viewer and toolpath-derived support/tower quantities remain unfinished. Apple has transformed geometry and selected quote updates; Android/Windows manufacturing-review parity is deferred.
 - PDF quote export is not implemented.
 - Live material prices, web scraping, and cloud/iCloud synchronization are not implemented.
 - Listing a source does not mean its network importer exists. Cura, PrusaSlicer, Klipper, OpenPrintTag, and manufacturer TDS adapters remain future work.
 - Signed production releases, notarization, and app-store publishing are outside the current development workflow.
 
-These are scope notes, not promised release dates. Feature proposals are welcome through the repository's **Apple and Android feature** issue template.
+These are scope notes, not promised release dates. Feature proposals are welcome through the repository's [cross-platform feature issue template](.github/ISSUE_TEMPLATE/cross-platform-feature.md).
 
 ## 📚 Follow the paper trail
 
 | Guide | What you'll find |
 | --- | --- |
+| [PQ Design language](docs/design/PRINTQUOTE_DESIGN_LANGUAGE.md) | Identity, research, visual hierarchy and design rules |
+| [Platform adaptation](docs/design/platform-adaptation.md) | How the same product is expressed on each OS |
+| [PQ Design verification](docs/design/verification.md) | Completed checks and outstanding native acceptance |
 | [Xcode quick start](OPEN_IN_XCODE.md) | Apple project setup, signing, and device destinations |
 | [Android guide](android/README.md) | Toolchain, assets, app behavior, and test commands |
 | [Development workflow](docs/development-workflow.md) | Push/pull, combined checks, and coordinated features |
