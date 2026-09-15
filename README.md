@@ -304,11 +304,11 @@ The latest shared workflow validation was recorded on **September 14, 2026**:
 
 | Check | Result / scope |
 | --- | --- |
-| Swift tests | **28 passed** |
+| Swift tests | **32 passed** in GitHub Apple CI |
 | Apple builds | macOS and iOS Simulator builds passed; iOS target includes iPhone and iPad |
-| Android JVM tests | **13 passed** |
-| Windows logic and SQLite/catalog tests | **13 passed** |
-| Windows MSI / EXE | Built; MSI installed and launched in Parallels Windows 11 |
+| Android JVM tests | **18 passed**, including the opt-in local model check |
+| Windows logic, importer and SQLite/catalog tests | **25 passed**, one optional local-model test skipped |
+| Windows MSI / EXE | Import build packaged successfully; installation/launch not repeated (prior release was installed and launched) |
 | Windows upgrade persistence | Complete workspace retained after upgrade |
 | Android build and lint | Passed; dependency-update notices remain |
 | Git workflow tests | **6 passed**, using temporary repositories |
@@ -330,12 +330,24 @@ python3 -m unittest discover -s Tests/Workflow
 
 Combined build logs go to `.workflow/apple.log` and `.workflow/android.log`.
 
+## 🔎 Inspect a model before quoting
+
+Choose **Inspect STL / 3MF** on the Apple or Android Dashboard, or in the Windows header. Select a local `.stl`, `.3mf`, or `.gcode.3mf` file, then search the report or filter by Geometry, Project settings, Sliced results, Metadata, or Package.
+
+- **STL:** ASCII and binary detection, triangle count, coordinate bounds and binary header/attribute information. STL does not define standard units, printer settings or filament usage.
+- **3MF:** package inventory, mesh resource bounds/counts, objects, component/build transforms, material/color properties, and scoped metadata.
+- **OrcaSlicer / Bambu Studio:** printer and nozzle settings, filament types/colors/mapping, object roles, support and prime-tower settings, plate/filament usage from slice information, and metadata comments from embedded G-code. Unknown fields remain searchable with their source paths.
+
+**An enabled support or prime-tower setting is not a gram estimate.** The report keeps project settings separate from slicer-reported results. It never sums duplicate statistics or changes a quote automatically. Mesh bounds use local resource coordinates; assembled dimensions, a 3D preview, toolpath-derived quantities and quote input mapping remain future work. The selected file is read locally and remains unchanged. Reports currently last for the inspection session.
+
+See the [model inspection contract and limits](docs/features/model-import.md). Tests use shared synthetic fixtures; private user models are not committed.
+
 ## 🚧 What isn't finished yet?
 
 The app already estimates and saves quotes, but the workshop still has room to grow:
 
 - Jobs, full inventory workflows, and Analytics are unfinished; Apple has placeholder destinations. Material stock fields are implemented separately.
-- STL/3MF parsing, a 3D viewer, and automatic extraction of print inputs are not implemented.
+- STL/3MF inspection is implemented. A 3D viewer, transformed assembly calculations, toolpath-derived support/tower quantities, and applying imported values to quote inputs remain unfinished.
 - PDF quote export is not implemented.
 - Live material prices, web scraping, and cloud/iCloud synchronization are not implemented.
 - Listing a source does not mean its network importer exists. Cura, PrusaSlicer, Klipper, OpenPrintTag, and manufacturer TDS adapters remain future work.

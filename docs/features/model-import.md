@@ -12,6 +12,13 @@ Verification and remaining work are recorded at delivery. Interaction testing mu
 
 Sources: [3MF Core](https://github.com/3MFConsortium/spec_core/blob/master/3MF%20Core%20Specification.md), [Orca archive implementation](https://github.com/OrcaSlicer/OrcaSlicer/blob/main/src/libslic3r/Format/bbs_3mf.cpp), [Bambu archive implementation](https://github.com/bambulab/BambuStudio/blob/master/src/libslic3r/Format/bbs_3mf.cpp).
 
-## Validation in progress
+## Validation — September 14, 2026
 
-Android assembled and passed lint and all 18 tests, including four deterministic importer tests and an opt-in local real-model test. The user's model is not included in the repository. Local Apple checks are blocked by the installed Xcode license agreement; the project plist validates. Apple build-only CI is included for package tests and macOS/iOS compilation. Windows build/package validation is in progress. No new app/simulator interaction checks have been performed.
+- Android: APK assembled, lint passed, 18 tests passed. Includes four deterministic importer tests plus an explicitly enabled read of the user's local 3MF sample. No private model is committed.
+- Windows 11 / JDK 21: 25 tests passed; the opt-in local-model test was skipped. Desktop compiled and MSI/EXE packages built. Installation and UI interactions were not repeated for this change.
+- Apple: [GitHub build 34924006183](https://github.com/g4l4xy/PrintQuote3D/actions/runs/34924006183) passed 32 Swift tests and both macOS and iOS Simulator application builds at implementation commit `9a5a63b`. The iOS target includes iPhone and iPad.
+- Local combined checks passed Android but were blocked on Apple by the installed Xcode license agreement. No license was accepted automatically. `PrintQuote3D.xcodeproj` passes plist validation.
+- Shared fixture copies match byte-for-byte. Import reports distinguish project support/tower flags from sliced results, retain unknown fields, and reject malformed XML/STL, unsafe paths, entity declarations and excessive JSON nesting. Cancellation tests pass on both implementations.
+- New screen interactions and actual iPhone/iPad device runs remain unverified. The app and simulator were not launched by this work.
+
+Use `PrintQuote3D App` in Xcode, not the similarly named package scheme. The native application scheme correction is included on this branch. This milestone is an inspector, not a slicer or an automatic quote-population feature.
